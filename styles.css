@@ -106,6 +106,23 @@ body {
   margin-top: 0.2rem;
 }
 
+.cover-logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.9rem;
+}
+
+.cover-logo {
+  width: min(190px, 48vw);
+  max-height: 120px;
+  object-fit: contain;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(14, 116, 144, 0.16);
+  box-shadow: 0 10px 24px rgba(31, 42, 55, 0.12);
+  padding: 0.45rem;
+}
+
 .hero-banner {
   background: linear-gradient(145deg, rgba(14, 116, 144, 0.14), rgba(29, 78, 216, 0.12));
   border: 1px solid rgba(14, 116, 144, 0.25);

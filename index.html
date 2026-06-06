@@ -18,6 +18,9 @@
   <main class="app-main" id="appMain">
     <section id="startScreen" class="panel active" aria-labelledby="mainTitle">
       <div class="card intro-card">
+        <div class="cover-logo-wrap">
+          <img src="assets/logo/logo.png" alt="Logo del centro" class="cover-logo">
+        </div>
         <div class="hero-banner" aria-hidden="true">
           <div class="hero-copy">
             <span class="hero-kicker">Aula interactiva</span>
@@ -52,8 +55,9 @@
         <div class="config-row">
           <label for="timeSelect">Temporizador:</label>
           <select id="timeSelect" aria-label="Tiempo de partida">
-            <option value="150">150 segundos</option>
             <option value="200">200 segundos</option>
+            <option value="300">300 segundos</option>
+            <option value="400">400 segundos</option>
             <option value="0">Sin límite</option>
           </select>
         </div>
