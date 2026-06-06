@@ -232,8 +232,79 @@ const QUESTION_BANK_4ESO_B = {
   ]
 };
 
+const QUESTION_BANK_1ESO = {
+  A: [QUESTION_BANK_2ESO.A[0]],
+  B: [QUESTION_BANK_2ESO.B[1]],
+  C: [QUESTION_BANK_2ESO.C[2]],
+  D: [QUESTION_BANK_2ESO.D[0]],
+  E: [QUESTION_BANK_2ESO.E[1]],
+  F: [QUESTION_BANK_2ESO.F[0]],
+  G: [QUESTION_BANK_2ESO.G[1]],
+  H: [QUESTION_BANK_2ESO.H[1]],
+  I: [QUESTION_BANK_2ESO.I[0]],
+  J: [QUESTION_BANK_2ESO.J[0]],
+  K: [QUESTION_BANK_2ESO.K[0]],
+  L: [QUESTION_BANK_2ESO.L[1]],
+  M: [QUESTION_BANK_2ESO.M[0]],
+  N: [QUESTION_BANK_2ESO.N[0]],
+  "Ñ": [QUESTION_BANK_2ESO["Ñ"][1]],
+  O: [QUESTION_BANK_2ESO.O[0]],
+  P: [QUESTION_BANK_2ESO.P[1]],
+  Q: [QUESTION_BANK_2ESO.Q[2]],
+  R: [QUESTION_BANK_2ESO.R[1]],
+  S: [QUESTION_BANK_2ESO.S[2]],
+  T: [QUESTION_BANK_2ESO.T[2]],
+  U: [QUESTION_BANK_2ESO.U[0]],
+  V: [QUESTION_BANK_2ESO.V[2]],
+  W: [QUESTION_BANK_2ESO.W[1]],
+  X: [QUESTION_BANK_2ESO.X[1]],
+  Y: [QUESTION_BANK_2ESO.Y[0]],
+  Z: [QUESTION_BANK_2ESO.Z[1]]
+};
+
+const QUESTION_BANK_3ESO = {
+  A: [QUESTION_BANK_2ESO.A[1]],
+  B: [QUESTION_BANK_4ESO_B.B[0]],
+  C: [QUESTION_BANK_2ESO.C[0]],
+  D: [
+    { answer: "desigualdad", question: "Con la D: relacion matematica que compara dos expresiones con signos como >, <, <= o >=.", concept: "Desigualdad", definition: "Indica que dos cantidades no son iguales y establece un orden entre ellas.", example: "x + 2 > 7 implica x > 5.", application: "Resolver inecuaciones y comparar intervalos.", procedure: "Opera como en una ecuacion y cambia el signo si multiplicas o divides por un numero negativo.", mistakes: "Olvidar invertir el signo al multiplicar o dividir por un numero negativo.", hint: "Se representa con > o <.", content: "Algebra" }
+  ],
+  E: [QUESTION_BANK_2ESO.E[0]],
+  F: [QUESTION_BANK_2ESO.F[2]],
+  G: [QUESTION_BANK_2ESO.G[0]],
+  H: [QUESTION_BANK_2ESO.H[1]],
+  I: [QUESTION_BANK_4ESO_B.I[0]],
+  J: [QUESTION_BANK_2ESO.J[2]],
+  K: [QUESTION_BANK_2ESO.K[2]],
+  L: [QUESTION_BANK_2ESO.L[0]],
+  M: [QUESTION_BANK_2ESO.M[0]],
+  N: [QUESTION_BANK_4ESO_B.N[0]],
+  "Ñ": [QUESTION_BANK_2ESO["Ñ"][2]],
+  O: [QUESTION_BANK_2ESO.O[1]],
+  P: [QUESTION_BANK_4ESO_B.P[0]],
+  Q: [QUESTION_BANK_4ESO_B.Q[0]],
+  R: [QUESTION_BANK_2ESO.R[1]],
+  S: [QUESTION_BANK_2ESO.S[0]],
+  T: [QUESTION_BANK_4ESO_B.T[0]],
+  U: [QUESTION_BANK_2ESO.U[1]],
+  V: [QUESTION_BANK_2ESO.V[0]],
+  W: [QUESTION_BANK_2ESO.W[0]],
+  X: [QUESTION_BANK_2ESO.X[0]],
+  Y: [QUESTION_BANK_2ESO.Y[1]],
+  Z: [QUESTION_BANK_2ESO.Z[1]]
+};
+
+const LEVEL_LABELS = {
+  "1ESO": "1º ESO",
+  "2ESO": "2º ESO",
+  "3ESO": "3º ESO",
+  "4ESO_B": "4º ESO"
+};
+
 const QUESTION_BANKS = {
+  "1ESO": QUESTION_BANK_1ESO,
   "2ESO": QUESTION_BANK_2ESO,
+  "3ESO": QUESTION_BANK_3ESO,
   "4ESO_B": QUESTION_BANK_4ESO_B
 };
 
@@ -531,8 +602,12 @@ function startGame() {
   els.answerInput.focus();
 }
 
+function getAcademicLevelLabel(level) {
+  return LEVEL_LABELS[level] || level;
+}
+
 function modeLabel() {
-  const levelText = state.academicLevel === "4ESO_B" ? "4º ESO" : "2º ESO";
+  const levelText = getAcademicLevelLabel(state.academicLevel);
   return `Modo Normal · ${levelText}`;
 }
 
@@ -816,7 +891,7 @@ function finishGame(reason) {
 
   els.finalStats.innerHTML = `
     <p><strong>Resultado:</strong> ${reason}</p>
-    <p><strong>Nivel académico:</strong> ${state.academicLevel === "4ESO_B" ? "4º ESO" : "2º ESO"}</p>
+    <p><strong>Nivel académico:</strong> ${getAcademicLevelLabel(state.academicLevel)}</p>
     <p><strong>Nota sobre 10:</strong> ${note}</p>
     <p><strong>Tiempo empleado:</strong> ${elapsed} segundos</p>
     <p><strong>Aciertos:</strong> ${state.correct}</p>
