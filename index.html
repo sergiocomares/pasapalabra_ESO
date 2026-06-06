@@ -19,8 +19,12 @@
     <section id="startScreen" class="panel active" aria-labelledby="mainTitle">
       <div class="card intro-card">
         <div class="privacy-tools">
+          <button id="btnToggleMusic" class="stealth-btn" type="button" title="Silenciar o activar la música de portada" aria-pressed="false">Silenciar música</button>
           <button id="btnToggleLogos" class="stealth-btn" type="button" title="Ocultar o mostrar los logos del centro">Ocultar logos</button>
         </div>
+        <audio id="startMusic" src="cabecera.mp3" preload="auto" aria-hidden="true"></audio>
+        <audio id="sfxCorrect" src="acierto.mp3" preload="auto" aria-hidden="true"></audio>
+        <audio id="sfxWrong" src="fallo.mp3" preload="auto" aria-hidden="true"></audio>
         <div class="cover-logo-wrap">
           <img src="assets/logo/logo.png" alt="Logo del centro" class="cover-logo">
         </div>

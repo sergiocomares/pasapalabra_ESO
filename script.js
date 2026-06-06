@@ -10,6 +10,7 @@ const MEDALS = [
 
 const STORAGE_KEY = "pasapalabra2eso_stats_v1";
 const LOGO_PREFERENCE_KEY = "pasapalabra_hide_institution_logos_v1";
+const MUSIC_MUTE_PREFERENCE_KEY = "pasapalabra_start_music_muted_v1";
 
 const QUESTION_BANK_2ESO = {
   A: [
@@ -345,6 +346,7 @@ function getDefaultStats() {
 
 let globalStats = loadStats();
 let hideInstitutionLogos = loadLogoPreference();
+let isStartMusicMuted = loadMusicMutePreference();
 
 function loadStats() {
   try {
@@ -359,8 +361,20 @@ function loadLogoPreference() {
   return localStorage.getItem(LOGO_PREFERENCE_KEY) === "true";
 }
 
+function loadMusicMutePreference() {
+  const savedPreference = localStorage.getItem(MUSIC_MUTE_PREFERENCE_KEY);
+  if (savedPreference === null) {
+    return false;
+  }
+  return savedPreference === "true";
+}
+
 function saveLogoPreference() {
   localStorage.setItem(LOGO_PREFERENCE_KEY, String(hideInstitutionLogos));
+}
+
+function saveMusicMutePreference() {
+  localStorage.setItem(MUSIC_MUTE_PREFERENCE_KEY, String(isStartMusicMuted));
 }
 
 function saveStats() {
@@ -378,7 +392,11 @@ const els = {
   totalCorrect: document.getElementById("totalCorrect"),
   levelSelect: document.getElementById("levelSelect"),
   timeSelect: document.getElementById("timeSelect"),
+  btnToggleMusic: document.getElementById("btnToggleMusic"),
   btnToggleLogos: document.getElementById("btnToggleLogos"),
+  startMusic: document.getElementById("startMusic"),
+  sfxCorrect: document.getElementById("sfxCorrect"),
+  sfxWrong: document.getElementById("sfxWrong"),
   rosco: document.getElementById("rosco"),
   hudTime: document.getElementById("hudTime"),
   hudCorrect: document.getElementById("hudCorrect"),
@@ -434,11 +452,13 @@ const buttons = {
 function init() {
   validateQuestionBank();
   applyLogoVisibility();
+  applyStartMusicPreference();
   bindEvents();
   renderStaticLatex();
   updateStartStats();
   updateXPUI();
   renderRosco();
+  updateStartScreenMusic("start");
 }
 
 function applyLogoVisibility() {
@@ -446,6 +466,46 @@ function applyLogoVisibility() {
   if (els.btnToggleLogos) {
     els.btnToggleLogos.textContent = hideInstitutionLogos ? "Mostrar logos" : "Ocultar logos";
     els.btnToggleLogos.setAttribute("aria-pressed", String(hideInstitutionLogos));
+  }
+}
+
+function applyStartMusicPreference() {
+  if (els.startMusic) {
+    els.startMusic.muted = isStartMusicMuted;
+  }
+  if (els.btnToggleMusic) {
+    els.btnToggleMusic.textContent = isStartMusicMuted ? "Activar música" : "Silenciar música";
+    els.btnToggleMusic.setAttribute("aria-pressed", String(isStartMusicMuted));
+  }
+}
+
+function updateStartScreenMusic(screenName) {
+  if (!els.startMusic) return;
+
+  if (screenName !== "start") {
+    els.startMusic.pause();
+    els.startMusic.currentTime = 0;
+    return;
+  }
+
+  const playPromise = els.startMusic.play();
+  if (playPromise && typeof playPromise.catch === "function") {
+    playPromise.catch(() => {
+      // El navegador puede bloquear el autoplay con sonido hasta una interacción del usuario.
+    });
+  }
+}
+
+function playResultSound(type) {
+  const audio = type === "ok" ? els.sfxCorrect : els.sfxWrong;
+  if (!audio) return;
+
+  audio.currentTime = 0;
+  const playPromise = audio.play();
+  if (playPromise && typeof playPromise.catch === "function") {
+    playPromise.catch(() => {
+      // Evita errores visibles si el navegador bloquea audio automático.
+    });
   }
 }
 
@@ -747,6 +807,15 @@ function bindEvents() {
     });
   }
 
+  if (els.btnToggleMusic) {
+    els.btnToggleMusic.addEventListener("click", () => {
+      isStartMusicMuted = !isStartMusicMuted;
+      saveMusicMutePreference();
+      applyStartMusicPreference();
+      updateStartScreenMusic("start");
+    });
+  }
+
   els.answerForm.addEventListener("submit", (ev) => {
     ev.preventDefault();
     checkAnswer(els.answerInput.value.trim());
@@ -782,6 +851,7 @@ function showScreen(name) {
   };
   Object.values(map).forEach((node) => node.classList.remove("active"));
   map[name].classList.add("active");
+  updateStartScreenMusic(name);
 }
 
 function startGame() {
@@ -950,6 +1020,7 @@ function checkAnswer(rawAnswer) {
     state.correct += 1;
     addXP(10);
     updateContentProgress(current.content, true);
+    playResultSound("ok");
     showFeedback("✔ Correcto", "ok");
     flashRoscoLogo();
   } else {
@@ -957,6 +1028,7 @@ function checkAnswer(rawAnswer) {
     state.wrong += 1;
     updateContentProgress(current.content, false);
     globalStats.wrongLetters[letter] = (globalStats.wrongLetters[letter] || 0) + 1;
+    playResultSound("bad");
     showFeedback(`✖ Incorrecto. Respuesta correcta: ${current.answer}`, "bad");
   }
 

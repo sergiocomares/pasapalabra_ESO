@@ -109,6 +109,8 @@ body {
 .privacy-tools {
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.25rem;
   margin-bottom: 0.35rem;
 }
 
