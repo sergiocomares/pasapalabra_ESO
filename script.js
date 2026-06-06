@@ -1,0 +1,992 @@
+const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
+const MEDALS = [
+  "Maestro del Álgebra",
+  "Maestro de la Geometría",
+  "Maestro de la Estadística",
+  "Maestro de la Proporcionalidad",
+  "Rosco Perfecto"
+];
+
+const STORAGE_KEY = "pasapalabra2eso_stats_v1";
+
+const QUESTION_BANK_2ESO = {
+  A: [
+    { answer: "area", question: "Con la A: magnitud que mide la superficie de una figura plana.", concept: "Area", definition: "El area mide la extension de una superficie en unidades cuadradas.", example: "Rectangulo de 8 cm y 3 cm: area = 24 cm2.", application: "Sirve para calcular pintura, azulejos o terreno necesario.", procedure: "Identifica figura, aplica formula y expresa en unidades cuadradas.", mistakes: "Confundir area con perimetro.", hint: "Se expresa en cm2 o m2.", content: "Geometria" },
+    { answer: "algebra", question: "Con la A: rama de las matematicas que usa letras y simbolos para generalizar calculos.", concept: "Algebra", definition: "Estudia expresiones, ecuaciones y relaciones numericas con variables.", example: "2x + 3 = 11 tiene solucion x = 4.", application: "Modelar problemas con desconocidos.", procedure: "Traduce texto a expresion, simplifica y resuelve.", mistakes: "No respetar la jerarquia de operaciones.", hint: "Incluye ecuaciones y expresiones.", content: "Algebra" },
+    { answer: "apotema", question: "Con la A: segmento desde el centro de un poligono regular al punto medio de un lado.", concept: "Apotema", definition: "La apotema es perpendicular al lado en poligonos regulares.", example: "Area de pentagono regular: (perimetro x apotema) / 2.", application: "Calculo de areas en poligonos regulares.", procedure: "Calcula perimetro, multiplica por apotema y divide entre 2.", mistakes: "Usar radio en lugar de apotema.", hint: "Se usa en formulas de area de poligonos regulares.", content: "Geometria" }
+  ],
+  B: [
+    { answer: "bisectriz", question: "Con la B: semirrecta que divide un angulo en dos partes iguales.", concept: "Bisectriz", definition: "Divide un angulo en dos angulos de la misma medida.", example: "Si un angulo mide 70 grados, cada parte de la bisectriz mide 35 grados.", application: "Construcciones geometricas y triangulos.", procedure: "Con compas, marca arcos y une el vertice con su interseccion.", mistakes: "Confundir bisectriz con mediatriz.", hint: "Parte un angulo en dos.", content: "Geometria" },
+    { answer: "base", question: "Con la B: lado de referencia de un triangulo o de un paralelogramo para calcular area.", concept: "Base", definition: "Lado elegido para relacionarlo con su altura correspondiente.", example: "Area triangulo = base x altura / 2.", application: "Calculo de superficies.", procedure: "Selecciona un lado y la altura perpendicular.", mistakes: "Tomar una altura no perpendicular.", hint: "Aparece en muchas formulas de area.", content: "Geometria" },
+    { answer: "baricentro", question: "Con la B: punto donde se cortan las medianas de un triangulo.", concept: "Baricentro", definition: "Centro de gravedad del triangulo.", example: "Se encuentra a 2/3 de cada mediana desde el vertice.", application: "Estabilidad y centro de masas.", procedure: "Traza medianas y localiza su interseccion.", mistakes: "Mezclar medianas con alturas.", hint: "Tambien llamado centroide.", content: "Geometria" }
+  ],
+  C: [
+    { answer: "coordenadas", question: "Con la C: par ordenado que localiza un punto en el plano cartesiano.", concept: "Coordenadas", definition: "Se escriben como (x, y).", example: "El punto (3, -2) esta 3 a la derecha y 2 hacia abajo.", application: "Representar funciones y datos.", procedure: "Lee eje X, luego eje Y.", mistakes: "Intercambiar el orden x e y.", hint: "Se usa en el plano cartesiano.", content: "Funciones" },
+    { answer: "circunferencia", question: "Con la C: linea curva cerrada cuyos puntos estan a igual distancia del centro.", concept: "Circunferencia", definition: "Conjunto de puntos equidistantes de un punto fijo.", example: "Longitud: 2 x pi x radio.", application: "Ruedas, relojes, piezas circulares.", procedure: "Identifica radio y aplica formula.", mistakes: "Confundir circunferencia con circulo.", hint: "Solo es el borde.", content: "Geometria" },
+    { answer: "cociente", question: "Con la C: resultado de una division.", concept: "Cociente", definition: "Numero obtenido al dividir dividendo entre divisor.", example: "15 / 3 = 5.", application: "Repartos y tasas.", procedure: "Realiza division y comprueba con multiplicacion.", mistakes: "Olvidar el resto en divisiones no exactas.", hint: "Sale al dividir.", content: "Numeros y calculo" }
+  ],
+  D: [
+    { answer: "decimal", question: "Con la D: numero que representa partes de la unidad mediante coma.", concept: "Decimal", definition: "Expresa decimas, centesimas y milesimas.", example: "0,75 equivale a 75/100.", application: "Precios, medidas y porcentajes.", procedure: "Ubica cifras en su valor posicional.", mistakes: "Mover mal la coma al multiplicar por 10.", hint: "Puede transformarse en fraccion.", content: "Numeros y calculo" },
+    { answer: "denominador", question: "Con la D: numero inferior de una fraccion que indica en cuantas partes se divide la unidad.", concept: "Denominador", definition: "Indica el numero de partes iguales.", example: "En 3/8, el denominador es 8.", application: "Comparar y operar fracciones.", procedure: "Para sumar fracciones, busca denominador comun.", mistakes: "Sumar denominadores directamente.", hint: "Va debajo en la fraccion.", content: "Fracciones" },
+    { answer: "diagrama", question: "Con la D: representacion grafica de datos o relaciones.", concept: "Diagrama", definition: "Visualiza informacion estadistica o procesos.", example: "Diagrama de barras para frecuencias.", application: "Interpretar encuestas y experimentos.", procedure: "Elige escala, ejes y datos.", mistakes: "Escalas no uniformes.", hint: "Se usa en estadistica.", content: "Estadistica" }
+  ],
+  E: [
+    { answer: "ecuacion", question: "Con la E: igualdad matematica con una o mas incognitas.", concept: "Ecuacion", definition: "Relaciona dos expresiones y se cumple para ciertos valores.", example: "x + 7 = 12 tiene solucion x = 5.", application: "Resolver problemas de edades y precios.", procedure: "Despeja la variable con operaciones inversas.", mistakes: "No hacer la misma operacion en ambos lados.", hint: "Se suele resolver despejando x.", content: "Algebra" },
+    { answer: "estadistica", question: "Con la E: rama que recoge, organiza y analiza datos.", concept: "Estadistica", definition: "Permite extraer informacion de un conjunto de datos.", example: "Calculo de media, mediana y moda.", application: "Analizar resultados de clase o deportes.", procedure: "Recoge datos, ordena y calcula medidas.", mistakes: "No distinguir variable cualitativa y cuantitativa.", hint: "Trabaja con tablas y graficos.", content: "Estadistica" },
+    { answer: "equivalente", question: "Con la E: que tiene el mismo valor aunque tenga forma distinta.", concept: "Equivalencia", definition: "Dos fracciones equivalentes representan la misma cantidad.", example: "1/2 y 2/4 son equivalentes.", application: "Simplificacion de fracciones.", procedure: "Multiplica o divide numerador y denominador por el mismo numero.", mistakes: "Cambiar solo numerador o denominador.", hint: "Mismo valor, distinta apariencia.", content: "Fracciones" }
+  ],
+  F: [
+    { answer: "fraccion", question: "Con la F: numero que expresa una parte de la unidad.", concept: "Fraccion", definition: "Se representa como numerador/denominador.", example: "3/5 significa tres partes de cinco.", application: "Repartos, recetas, probabilidades.", procedure: "Identifica partes y unidad de referencia.", mistakes: "Comparar fracciones sin denominador comun.", hint: "Tiene numerador y denominador.", content: "Fracciones" },
+    { answer: "frecuencia", question: "Con la F: numero de veces que aparece un dato.", concept: "Frecuencia", definition: "Cuenta repeticiones en una tabla estadistica.", example: "Si el 7 aparece 4 veces, su frecuencia es 4.", application: "Construir tablas y graficos.", procedure: "Cuenta, organiza y suma para total.", mistakes: "No comprobar que la suma coincide con total de datos.", hint: "Se usa en tablas de datos.", content: "Estadistica" },
+    { answer: "funcion", question: "Con la F: relacion donde a cada valor de x le corresponde un unico valor de y.", concept: "Funcion", definition: "Asocia elementos de un conjunto de partida con uno de llegada.", example: "y = 2x + 1.", application: "Modelar crecimiento, costes y movimiento.", procedure: "Sustituye x para obtener y.", mistakes: "Asignar dos y distintas al mismo x.", hint: "Se representa en tabla o grafica.", content: "Funciones" }
+  ],
+  G: [
+    { answer: "grafico", question: "Con la G: representacion visual de datos o de una funcion.", concept: "Grafico", definition: "Muestra informacion en ejes o diagramas.", example: "Grafica de y = x + 2 es una recta.", application: "Analizar tendencias.", procedure: "Marca puntos y une segun el tipo de grafico.", mistakes: "Escalas incorrectas en ejes.", hint: "Ayuda a interpretar datos.", content: "Funciones" },
+    { answer: "grado", question: "Con la G: unidad de medida de angulos.", concept: "Grado", definition: "Una vuelta completa son 360 grados.", example: "Angulo recto = 90 grados.", application: "Diseño, arquitectura y orientacion.", procedure: "Mide con transportador.", mistakes: "Confundir angulo llano y recto.", hint: "Se simboliza con º.", content: "Geometria" },
+    { answer: "geometria", question: "Con la G: rama que estudia formas, medidas y posiciones.", concept: "Geometria", definition: "Analiza figuras planas y cuerpos espaciales.", example: "Calculo de areas y volumenes.", application: "Construccion y diseno tecnico.", procedure: "Identifica propiedades y aplica formulas.", mistakes: "Usar formula de figura distinta.", hint: "Incluye perimetros y areas.", content: "Geometria" }
+  ],
+  H: [
+    { answer: "hipotenusa", question: "Con la H: lado mayor de un triangulo rectangulo.", concept: "Hipotenusa", definition: "Es el lado opuesto al angulo recto.", example: "Si catetos son 3 y 4, hipotenusa es 5.", application: "Distancias y diagonales.", procedure: "Aplica teorema de Pitagoras.", mistakes: "Tomar como hipotenusa un cateto.", hint: "Se calcula con raiz cuadrada en Pitagoras.", content: "Geometria" },
+    { answer: "histograma", question: "Con la H: grafico de barras contiguas para datos agrupados.", concept: "Histograma", definition: "Representa distribuciones de frecuencias en intervalos.", example: "Alturas agrupadas por intervalos.", application: "Analizar dispersion de datos.", procedure: "Define intervalos y frecuencias.", mistakes: "Dejar separacion entre barras.", hint: "Barras pegadas.", content: "Estadistica" },
+    { answer: "hectarea", question: "Con la H: unidad de superficie equivalente a 10 000 m2.", concept: "Hectarea", definition: "Unidad frecuente en terrenos agrarios.", example: "2 hectareas = 20 000 m2.", application: "Medir fincas y parcelas.", procedure: "Convierte entre m2 y ha.", mistakes: "Confundir con hectometro.", hint: "Se abrevia ha.", content: "Geometria" }
+  ],
+  I: [
+    { answer: "incognita", question: "Con la I: valor desconocido que se representa con una letra.", concept: "Incognita", definition: "Numero que debemos hallar en una ecuacion.", example: "En 3x = 15, la incognita es x.", application: "Problemas de reparto y edades.", procedure: "Aisla la variable.", mistakes: "Mover terminos sin cambiar signo.", hint: "Suele ser x.", content: "Algebra" },
+    { answer: "intervalo", question: "Con la I: conjunto de numeros comprendidos entre dos extremos.", concept: "Intervalo", definition: "Puede ser abierto, cerrado o semiabierto.", example: "[2,5] incluye 2 y 5.", application: "Dominio de funciones y datos agrupados.", procedure: "Identifica limites y notacion.", mistakes: "No distinguir parentesis y corchetes.", hint: "Tiene dos limites.", content: "Funciones" },
+    { answer: "inversa", question: "Con la I: tipo de proporcionalidad en la que al aumentar una magnitud la otra disminuye.", concept: "Proporcionalidad inversa", definition: "El producto de magnitudes es constante.", example: "Mas obreros, menos tiempo para acabar una obra.", application: "Tareas, velocidad-tiempo.", procedure: "Comprueba producto constante.", mistakes: "Aplicar regla de tres directa cuando no toca.", hint: "Si una sube, la otra baja.", content: "Proporcionalidad" }
+  ],
+  J: [
+    { answer: "jerarquia", question: "Con la J: orden en que se realizan operaciones en una expresion.", concept: "Jerarquia de operaciones", definition: "Primero parentesis, luego potencias, despues multiplicacion/division y por ultimo suma/resta.", example: "2 + 3 x 4 = 14.", application: "Evita errores de calculo.", procedure: "Resuelve por niveles.", mistakes: "Sumar antes de multiplicar.", hint: "Primero parentesis.", content: "Numeros y calculo" },
+    { answer: "julio", question: "Con la J: mes del ano usado en problemas de calendarios y sucesiones temporales.", concept: "Secuencias temporales", definition: "Los meses se pueden modelar como sucesiones periodicas.", example: "Si enero es n=1, julio es n=7.", application: "Modelar patrones periodicos.", procedure: "Asigna indice y calcula posicion.", mistakes: "Perder la referencia inicial.", hint: "Es el mes numero 7.", content: "Sucesiones" },
+    { answer: "justificar", question: "Con la J: explicar matematicamente por que un resultado es correcto.", concept: "Justificacion", definition: "Argumentar con propiedades y pasos validos.", example: "Demostrar igualdad usando distributiva.", application: "Mejora razonamiento matematico.", procedure: "Escribe pasos claros y propiedades usadas.", mistakes: "Dar solo resultado sin razonamiento.", hint: "No basta con acertar, hay que explicar.", content: "Algebra" }
+  ],
+  K: [
+    { answer: "kilometro", question: "Con la K: unidad de longitud equivalente a 1000 metros.", concept: "Kilometro", definition: "Unidad del sistema metrico para distancias largas.", example: "5 km = 5000 m.", application: "Mapas y trayectos.", procedure: "Multiplica o divide por 1000.", mistakes: "Mover mal la coma.", hint: "Su abreviatura es km.", content: "Numeros y calculo" },
+    { answer: "kilogramo", question: "Con la K: unidad basica de masa del SI.", concept: "Kilogramo", definition: "Mide cantidad de materia.", example: "1,5 kg = 1500 g.", application: "Compras y laboratorio.", procedure: "Convierte entre g y kg por potencias de 10.", mistakes: "Confundir masa con peso.", hint: "Se abrevia kg.", content: "Numeros y calculo" },
+    { answer: "kilo", question: "Con la K: prefijo que indica mil unidades.", concept: "Prefijo kilo", definition: "En sistema metrico, kilo = 1000.", example: "1 kilolitro = 1000 litros.", application: "Conversiones de unidades.", procedure: "Multiplica por 10^3.", mistakes: "No aplicar potencia de 10 correcta.", hint: "Representa mil.", content: "Potencias y raices" }
+  ],
+  L: [
+    { answer: "lineal", question: "Con la L: funcion cuya grafica es una recta.", concept: "Funcion lineal", definition: "Tiene forma y = mx + b.", example: "y = 2x + 1.", application: "Costes fijos y variables.", procedure: "Calcula pendiente m y ordenada b.", mistakes: "Confundir lineal con proporcional.", hint: "Su grafica es una recta.", content: "Funciones" },
+    { answer: "longitud", question: "Con la L: magnitud que mide distancia entre dos puntos.", concept: "Longitud", definition: "Se mide en metros y sus multiplos/submultiplos.", example: "Segmento de 12 cm.", application: "Mediciones cotidianas.", procedure: "Elige unidad adecuada.", mistakes: "Mezclar unidades sin convertir.", hint: "Se mide en metros.", content: "Numeros y calculo" },
+    { answer: "literal", question: "Con la L: parte con letras de una expresion algebraica.", concept: "Parte literal", definition: "Incluye variables y sus exponentes.", example: "En 5x2y, la parte literal es x2y.", application: "Simplificar monomios.", procedure: "Separa coeficiente y parte literal.", mistakes: "Operar coeficientes sin respetar letras.", hint: "Va junto al coeficiente.", content: "Algebra" }
+  ],
+  M: [
+    { answer: "media", question: "Con la M: medida de centralizacion que se obtiene sumando datos y dividiendo entre su cantidad.", concept: "Media aritmetica", definition: "Promedio de un conjunto de valores.", example: "(4 + 6 + 8) / 3 = 6.", application: "Notas, temperaturas, resultados.", procedure: "Suma todos los datos y divide por n.", mistakes: "Olvidar incluir todos los datos.", hint: "Tambien se llama promedio.", content: "Estadistica" },
+    { answer: "mediana", question: "Con la M: valor central de un conjunto ordenado de datos.", concept: "Mediana", definition: "Divide los datos en dos partes iguales.", example: "Datos 2, 4, 9: mediana 4.", application: "Analizar sueldos o datos con extremos.", procedure: "Ordena y toma valor central.", mistakes: "No ordenar antes.", hint: "Es el dato del medio.", content: "Estadistica" },
+    { answer: "moda", question: "Con la M: dato que mas se repite en una distribucion.", concept: "Moda", definition: "Valor de mayor frecuencia.", example: "En 2,2,3,5 la moda es 2.", application: "Preferencias en encuestas.", procedure: "Cuenta repeticiones.", mistakes: "Confundir con media.", hint: "El valor mas repetido.", content: "Estadistica" }
+  ],
+  N: [
+    { answer: "numero", question: "Con la N: objeto matematico para contar, medir y ordenar.", concept: "Numero", definition: "Puede ser natural, entero, racional, etc.", example: "-3 es entero; 0,5 es racional.", application: "Todo calculo matematico.", procedure: "Clasifica segun conjunto numerico.", mistakes: "Creer que todos los decimales son enteros.", hint: "Hay naturales, enteros y racionales.", content: "Numeros y calculo" },
+    { answer: "numerador", question: "Con la N: numero superior de una fraccion.", concept: "Numerador", definition: "Indica cuantas partes se toman.", example: "En 3/7, el numerador es 3.", application: "Operaciones con fracciones.", procedure: "Identifica parte tomada.", mistakes: "Intercambiar numerador y denominador.", hint: "Va arriba.", content: "Fracciones" },
+    { answer: "negativo", question: "Con la N: numero menor que cero.", concept: "Numero negativo", definition: "Se representa con signo menos.", example: "-8 es menor que -3.", application: "Temperaturas bajo cero, deudas.", procedure: "Ubica en recta numerica.", mistakes: "Comparar sin usar recta.", hint: "Tiene signo menos.", content: "Numeros enteros" }
+  ],
+  "Ñ": [
+    { answer: "señal", question: "Contiene la Ñ: indicacion en una grafica que ayuda a interpretar una tendencia.", concept: "Señal en grafica", definition: "Marca visual que destaca un dato relevante.", example: "Una flecha señala un maximo en una funcion.", application: "Lectura de graficos estadisticos.", procedure: "Observa eje y leyenda antes de interpretar la señal.", mistakes: "Sacar conclusiones sin contexto.", hint: "Es una pista visual en una grafica.", content: "Interpretacion de datos" },
+    { answer: "tamaño", question: "Contiene la Ñ: magnitud de una figura o muestra de datos.", concept: "Tamaño", definition: "Puede referirse a dimension geometrica o numero de datos de una muestra.", example: "Muestra de tamaño 30.", application: "Estadistica y geometria.", procedure: "Define unidad o cantidad de elementos.", mistakes: "No especificar unidad.", hint: "Puede ser numero de elementos.", content: "Estadistica" },
+    { answer: "año", question: "Contiene la Ñ: unidad temporal usada en problemas de crecimiento y sucesiones.", concept: "Año", definition: "Periodo de 12 meses usado para modelar cambios.", example: "Si una cantidad crece 5% anual.", application: "Interes, poblacion y series temporales.", procedure: "Establece valor inicial y tasa por año.", mistakes: "No distinguir crecimiento simple y compuesto.", hint: "Tiene 12 meses.", content: "Sucesiones" }
+  ],
+  O: [
+    { answer: "operacion", question: "Con la O: accion matematica como sumar, restar, multiplicar o dividir.", concept: "Operacion", definition: "Transforma numeros siguiendo reglas.", example: "7 x 6 = 42.", application: "Resolucion de problemas.", procedure: "Aplica jerarquia de operaciones.", mistakes: "Cambiar orden sin parentesis.", hint: "Hay cuatro basicas.", content: "Numeros y calculo" },
+    { answer: "ordenada", question: "Con la O: coordenada vertical de un punto en el plano.", concept: "Ordenada", definition: "Es el valor y en (x, y).", example: "En (2, -4), la ordenada es -4.", application: "Lectura de graficas.", procedure: "Mira segundo numero del par ordenado.", mistakes: "Confundir con abscisa.", hint: "Es la y.", content: "Funciones" },
+    { answer: "opuesto", question: "Con la O: numero que sumado con otro da cero.", concept: "Numero opuesto", definition: "Tiene mismo valor absoluto y signo contrario.", example: "Opuesto de -9 es 9.", application: "Resolucion de ecuaciones.", procedure: "Cambia el signo.", mistakes: "Cambiar tambien valor absoluto.", hint: "Suman cero.", content: "Numeros enteros" }
+  ],
+  P: [
+    { answer: "proporcionalidad", question: "Con la P: relacion entre magnitudes que mantienen una razon constante.", concept: "Proporcionalidad", definition: "Puede ser directa o inversa.", example: "Si duplicas kilos, duplicas precio.", application: "Regla de tres y escalas.", procedure: "Comprueba cociente o producto constante.", mistakes: "No identificar tipo de proporcionalidad.", hint: "Directa o inversa.", content: "Proporcionalidad" },
+    { answer: "porcentaje", question: "Con la P: forma de expresar una parte de cada cien.", concept: "Porcentaje", definition: "Relaciona una cantidad con base 100.", example: "25% = 25/100 = 0,25.", application: "Descuentos y subidas.", procedure: "Multiplica por porcentaje en decimal.", mistakes: "No dividir entre 100.", hint: "Se escribe con %.", content: "Proporcionalidad" },
+    { answer: "pitagoras", question: "Con la P: teorema que relaciona catetos e hipotenusa en triangulo rectangulo.", concept: "Teorema de Pitagoras", definition: "a2 + b2 = c2.", example: "Catetos 6 y 8: c=10.", application: "Distancias y diagonales.", procedure: "Eleva catetos al cuadrado, suma y saca raiz.", mistakes: "Aplicarlo en triangulos no rectangulos.", hint: "a2 + b2 = c2.", content: "Geometria" }
+  ],
+  Q: [
+    { answer: "ecuacion", question: "Contiene la Q: igualdad matematica con una o mas incognitas.", concept: "Ecuacion", definition: "Relaciona dos expresiones y se cumple para ciertos valores.", example: "x + 7 = 12 tiene solucion x = 5.", application: "Resolver problemas de edades y precios.", procedure: "Despeja la variable con operaciones inversas.", mistakes: "No hacer la misma operacion en ambos lados.", hint: "Se resuelve despejando una letra.", content: "Algebra" },
+    { answer: "equivalente", question: "Contiene la Q: que tiene el mismo valor aunque tenga forma distinta.", concept: "Equivalencia", definition: "Dos fracciones equivalentes representan la misma cantidad.", example: "1/2 y 2/4 son equivalentes.", application: "Simplificacion de fracciones.", procedure: "Multiplica o divide numerador y denominador por el mismo numero.", mistakes: "Cambiar solo numerador o denominador.", hint: "Mismo valor, forma diferente.", content: "Fracciones" },
+    { answer: "cuadrado", question: "Contiene la Q: poligono regular de cuatro lados iguales y cuatro angulos rectos.", concept: "Cuadrado", definition: "Es un cuadrilatero regular con todos los lados iguales.", example: "Si el lado mide 5 cm, su area es 25 cm2.", application: "Calculo de perimetros y areas.", procedure: "Area = lado x lado; perimetro = 4 x lado.", mistakes: "Confundir area con perimetro.", hint: "Figura de 4 lados iguales.", content: "Geometria" }
+  ],
+  R: [
+    { answer: "razon", question: "Con la R: cociente entre dos cantidades comparables.", concept: "Razon", definition: "Compara dos magnitudes mediante division.", example: "Si hay 8 chicas y 12 chicos, razon 8:12 = 2:3.", application: "Escalas, mezclas y proporcionalidad.", procedure: "Escribe cociente y simplifica.", mistakes: "No simplificar la razon.", hint: "Se expresa como a:b.", content: "Proporcionalidad" },
+    { answer: "raiz", question: "Con la R: operacion inversa de elevar al cuadrado.", concept: "Raiz cuadrada", definition: "Numero que multiplicado por si mismo da el radicando.", example: "raiz de 49 es 7.", application: "Pitagoras y medidas.", procedure: "Busca cuadrados perfectos o aproxima.", mistakes: "Confundir raiz de 36 con 18.", hint: "Inversa de potencia de 2.", content: "Potencias y raices" },
+    { answer: "recta", question: "Con la R: linea infinita sin curvatura.", concept: "Recta", definition: "Se extiende indefinidamente en ambos sentidos.", example: "En y = 3x - 1 la grafica es una recta.", application: "Modelos lineales.", procedure: "Calcula dos puntos y une.", mistakes: "Usar escala distinta en ejes sin avisar.", hint: "No tiene principio ni fin.", content: "Funciones" }
+  ],
+  S: [
+    { answer: "sistema", question: "Con la S: conjunto de dos ecuaciones con mismas incognitas.", concept: "Sistema de ecuaciones", definition: "Se busca el valor que cumple ambas ecuaciones.", example: "x + y = 5 y x - y = 1.", application: "Problemas con dos condiciones.", procedure: "Usa sustitucion, igualacion o reduccion.", mistakes: "Resolver ecuaciones por separado sin combinar.", hint: "Dos ecuaciones, dos incognitas.", content: "Algebra" },
+    { answer: "sucesion", question: "Con la S: conjunto ordenado de numeros que siguen una regla.", concept: "Sucesion", definition: "Cada termino depende de su posicion.", example: "2, 5, 8, 11 es aritmetica de diferencia 3.", application: "Patrones y predicciones.", procedure: "Encuentra regla y calcula terminos.", mistakes: "Confundir termino general con diferencia.", hint: "Serie ordenada por una ley.", content: "Sucesiones" },
+    { answer: "simetria", question: "Con la S: propiedad por la que una figura coincide consigo misma al reflejarse.", concept: "Simetria", definition: "Existe un eje o centro simetrico.", example: "Un cuadrado tiene 4 ejes de simetria.", application: "Diseño y geometria.", procedure: "Busca ejes que dividan en partes especulares.", mistakes: "Contar diagonales como ejes en rectangulos no cuadrados.", hint: "Reflejo en espejo.", content: "Geometria" }
+  ],
+  T: [
+    { answer: "teorema", question: "Con la T: proposicion matematica demostrada logicamente.", concept: "Teorema", definition: "Afirmacion valida tras demostracion.", example: "Teorema de Pitagoras.", application: "Fundamentar resoluciones.", procedure: "Aplicar condiciones del teorema.", mistakes: "Usarlo fuera de sus hipotesis.", hint: "Necesita demostracion.", content: "Geometria" },
+    { answer: "tabla", question: "Con la T: organizacion de datos en filas y columnas.", concept: "Tabla de valores", definition: "Relaciona pares de datos de una funcion o estudio.", example: "x: 0,1,2; y: 1,3,5.", application: "Representar funciones y frecuencias.", procedure: "Define variables y completa datos.", mistakes: "No mantener unidades.", hint: "Filas y columnas.", content: "Interpretacion de datos" },
+    { answer: "triangulo", question: "Con la T: poligono de tres lados.", concept: "Triangulo", definition: "Figura plana con tres vertices y tres angulos.", example: "Suma de angulos interiores: 180 grados.", application: "Arquitectura y diseno.", procedure: "Clasifica por lados y angulos.", mistakes: "Olvidar condicion de desigualdad triangular.", hint: "Tiene 3 lados.", content: "Geometria" }
+  ],
+  U: [
+    { answer: "unidad", question: "Con la U: cantidad de referencia para medir.", concept: "Unidad", definition: "Patron con el que se expresan magnitudes.", example: "Metro para longitud, litro para capacidad.", application: "Mediciones correctas.", procedure: "Elige unidad adecuada al contexto.", mistakes: "No indicar unidad final.", hint: "Sin unidad, el numero esta incompleto.", content: "Numeros y calculo" },
+    { answer: "uniforme", question: "Con la U: distribucion donde todos los resultados tienen la misma probabilidad.", concept: "Probabilidad uniforme", definition: "Cada suceso elemental es equiprobable.", example: "Dado equilibrado.", application: "Calculo de probabilidades simples.", procedure: "Casos favorables entre casos posibles.", mistakes: "Suponer equiprobabilidad sin justificar.", hint: "Todos los casos valen lo mismo.", content: "Probabilidad" },
+    { answer: "ultimo", question: "Con la U: termino final conocido en una sucesion o intervalo.", concept: "Extremo final", definition: "Marca donde termina un listado o tramo.", example: "En 3,6,9,12 el ultimo es 12.", application: "Calculo de numero de terminos.", procedure: "Usa formula de sucesion aritmetica.", mistakes: "Confundir ultimo con mayor en secuencias no ordenadas.", hint: "Es el termino final.", content: "Sucesiones" }
+  ],
+  V: [
+    { answer: "variable", question: "Con la V: simbolo que puede tomar distintos valores.", concept: "Variable", definition: "Representa cantidades cambiantes.", example: "En y = 2x, x es variable independiente.", application: "Modelar situaciones reales.", procedure: "Define que representa cada variable.", mistakes: "No especificar dominio.", hint: "Suele representarse con letras.", content: "Algebra" },
+    { answer: "volumen", question: "Con la V: medida del espacio que ocupa un cuerpo.", concept: "Volumen", definition: "Se expresa en unidades cubicas.", example: "Prisma rectangular: largo x ancho x alto.", application: "Capacidad de recipientes y cuerpos.", procedure: "Selecciona formula segun solido.", mistakes: "Usar unidades cuadradas en vez de cubicas.", hint: "Se mide en m3 o cm3.", content: "Geometria" },
+    { answer: "vertice", question: "Con la V: punto donde se unen dos lados o aristas.", concept: "Vertice", definition: "Esquina de figuras planas o cuerpos.", example: "Un cubo tiene 8 vertices.", application: "Identificacion de poliedros.", procedure: "Cuenta vertices, aristas y caras.", mistakes: "Confundir vertice con lado.", hint: "Es una esquina.", content: "Geometria" }
+  ],
+  W: [
+    { answer: "watt", question: "Contiene la W: unidad de potencia en el sistema internacional.", concept: "Watt", definition: "Mide energia transferida por segundo.", example: "Una bombilla de 10 W consume menos que una de 60 W.", application: "Problemas de consumo electrico.", procedure: "Relaciona potencia, energia y tiempo.", mistakes: "Confundir W con Wh.", hint: "Se abrevia con una letra poco frecuente.", content: "Numeros y calculo" },
+    { answer: "web", question: "Contiene la W: medio digital donde se publican tablas y graficos para interpretar datos.", concept: "Web", definition: "Entorno digital donde se consulta informacion y datos.", example: "Consultar una grafica de temperaturas en una web educativa.", application: "Lectura critica de datos reales.", procedure: "Revisa fuente, ejes y unidades antes de interpretar.", mistakes: "Confiar en datos sin verificar origen.", hint: "Internet.", content: "Interpretacion de datos" },
+    { answer: "wifi", question: "Contiene la W: tecnologia de conexion usada para acceder a plataformas con recursos matematicos.", concept: "Conectividad digital", definition: "Permite acceder a contenido y actividades en linea.", example: "Resolver ejercicios interactivos en clase virtual.", application: "Aprendizaje digital y consulta de recursos.", procedure: "Conecta, verifica fuente y analiza informacion.", mistakes: "Usar fuentes no fiables.", hint: "Conexion inalambrica.", content: "Interpretacion de datos" }
+  ],
+  X: [
+    { answer: "expresion", question: "Contiene la X: combinacion de numeros, letras y operaciones.", concept: "Expresion algebraica", definition: "Representa relaciones matematicas sin signo igual.", example: "3x + 2.", application: "Plantear y simplificar calculos.", procedure: "Agrupa terminos semejantes y respeta jerarquia.", mistakes: "Sumar terminos no semejantes.", hint: "No lleva igual.", content: "Algebra" },
+    { answer: "exponente", question: "Contiene la X: numero que indica cuantas veces se multiplica una base por si misma.", concept: "Exponente", definition: "En una potencia, indica repeticiones de la base.", example: "2^3 = 8, el exponente es 3.", application: "Potencias y notacion cientifica.", procedure: "Identifica base y exponente.", mistakes: "Confundir exponente con resultado.", hint: "Aparece en las potencias.", content: "Potencias y raices" },
+    { answer: "maximo", question: "Contiene la X: valor mas alto que alcanza una funcion o un conjunto de datos.", concept: "Maximo", definition: "Mayor valor observado en una situacion matematica.", example: "En los datos 3, 7, 2, 9 el maximo es 9.", application: "Analizar graficos y estadisticas.", procedure: "Compara valores y localiza el mayor.", mistakes: "Confundir maximo con media.", hint: "Es el valor mas alto.", content: "Estadistica" }
+  ],
+  Y: [
+    { answer: "mayor", question: "Contiene la Y: palabra que indica que un numero es superior a otro.", concept: "Desigualdad", definition: "Comparacion entre dos cantidades usando > o <.", example: "8 es mayor que 5.", application: "Ordenar numeros y resolver problemas.", procedure: "Compara valor posicional o recta numerica.", mistakes: "Invertir el signo de desigualdad.", hint: "Lo contrario de menor.", content: "Numeros y calculo" },
+    { answer: "eje y", question: "Contiene la Y: eje vertical del plano cartesiano.", concept: "Eje Y", definition: "Tambien llamado eje de ordenadas.", example: "Punto (1,5) tiene ordenada 5.", application: "Representacion de funciones.", procedure: "Ubica segundo valor del par ordenado.", mistakes: "Invertir coordenadas.", hint: "Es vertical.", content: "Funciones" },
+    { answer: "proyeccion", question: "Contiene la Y: representacion de una figura sobre un plano.", concept: "Proyeccion", definition: "Traslada puntos de una figura a una recta o plano de referencia.", example: "Proyeccion ortogonal de un segmento.", application: "Geometria y dibujo tecnico.", procedure: "Traza perpendiculares al plano de proyeccion.", mistakes: "No respetar perpendicularidad.", hint: "Se usa en dibujo tecnico.", content: "Geometria" }
+  ],
+  Z: [
+    { answer: "razon", question: "Contiene la Z: cociente entre dos cantidades comparables.", concept: "Razon", definition: "Compara dos magnitudes mediante division.", example: "8:12 = 2:3.", application: "Escalas, mezclas y proporcionalidad.", procedure: "Escribe cociente y simplifica.", mistakes: "No simplificar la razon.", hint: "Se expresa como a:b.", content: "Proporcionalidad" },
+    { answer: "azar", question: "Contiene la Z: idea clave en probabilidad cuando el resultado no se puede predecir con certeza.", concept: "Azar", definition: "Situacion en la que interviene la aleatoriedad.", example: "Lanzar una moneda.", application: "Probabilidad simple.", procedure: "Calcula casos favorables entre posibles.", mistakes: "Confundir azar con imposibilidad.", hint: "Relacionada con probabilidad.", content: "Probabilidad" },
+    { answer: "trapezoide", question: "Contiene la Z: cuadrilatero que no tiene lados paralelos.", concept: "Trapezoide", definition: "Poligono de cuatro lados sin lados paralelos.", example: "No es trapecio ni paralelogramo.", application: "Clasificacion de cuadrilateros.", procedure: "Observa paralelismo entre lados.", mistakes: "Confundir trapezoide con trapecio.", hint: "Es un tipo de cuadrilatero.", content: "Geometria" }
+  ]
+};
+
+const QUESTION_BANK_4ESO_B = {
+  A: [
+    { answer: "asintota", question: "Con la A: recta a la que una curva se aproxima indefinidamente.", concept: "Asintota", definition: "Linea limite que la funcion se acerca sin llegar a tocar en ciertos casos.", example: "f(x)=1/x tiene asintota vertical x=0 y horizontal y=0.", application: "Estudio de funciones racionales.", procedure: "Analiza denominadores y limites.", mistakes: "Confundir corte con asintota.", hint: "Puede ser vertical u horizontal.", content: "Funciones" }
+  ],
+  B: [
+    { answer: "binomio", question: "Con la B: expresion algebraica con dos terminos.", concept: "Binomio", definition: "Polinomio formado por la suma o resta de dos monomios.", example: "(x + 3)^2 es cuadrado de un binomio.", application: "Productos notables y factorizacion.", procedure: "Identifica terminos y aplica identidades.", mistakes: "Olvidar termino doble.", hint: "Tiene exactamente dos terminos.", content: "Algebra" }
+  ],
+  C: [
+    { answer: "complejo", question: "Con la C: numero de la forma a + bi.", concept: "Numero complejo", definition: "Extiende los reales incorporando la unidad imaginaria i.", example: "3 + 2i.", application: "Resolucion general de ecuaciones.", procedure: "Separa parte real e imaginaria.", mistakes: "Tomar i^2 como 1.", hint: "Incluye parte imaginaria.", content: "Numeros y calculo" }
+  ],
+  D: [
+    { answer: "derivada", question: "Con la D: tasa de variacion instantanea de una funcion.", concept: "Derivada", definition: "Mide la pendiente de la recta tangente en un punto.", example: "Si f(x)=x^2, entonces f'(x)=2x.", application: "Maximos, minimos y crecimiento.", procedure: "Aplica reglas de derivacion.", mistakes: "Derivar constantes como si fueran variables.", hint: "Relacionada con la pendiente.", content: "Funciones" }
+  ],
+  E: [
+    { answer: "exponente", question: "Con la E: numero que indica cuantas veces se multiplica una base por si misma.", concept: "Exponente", definition: "En una potencia determina la repeticion de la base.", example: "2^5 = 32, exponente 5.", application: "Potencias, notacion cientifica y funciones.", procedure: "Identifica base y exponente.", mistakes: "Confundir exponente con resultado.", hint: "Aparece en las potencias.", content: "Potencias y raices" }
+  ],
+  F: [
+    { answer: "factorizacion", question: "Con la F: proceso de escribir un polinomio como producto de factores.", concept: "Factorizacion", definition: "Descomponer para simplificar o resolver ecuaciones.", example: "x^2-9=(x-3)(x+3).", application: "Ecuaciones y fracciones algebraicas.", procedure: "Extrae factor comun o usa identidades.", mistakes: "No comprobar el producto final.", hint: "Convierte sumas/restas en producto.", content: "Algebra" }
+  ],
+  G: [
+    { answer: "geometria analitica", question: "Con la G: rama que estudia figuras mediante coordenadas y ecuaciones.", concept: "Geometria analitica", definition: "Relaciona algebra y geometria en el plano cartesiano.", example: "Recta: y=mx+n.", application: "Distancia, pendiente y posiciones relativas.", procedure: "Modela con ecuaciones y representa.", mistakes: "Intercambiar coordenadas.", hint: "Une algebra y plano cartesiano.", content: "Geometria" }
+  ],
+  H: [
+    { answer: "hiperbola", question: "Con la H: curva con dos ramas obtenida como seccion conica.", concept: "Hiperbola", definition: "Conjunto de puntos con diferencia de distancias a focos constante.", example: "x^2/a^2 - y^2/b^2 = 1.", application: "Modelos fisicos y geometria avanzada.", procedure: "Identifica centro, ejes y focos.", mistakes: "Confundirla con parabola.", hint: "Tiene dos ramas.", content: "Funciones" }
+  ],
+  I: [
+    { answer: "inecuacion", question: "Con la I: desigualdad algebraica con una o varias incognitas.", concept: "Inecuacion", definition: "Expresa relaciones con <, >, <= o >=.", example: "2x-1>5.", application: "Intervalos solucion y modelizacion.", procedure: "Despeja y representa en recta.", mistakes: "No invertir signo al multiplicar por negativo.", hint: "No lleva igual.", content: "Algebra" }
+  ],
+  J: [
+    { answer: "bijeccion", question: "Contiene la J: correspondencia que es inyectiva y sobreyectiva a la vez.", concept: "Bijeccion", definition: "Cada elemento tiene imagen unica y todos quedan cubiertos.", example: "f(x)=x en reales es biyectiva.", application: "Estudio formal de funciones.", procedure: "Comprueba inyectividad y sobreyectividad.", mistakes: "Confundir con inyeccion simple.", hint: "Combina dos propiedades.", content: "Funciones" }
+  ],
+  K: [
+    { answer: "kilovatio", question: "Contiene la K: unidad de potencia equivalente a mil vatios.", concept: "Kilovatio", definition: "Se usa para potencia electrica en contextos reales.", example: "2 kW = 2000 W.", application: "Consumo energetico y conversiones.", procedure: "Convierte entre kW y W.", mistakes: "Confundir potencia con energia.", hint: "Se abrevia kW.", content: "Numeros y calculo" }
+  ],
+  L: [
+    { answer: "logaritmo", question: "Con la L: exponente al que hay que elevar una base para obtener un numero.", concept: "Logaritmo", definition: "Operacion inversa de la potenciacion.", example: "log10(100)=2.", application: "Escalas y funciones logaritmicas.", procedure: "Transforma entre forma exponencial y logaritmica.", mistakes: "No respetar la base.", hint: "Inversa de potencia.", content: "Funciones" }
+  ],
+  M: [
+    { answer: "matriz", question: "Con la M: arreglo rectangular de numeros en filas y columnas.", concept: "Matriz", definition: "Objeto algebraico para organizar y operar datos.", example: "A=[[1,2],[3,4]].", application: "Sistemas y transformaciones.", procedure: "Identifica orden y elementos.", mistakes: "Sumar matrices de distinto orden.", hint: "Filas y columnas.", content: "Algebra" }
+  ],
+  N: [
+    { answer: "notacion cientifica", question: "Con la N: forma de escribir numeros muy grandes o pequenos como a x 10^n.", concept: "Notacion cientifica", definition: "Representa cantidades de forma compacta.", example: "0,00034 = 3,4 x 10^-4.", application: "Calculo cientifico y tecnologia.", procedure: "Mueve coma y ajusta exponente.", mistakes: "Signo incorrecto del exponente.", hint: "Usa potencias de 10.", content: "Potencias y raices" }
+  ],
+  "Ñ": [
+    { answer: "año", question: "Contiene la Ñ: unidad temporal usada en modelos de crecimiento exponencial.", concept: "Modelizacion temporal", definition: "Permite analizar evolucion anual de magnitudes.", example: "P(t)=P0(1+r)^t.", application: "Interes compuesto y poblacion.", procedure: "Define valor inicial, tasa y tiempo.", mistakes: "Confundir crecimiento lineal y exponencial.", hint: "Unidad temporal de 12 meses.", content: "Funciones" }
+  ],
+  O: [
+    { answer: "polinomio", question: "Contiene la O: suma de monomios con exponentes enteros no negativos.", concept: "Polinomio", definition: "Expresion algebraica formada por terminos.", example: "x^3 - 2x + 1.", application: "Modelos algebraicos y ecuaciones.", procedure: "Ordena por grado y simplifica.", mistakes: "Mezclar terminos no semejantes.", hint: "Puede tener varios terminos.", content: "Algebra" }
+  ],
+  P: [
+    { answer: "parabola", question: "Con la P: grafica tipica de una funcion cuadratica.", concept: "Parabola", definition: "Curva de segundo grado con eje de simetria.", example: "y = x^2 - 4x + 3.", application: "Maximos, minimos y trayectorias.", procedure: "Analiza vertice y cortes.", mistakes: "Confundir concavidad.", hint: "Relacionada con x^2.", content: "Funciones" }
+  ],
+  Q: [
+    { answer: "ecuacion", question: "Contiene la Q: igualdad algebraica que se verifica para ciertos valores.", concept: "Ecuacion", definition: "Relacion entre expresiones con incognitas.", example: "x^2 - 5x + 6 = 0.", application: "Problemas y modelizacion.", procedure: "Resuelve por factorizacion o formula.", mistakes: "No comprobar soluciones.", hint: "Tiene signo igual.", content: "Algebra" }
+  ],
+  R: [
+    { answer: "radical", question: "Con la R: expresion que contiene una raiz.", concept: "Radical", definition: "Representa raices n-esimas.", example: "√(x^2+1).", application: "Simplificacion y ecuaciones.", procedure: "Opera usando propiedades de raices.", mistakes: "Sumar radicales no semejantes.", hint: "Incluye simbolo de raiz.", content: "Potencias y raices" }
+  ],
+  S: [
+    { answer: "sucesion", question: "Con la S: conjunto ordenado de terminos que siguen una regla.", concept: "Sucesion", definition: "Puede ser aritmetica o geometrica.", example: "2, 6, 18,... es geometrica.", application: "Modelos recurrentes.", procedure: "Determina razon o diferencia.", mistakes: "Confundir tipo de sucesion.", hint: "Serie ordenada.", content: "Sucesiones" }
+  ],
+  T: [
+    { answer: "trigonometria", question: "Con la T: estudio de relaciones entre angulos y lados.", concept: "Trigonometria", definition: "Incluye seno, coseno y tangente.", example: "sin(30°)=1/2.", application: "Alturas, distancias y fisica.", procedure: "Identifica triangulo y razon trigonometrica.", mistakes: "Intercambiar catetos.", hint: "Seno, coseno y tangente.", content: "Geometria" }
+  ],
+  U: [
+    { answer: "cuadratica", question: "Contiene la U: funcion de segundo grado cuya grafica es una parabola.", concept: "Funcion cuadratica", definition: "Tiene forma ax^2+bx+c.", example: "y = 2x^2 - 3x + 1.", application: "Modelos de optimizacion.", procedure: "Calcula vertice y raices.", mistakes: "Tomar b^2-4ac con signo erróneo.", hint: "Depende de x^2.", content: "Funciones" }
+  ],
+  V: [
+    { answer: "vector", question: "Con la V: magnitud con modulo, direccion y sentido.", concept: "Vector", definition: "Se representa mediante segmento orientado.", example: "v=(3, -1).", application: "Geometria analitica y fisica.", procedure: "Opera por componentes.", mistakes: "Confundir modulo con coordenadas.", hint: "Tiene direccion.", content: "Geometria" }
+  ],
+  W: [
+    { answer: "watt", question: "Contiene la W: unidad de potencia utilizada en contextos de modelizacion.", concept: "Watt", definition: "Mide potencia en el SI.", example: "1500 W = 1,5 kW.", application: "Problemas de consumo.", procedure: "Convierte W y kW segun potencias de 10.", mistakes: "Confundir W con Wh.", hint: "Aparece en electrodomesticos.", content: "Numeros y calculo" }
+  ],
+  X: [
+    { answer: "exponencial", question: "Contiene la X: tipo de funcion de la forma a·b^x.", concept: "Funcion exponencial", definition: "La variable aparece en el exponente.", example: "f(x)=2^x.", application: "Crecimiento y decrecimiento rapido.", procedure: "Analiza base y comportamiento.", mistakes: "Confundirla con potencia.", hint: "La x esta en el exponente.", content: "Funciones" }
+  ],
+  Y: [
+    { answer: "proyeccion", question: "Contiene la Y: representacion de una figura sobre una recta o plano.", concept: "Proyeccion", definition: "Traslada puntos manteniendo una regla geometrica.", example: "Proyeccion ortogonal sobre un eje.", application: "Geometria y dibujo tecnico.", procedure: "Traza perpendiculares al soporte.", mistakes: "No respetar perpendicularidad.", hint: "Se usa en geometria analitica.", content: "Geometria" }
+  ],
+  Z: [
+    { answer: "azar", question: "Contiene la Z: fenomeno en el que el resultado no es determinista.", concept: "Azar", definition: "Base conceptual de la probabilidad.", example: "Lanzar un dado equilibrado.", application: "Probabilidad simple y compuesta.", procedure: "Cuenta casos posibles y favorables.", mistakes: "Confundir azar con imposibilidad.", hint: "Relacionado con probabilidad.", content: "Probabilidad" }
+  ]
+};
+
+const QUESTION_BANKS = {
+  "2ESO": QUESTION_BANK_2ESO,
+  "4ESO_B": QUESTION_BANK_4ESO_B
+};
+
+const state = {
+  mode: "normal",
+  academicLevel: "2ESO",
+  timerSetting: 150,
+  timerLeft: 150,
+  timerId: null,
+  questions: [],
+  statuses: {},
+  usedHints: 0,
+  maxHints: 5,
+  currentIndex: 0,
+  startedAt: 0,
+  correct: 0,
+  wrong: 0,
+  passed: 0,
+  finished: false,
+  contentRound: {},
+  totalXPThisGame: 0
+};
+
+function getDefaultStats() {
+  return {
+    gamesPlayed: 0,
+    bestScore: 0,
+    totalCorrect: 0,
+    bestTime: null,
+    wrongLetters: {},
+    content: {},
+    xp: 0,
+    medals: {},
+    history: []
+  };
+}
+
+let globalStats = loadStats();
+
+function loadStats() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return parsed ? { ...getDefaultStats(), ...parsed } : getDefaultStats();
+  } catch {
+    return getDefaultStats();
+  }
+}
+
+function saveStats() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(globalStats));
+}
+
+const els = {
+  startScreen: document.getElementById("startScreen"),
+  gameScreen: document.getElementById("gameScreen"),
+  instructionsScreen: document.getElementById("instructionsScreen"),
+  statsScreen: document.getElementById("statsScreen"),
+  finalScreen: document.getElementById("finalScreen"),
+  bestScore: document.getElementById("bestScore"),
+  gamesPlayed: document.getElementById("gamesPlayed"),
+  totalCorrect: document.getElementById("totalCorrect"),
+  levelSelect: document.getElementById("levelSelect"),
+  timeSelect: document.getElementById("timeSelect"),
+  rosco: document.getElementById("rosco"),
+  hudTime: document.getElementById("hudTime"),
+  hudCorrect: document.getElementById("hudCorrect"),
+  hudWrong: document.getElementById("hudWrong"),
+  hudPending: document.getElementById("hudPending"),
+  hudHints: document.getElementById("hudHints"),
+  modeTitle: document.getElementById("modeTitle"),
+  letterPrompt: document.getElementById("letterPrompt"),
+  questionText: document.getElementById("questionText"),
+  answerForm: document.getElementById("answerForm"),
+  answerInput: document.getElementById("answerInput"),
+  btnAnswer: document.getElementById("btnAnswer"),
+  btnPass: document.getElementById("btnPass"),
+  btnHint: document.getElementById("btnHint"),
+  feedback: document.getElementById("feedback"),
+  explanationCard: document.getElementById("explanationCard"),
+  expConcept: document.getElementById("expConcept"),
+  expDefinition: document.getElementById("expDefinition"),
+  expExample: document.getElementById("expExample"),
+  expApplication: document.getElementById("expApplication"),
+  expProcedure: document.getElementById("expProcedure"),
+  expMistakes: document.getElementById("expMistakes"),
+  finalStats: document.getElementById("finalStats"),
+  finalReport: document.getElementById("finalReport"),
+  finalRecommendations: document.getElementById("finalRecommendations"),
+  playerLevel: document.getElementById("playerLevel"),
+  playerXP: document.getElementById("playerXP"),
+  xpBar: document.getElementById("xpBar"),
+  statGames: document.getElementById("statGames"),
+  statBest: document.getElementById("statBest"),
+  statBestTime: document.getElementById("statBestTime"),
+  statXP: document.getElementById("statXP"),
+  statLevel: document.getElementById("statLevel"),
+  medalsBox: document.getElementById("medalsBox"),
+  lettersChart: document.getElementById("lettersChart"),
+  contentChart: document.getElementById("contentChart")
+};
+
+const buttons = {
+  play: document.getElementById("btnPlay"),
+  instructions: document.getElementById("btnInstructions"),
+  stats: document.getElementById("btnStats"),
+  reset: document.getElementById("btnReset"),
+  closeInstructions: document.getElementById("btnCloseInstructions"),
+  closeStats: document.getElementById("btnCloseStats"),
+  finishGame: document.getElementById("btnFinishGame"),
+  backHome: document.getElementById("btnBackHome"),
+  playAgain: document.getElementById("btnPlayAgain"),
+  accessibility: document.getElementById("btnAccessibility"),
+  bigText: document.getElementById("btnBigText")
+};
+
+function init() {
+  validateQuestionBank();
+  bindEvents();
+  renderStaticLatex();
+  updateStartStats();
+  updateXPUI();
+  renderRosco();
+}
+
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function applyMathTokens(expr) {
+  return expr
+    .replace(/\\times/g, "×")
+    .replace(/\\cdot/g, "·")
+    .replace(/\\pi/g, "π")
+    .replace(/\\leq/g, "≤")
+    .replace(/\\geq/g, "≥")
+    .replace(/\\neq/g, "≠")
+    .replace(/\\approx/g, "≈")
+    .replace(/\\%/g, "%")
+    .replace(/([a-zA-Z0-9)\]])\^\{?(-?[a-zA-Z0-9]+)\}?/g, "$1<sup>$2</sup>")
+    .replace(/([a-zA-Z0-9)\]])_\{?([a-zA-Z0-9]+)\}?/g, "$1<sub>$2</sub>");
+}
+
+function formatMath(exprRaw) {
+  let expr = escapeHtml(exprRaw.trim()).replace(/\\\\/g, "\\");
+  expr = expr.replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, (_, top, bottom) => {
+    return `<span class="frac"><span class="top">${applyMathTokens(top)}</span><span class="bottom">${applyMathTokens(bottom)}</span></span>`;
+  });
+  expr = expr.replace(/\\sqrt\{([^{}]+)\}/g, (_, body) => {
+    return `√<span class="sqrt-body">${applyMathTokens(body)}</span>`;
+  });
+  expr = applyMathTokens(expr);
+  return `<span class="math-inline">${expr}</span>`;
+}
+
+function renderLatexLike(text) {
+  const content = String(text || "");
+  const chunks = content.split(/(\$[^$]+\$)/g);
+  return chunks.map((chunk) => {
+    if (chunk.startsWith("$") && chunk.endsWith("$") && chunk.length > 2) {
+      return formatMath(chunk.slice(1, -1));
+    }
+    return escapeHtml(chunk);
+  }).join("");
+}
+
+function setLatexText(element, text) {
+  element.innerHTML = renderLatexLike(text);
+}
+
+function renderStaticLatex() {
+  document.querySelectorAll(".latex-chip").forEach((chip) => {
+    setLatexText(chip, chip.textContent || "");
+  });
+}
+
+function validateQuestionBank() {
+  Object.entries(QUESTION_BANKS).forEach(([level, bank]) => {
+    const missingLetters = LETTERS.filter((letter) => !bank[letter] || bank[letter].length === 0);
+    if (missingLetters.length) {
+      console.warn(`El banco ${level} no tiene preguntas para: ${missingLetters.join(", ")}`);
+    }
+  });
+}
+
+function bindEvents() {
+  buttons.play.addEventListener("click", () => startGame());
+  buttons.instructions.addEventListener("click", () => showScreen("instructions"));
+  buttons.stats.addEventListener("click", () => {
+    showScreen("stats");
+    drawStats();
+  });
+  buttons.closeInstructions.addEventListener("click", () => showScreen("start"));
+  buttons.closeStats.addEventListener("click", () => showScreen("start"));
+  buttons.backHome.addEventListener("click", () => {
+    stopTimer();
+    showScreen("start");
+  });
+  buttons.playAgain.addEventListener("click", () => showScreen("start"));
+
+  buttons.reset.addEventListener("click", () => {
+    const sure = confirm("Se reiniciarán todas las estadísticas. ¿Continuar?");
+    if (!sure) return;
+    globalStats = getDefaultStats();
+    saveStats();
+    updateStartStats();
+    updateXPUI();
+    drawStats();
+  });
+
+  buttons.finishGame.addEventListener("click", () => finishGame("Partida finalizada manualmente."));
+
+  buttons.accessibility.addEventListener("click", () => {
+    document.body.classList.toggle("high-contrast");
+  });
+
+  buttons.bigText.addEventListener("click", () => {
+    document.body.classList.toggle("big-text");
+  });
+
+  els.answerForm.addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    checkAnswer(els.answerInput.value.trim());
+  });
+
+  els.btnPass.addEventListener("click", passLetter);
+  els.btnHint.addEventListener("click", useHint);
+
+  document.addEventListener("keydown", (ev) => {
+    if (!els.gameScreen.classList.contains("active")) return;
+    if (ev.key === "Enter") {
+      ev.preventDefault();
+      checkAnswer(els.answerInput.value.trim());
+    }
+    if (ev.key.toLowerCase() === "p") {
+      ev.preventDefault();
+      passLetter();
+    }
+    if (ev.key.toLowerCase() === "h") {
+      ev.preventDefault();
+      useHint();
+    }
+  });
+}
+
+function showScreen(name) {
+  const map = {
+    start: els.startScreen,
+    game: els.gameScreen,
+    instructions: els.instructionsScreen,
+    stats: els.statsScreen,
+    final: els.finalScreen
+  };
+  Object.values(map).forEach((node) => node.classList.remove("active"));
+  map[name].classList.add("active");
+}
+
+function startGame() {
+  state.mode = "normal";
+  state.academicLevel = els.levelSelect.value;
+  state.timerSetting = Number(els.timeSelect.value);
+  state.timerLeft = state.timerSetting;
+  state.usedHints = 0;
+  state.questions = buildRoundQuestions();
+  state.statuses = Object.fromEntries(LETTERS.map((l) => [l, "pending"]));
+  state.currentIndex = 0;
+  state.correct = 0;
+  state.wrong = 0;
+  state.passed = 0;
+  state.finished = false;
+  state.contentRound = {};
+  state.totalXPThisGame = 0;
+  state.startedAt = Date.now();
+
+  els.modeTitle.textContent = modeLabel();
+  els.answerInput.value = "";
+  els.explanationCard.classList.add("hidden");
+  setupModeControls();
+
+  renderRosco();
+  updateHUD();
+  showScreen("game");
+
+  if (state.timerLeft > 0) {
+    startTimer();
+  } else {
+    stopTimer();
+  }
+
+  renderCurrentQuestion();
+  els.answerInput.focus();
+}
+
+function modeLabel() {
+  const levelText = state.academicLevel === "4ESO_B" ? "4º ESO" : "2º ESO";
+  return `Modo Normal · ${levelText}`;
+}
+
+function setupModeControls() {
+  els.answerInput.disabled = false;
+  els.btnAnswer.classList.remove("hidden");
+  els.btnPass.classList.remove("hidden");
+  els.btnHint.classList.remove("hidden");
+  els.btnPass.disabled = false;
+  state.maxHints = 5;
+}
+
+function buildRoundQuestions() {
+  const activeBank = QUESTION_BANKS[state.academicLevel] || QUESTION_BANKS["2ESO"];
+  return LETTERS.map((letter) => {
+    const pool = activeBank[letter] || [];
+    const randomIndex = Math.floor(Math.random() * pool.length);
+    return { ...pool[randomIndex], letter };
+  });
+}
+
+function renderRosco() {
+  els.rosco.innerHTML = "";
+  const radius = 46;
+  const center = 50;
+
+  const logo = document.createElement("img");
+  logo.src = "assets/logo/logo.png";
+  logo.alt = "Logo del centro";
+  logo.className = "rosco-logo";
+  logo.id = "roscoLogo";
+  logo.loading = "eager";
+  els.rosco.appendChild(logo);
+
+  LETTERS.forEach((letter, i) => {
+    const angle = (i / LETTERS.length) * Math.PI * 2 - Math.PI / 2;
+    const x = center + radius * Math.cos(angle);
+    const y = center + radius * Math.sin(angle);
+
+    const node = document.createElement("button");
+    node.type = "button";
+    node.className = `letter-node ${state.statuses[letter] || "pending"}`;
+    node.style.left = `calc(${x}% - 22px)`;
+    node.style.top = `calc(${y}% - 22px)`;
+    node.textContent = letter;
+    node.setAttribute("aria-label", `Letra ${letter}`);
+
+    if (LETTERS[state.currentIndex] === letter) node.classList.add("active");
+
+    node.addEventListener("click", () => {
+      state.currentIndex = i;
+      renderCurrentQuestion();
+      renderRosco();
+    });
+
+    els.rosco.appendChild(node);
+  });
+}
+
+function renderCurrentQuestion() {
+  const current = state.questions[state.currentIndex];
+  if (!current) return;
+  els.letterPrompt.textContent = `Letra activa: ${current.letter}`;
+  setLatexText(els.questionText, current.question);
+  renderRosco();
+}
+
+function normalizeText(value) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9ñ ]/g, "")
+    .trim();
+}
+
+function singularizeWord(word) {
+  if (word.length > 4 && word.endsWith("es")) return word.slice(0, -2);
+  if (word.length > 3 && word.endsWith("s")) return word.slice(0, -1);
+  return word;
+}
+
+function answerForms(text) {
+  const normalized = normalizeText(text);
+  const forms = new Set([normalized]);
+  const singularPhrase = normalized
+    .split(/\s+/)
+    .map((w) => singularizeWord(w))
+    .join(" ")
+    .trim();
+  forms.add(singularPhrase);
+  return forms;
+}
+
+function answersMatch(expected, given) {
+  const expectedForms = answerForms(expected);
+  const givenForms = answerForms(given);
+  for (const form of expectedForms) {
+    if (givenForms.has(form)) return true;
+  }
+  return false;
+}
+
+function checkAnswer(rawAnswer) {
+  if (state.finished) return;
+  const current = state.questions[state.currentIndex];
+  if (!current) return;
+
+  const expected = current.answer;
+  const given = rawAnswer;
+
+  if (!normalizeText(given)) {
+    showFeedback("Escribe una respuesta antes de enviar.", "info");
+    return;
+  }
+
+  const isCorrect = answersMatch(expected, given);
+  const letter = current.letter;
+
+  if (isCorrect) {
+    state.statuses[letter] = "correct";
+    state.correct += 1;
+    addXP(10);
+    updateContentProgress(current.content, true);
+    showFeedback("✔ Correcto", "ok");
+    flashRoscoLogo();
+  } else {
+    state.statuses[letter] = "wrong";
+    state.wrong += 1;
+    updateContentProgress(current.content, false);
+    globalStats.wrongLetters[letter] = (globalStats.wrongLetters[letter] || 0) + 1;
+    showFeedback(`✖ Incorrecto. Respuesta correcta: ${current.answer}`, "bad");
+  }
+
+  showExplanation(current);
+  els.answerInput.value = "";
+  updateHUD();
+
+  if (!hasPendingLetters()) {
+    finishGame("Has completado todas las letras del rosco.");
+    return;
+  }
+
+  moveToNextPlayableLetter();
+}
+
+function passLetter() {
+  if (state.finished) return;
+  const letter = LETTERS[state.currentIndex];
+  if (state.statuses[letter] === "pending") {
+    state.statuses[letter] = "passed";
+    state.passed += 1;
+  }
+  showFeedback("Letra pasada. Volverás a ella más adelante.", "info");
+  updateHUD();
+  moveToNextPlayableLetter();
+}
+
+function moveToNextPlayableLetter() {
+  const unresolved = ["pending", "passed"];
+
+  for (let lap = 0; lap < 2; lap += 1) {
+    for (let step = 1; step <= LETTERS.length; step += 1) {
+      const nextIdx = (state.currentIndex + step) % LETTERS.length;
+      const st = state.statuses[LETTERS[nextIdx]];
+      if (lap === 0 && st === "pending") {
+        state.currentIndex = nextIdx;
+        renderCurrentQuestion();
+        return;
+      }
+      if (lap === 1 && unresolved.includes(st)) {
+        state.currentIndex = nextIdx;
+        renderCurrentQuestion();
+        return;
+      }
+    }
+  }
+
+  finishGame("No quedan letras por resolver.");
+}
+
+function useHint() {
+  if (state.finished) return;
+  if (state.usedHints >= state.maxHints) {
+    showFeedback("No quedan pistas disponibles.", "bad");
+    return;
+  }
+  const q = state.questions[state.currentIndex];
+  state.usedHints += 1;
+  const first = q.answer.charAt(0).toUpperCase();
+  const length = q.answer.replace(/\s/g, "").length;
+  showFeedback(`Pista: empieza por ${first}, tiene ${length} letras y ayuda: ${q.hint}`, "info");
+  updateHUD();
+}
+
+function updateHUD() {
+  const pending = LETTERS.filter((l) => ["pending", "passed"].includes(state.statuses[l])).length;
+  els.hudTime.textContent = state.timerLeft > 0 ? `${state.timerLeft}s` : (state.timerSetting === 0 ? "Sin límite" : "0s");
+  els.hudCorrect.textContent = state.correct;
+  els.hudWrong.textContent = state.wrong;
+  els.hudPending.textContent = pending;
+  els.hudHints.textContent = Math.max(0, state.maxHints - state.usedHints);
+}
+
+function startTimer() {
+  stopTimer();
+  state.timerId = setInterval(() => {
+    state.timerLeft -= 1;
+    updateHUD();
+    if (state.timerLeft <= 0) {
+      stopTimer();
+      finishGame("Se ha agotado el tiempo.");
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  if (state.timerId) clearInterval(state.timerId);
+  state.timerId = null;
+}
+
+function hasPendingLetters() {
+  return LETTERS.some((l) => ["pending", "passed"].includes(state.statuses[l]));
+}
+
+function flashRoscoLogo() {
+  const logo = document.getElementById("roscoLogo");
+  if (!logo) return;
+  logo.classList.remove("flash");
+  void logo.offsetWidth;
+  logo.classList.add("flash");
+}
+
+function showFeedback(text, kind) {
+  els.feedback.textContent = text;
+  els.feedback.className = `feedback show ${kind}`;
+}
+
+function showExplanation(q) {
+  setLatexText(els.expConcept, q.concept);
+  setLatexText(els.expDefinition, q.definition);
+  setLatexText(els.expExample, q.example);
+  setLatexText(els.expApplication, q.application);
+  setLatexText(els.expProcedure, q.procedure);
+  setLatexText(els.expMistakes, q.mistakes);
+  els.explanationCard.classList.remove("hidden");
+}
+
+function finishGame(reason) {
+  if (state.finished) return;
+  state.finished = true;
+  stopTimer();
+
+  const elapsed = Math.round((Date.now() - state.startedAt) / 1000);
+
+  const note = Math.max(0, Math.min(10, Number(((state.correct / LETTERS.length) * 10).toFixed(2))));
+  const accuracy = LETTERS.length ? (state.correct / LETTERS.length) * 100 : 0;
+  const levelName = getPerformanceLevel(accuracy);
+
+  globalStats.gamesPlayed += 1;
+  globalStats.totalCorrect += state.correct;
+  globalStats.bestScore = Math.max(globalStats.bestScore, note);
+  if (state.timerSetting > 0) {
+    if (globalStats.bestTime === null || elapsed < globalStats.bestTime) {
+      globalStats.bestTime = elapsed;
+    }
+  }
+
+  Object.entries(state.contentRound).forEach(([content, data]) => {
+    if (!globalStats.content[content]) globalStats.content[content] = { correct: 0, total: 0 };
+    globalStats.content[content].correct += data.correct;
+    globalStats.content[content].total += data.total;
+  });
+
+  globalStats.history.push({ mode: state.mode, note, elapsed, correct: state.correct, wrong: state.wrong, date: new Date().toISOString() });
+  assignMedals();
+  saveStats();
+
+  const strengths = getTopContents(state.contentRound, true).join(", ");
+  const weaknesses = getTopContents(state.contentRound, false).join(", ");
+
+  els.finalStats.innerHTML = `
+    <p><strong>Resultado:</strong> ${reason}</p>
+    <p><strong>Nivel académico:</strong> ${state.academicLevel === "4ESO_B" ? "4º ESO" : "2º ESO"}</p>
+    <p><strong>Nota sobre 10:</strong> ${note}</p>
+    <p><strong>Tiempo empleado:</strong> ${elapsed} segundos</p>
+    <p><strong>Aciertos:</strong> ${state.correct}</p>
+    <p><strong>Fallos:</strong> ${state.wrong}</p>
+    <p><strong>Letras pasadas:</strong> ${state.passed}</p>
+    <p><strong>Porcentaje de aciertos:</strong> ${accuracy.toFixed(1)}%</p>
+    <p><strong>Nivel alcanzado:</strong> ${levelName}</p>
+  `;
+
+  els.finalReport.textContent = `Informe personalizado: Dominas mejor ${strengths || "varios bloques"}, pero debes reforzar ${weaknesses || "las letras que has pasado o fallado"}.`;
+  els.finalRecommendations.textContent = "Recomendaciones: repasa 15 minutos diarios ecuaciones, practica problemas de proporcionalidad y analiza una gráfica real al día para mejorar la interpretación de datos.";
+
+  updateStartStats();
+  updateXPUI();
+  showScreen("final");
+}
+
+function getTopContents(roundData, strongest) {
+  const arr = Object.entries(roundData).map(([name, d]) => {
+    const pct = d.total ? (d.correct / d.total) * 100 : 0;
+    return { name, pct };
+  });
+  arr.sort((a, b) => strongest ? b.pct - a.pct : a.pct - b.pct);
+  return arr.slice(0, 2).map((x) => x.name);
+}
+
+function getPerformanceLevel(accuracy) {
+  if (accuracy < 40) return "Principiante";
+  if (accuracy < 55) return "Aprendiz";
+  if (accuracy < 70) return "Competente";
+  if (accuracy < 85) return "Avanzado";
+  return "Experto Matemático";
+}
+
+function updateContentProgress(content, isCorrect) {
+  if (!state.contentRound[content]) {
+    state.contentRound[content] = { correct: 0, total: 0 };
+  }
+  state.contentRound[content].total += 1;
+  if (isCorrect) state.contentRound[content].correct += 1;
+}
+
+function addXP(amount) {
+  state.totalXPThisGame += amount;
+  globalStats.xp += amount;
+}
+
+function assignMedals() {
+  const coverage = globalStats.content;
+  const algebraPct = getPct(coverage.Algebra);
+  const geometryPct = getPct(coverage.Geometria);
+  const statsPct = getPct(coverage.Estadistica);
+  const propPct = getPct(coverage.Proporcionalidad);
+
+  if (algebraPct >= 80) globalStats.medals["Maestro del Álgebra"] = true;
+  if (geometryPct >= 80) globalStats.medals["Maestro de la Geometría"] = true;
+  if (statsPct >= 80) globalStats.medals["Maestro de la Estadística"] = true;
+  if (propPct >= 80) globalStats.medals["Maestro de la Proporcionalidad"] = true;
+  if (state.correct === LETTERS.length) globalStats.medals["Rosco Perfecto"] = true;
+}
+
+function getPct(block) {
+  if (!block || !block.total) return 0;
+  return (block.correct / block.total) * 100;
+}
+
+function getLevelFromXP(xp) {
+  return Math.floor(xp / 100) + 1;
+}
+
+function updateXPUI() {
+  const level = getLevelFromXP(globalStats.xp);
+  const inLevelXP = globalStats.xp % 100;
+  els.playerLevel.textContent = level;
+  els.playerXP.textContent = globalStats.xp;
+  els.xpBar.style.width = `${inLevelXP}%`;
+}
+
+function updateStartStats() {
+  els.bestScore.textContent = Number(globalStats.bestScore || 0).toFixed(2);
+  els.gamesPlayed.textContent = globalStats.gamesPlayed || 0;
+  els.totalCorrect.textContent = globalStats.totalCorrect || 0;
+}
+
+function drawStats() {
+  els.statGames.textContent = globalStats.gamesPlayed || 0;
+  els.statBest.textContent = Number(globalStats.bestScore || 0).toFixed(2);
+  els.statBestTime.textContent = globalStats.bestTime ? `${globalStats.bestTime}s` : "--";
+  els.statXP.textContent = globalStats.xp || 0;
+  els.statLevel.textContent = getLevelFromXP(globalStats.xp || 0);
+
+  drawLetterFailures();
+  drawContentAccuracy();
+  drawMedals();
+}
+
+function drawMedals() {
+  els.medalsBox.innerHTML = "";
+  MEDALS.forEach((m) => {
+    const item = document.createElement("div");
+    item.className = "medal-item";
+    item.textContent = globalStats.medals[m] ? `🏅 ${m}` : `🔒 ${m}`;
+    els.medalsBox.appendChild(item);
+  });
+}
+
+function drawLetterFailures() {
+  const ctx = els.lettersChart.getContext("2d");
+  const width = els.lettersChart.width;
+  const height = els.lettersChart.height;
+  ctx.clearRect(0, 0, width, height);
+
+  const entries = Object.entries(globalStats.wrongLetters)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8);
+
+  if (!entries.length) {
+    drawPlaceholder(ctx, width, height, "Aún no hay fallos registrados.");
+    return;
+  }
+
+  const maxVal = Math.max(...entries.map((e) => e[1]));
+  const barWidth = width / (entries.length * 1.5);
+
+  entries.forEach(([letter, val], i) => {
+    const h = (val / maxVal) * (height - 60);
+    const x = 40 + i * (barWidth + 26);
+    const y = height - h - 30;
+    ctx.fillStyle = "#ef4444";
+    ctx.fillRect(x, y, barWidth, h);
+    ctx.fillStyle = "#1f2937";
+    ctx.fillText(letter, x + barWidth / 3, height - 10);
+    ctx.fillText(String(val), x + barWidth / 4, y - 6);
+  });
+}
+
+function drawContentAccuracy() {
+  const ctx = els.contentChart.getContext("2d");
+  const width = els.contentChart.width;
+  const height = els.contentChart.height;
+  ctx.clearRect(0, 0, width, height);
+
+  const entries = Object.entries(globalStats.content).map(([name, d]) => ({
+    name,
+    pct: d.total ? (d.correct / d.total) * 100 : 0
+  }));
+
+  if (!entries.length) {
+    drawPlaceholder(ctx, width, height, "Juega para generar estadísticas por contenido.");
+    return;
+  }
+
+  const barWidth = width / (entries.length * 1.35);
+  entries.forEach((entry, i) => {
+    const h = (entry.pct / 100) * (height - 60);
+    const x = 25 + i * (barWidth + 18);
+    const y = height - h - 30;
+    ctx.fillStyle = "#0ea5e9";
+    ctx.fillRect(x, y, barWidth, h);
+    ctx.fillStyle = "#1f2937";
+    ctx.fillText(`${Math.round(entry.pct)}%`, x, y - 8);
+    const short = entry.name.slice(0, 10);
+    ctx.fillText(short, x, height - 10);
+  });
+}
+
+function drawPlaceholder(ctx, w, h, text) {
+  ctx.fillStyle = "#6b7280";
+  ctx.font = "16px Trebuchet MS";
+  ctx.fillText(text, w / 2 - 140, h / 2);
+}
+
+init();

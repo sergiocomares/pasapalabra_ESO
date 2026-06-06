@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pasapalabra Matemático</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-shape bg-shape-1" aria-hidden="true"></div>
+  <div class="bg-shape bg-shape-2" aria-hidden="true"></div>
+
+  <header class="app-header">
+    <h1>PASAPALABRA MATEMÁTICO</h1>
+    <p>Repasa todos los contenidos de Matemáticas jugando</p>
+  </header>
+
+  <main class="app-main" id="appMain">
+    <section id="startScreen" class="panel active" aria-labelledby="mainTitle">
+      <div class="card intro-card">
+        <div class="hero-banner" aria-hidden="true">
+          <div class="hero-copy">
+            <span class="hero-kicker">Aula interactiva</span>
+            <h3>Entrena cada letra del rosco con desafíos reales de Matemáticas</h3>
+          </div>
+          <div class="hero-math">
+            <span class="latex-chip">$x + 3 = 9$</span>
+            <span class="latex-chip">$Área = \frac{b \times h}{2}$</span>
+            <span class="latex-chip">$25\% = 0,25$</span>
+          </div>
+        </div>
+
+        <h2 id="mainTitle">Elige tu partida</h2>
+        <p>Entrena cálculo, álgebra, geometría, estadística y probabilidad con un rosco interactivo.</p>
+
+        <div class="stats-strip" aria-live="polite">
+          <div><span>Mejor puntuación</span><strong id="bestScore">0</strong></div>
+          <div><span>Partidas jugadas</span><strong id="gamesPlayed">0</strong></div>
+          <div><span>Aciertos acumulados</span><strong id="totalCorrect">0</strong></div>
+        </div>
+
+        <div class="config-row">
+          <label for="levelSelect">Nivel:</label>
+          <select id="levelSelect" aria-label="Nivel académico">
+            <option value="2ESO">2º ESO</option>
+            <option value="4ESO_B">4º ESO</option>
+          </select>
+        </div>
+
+        <div class="config-row">
+          <label for="timeSelect">Temporizador:</label>
+          <select id="timeSelect" aria-label="Tiempo de partida">
+            <option value="150">150 segundos</option>
+            <option value="200">200 segundos</option>
+            <option value="0">Sin límite</option>
+          </select>
+        </div>
+
+        <div class="btn-grid">
+          <button id="btnPlay" class="btn primary">Jugar</button>
+          <button id="btnInstructions" class="btn">Instrucciones</button>
+          <button id="btnStats" class="btn">Estadísticas</button>
+          <button id="btnReset" class="btn danger">Reiniciar progreso</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="panel" aria-live="polite">
+      <div class="hud card">
+        <div class="hud-item"><span>Tiempo</span><strong id="hudTime">--</strong></div>
+        <div class="hud-item"><span>Aciertos</span><strong id="hudCorrect">0</strong></div>
+        <div class="hud-item"><span>Fallos</span><strong id="hudWrong">0</strong></div>
+        <div class="hud-item"><span>Pendientes</span><strong id="hudPending">27</strong></div>
+        <div class="hud-item"><span>Pistas</span><strong id="hudHints">5</strong></div>
+      </div>
+
+      <div class="xp-card card">
+        <div class="xp-head">
+          <span>Nivel jugador: <strong id="playerLevel">1</strong></span>
+          <span>XP total: <strong id="playerXP">0</strong></span>
+        </div>
+        <div class="xp-bar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div id="xpBar" class="xp-bar"></div>
+        </div>
+      </div>
+
+      <div class="game-layout">
+        <div class="rosco-wrapper card">
+          <div id="rosco" class="rosco" aria-label="Rosco de letras"></div>
+        </div>
+
+        <div class="question-panel card">
+          <h3 id="modeTitle">Modo Normal</h3>
+          <p id="letterPrompt" class="letter-prompt">Letra activa: A</p>
+          <p id="questionText" class="question-text">Pulsa comenzar para iniciar la partida.</p>
+
+          <form id="answerForm" class="answer-form" autocomplete="off">
+            <input id="answerInput" type="text" placeholder="Escribe tu respuesta" aria-label="Respuesta">
+            <div class="controls-row">
+              <button type="submit" id="btnAnswer" class="btn primary">Responder</button>
+              <button type="button" id="btnPass" class="btn">Pasapalabra</button>
+              <button type="button" id="btnHint" class="btn accent">Pista</button>
+            </div>
+          </form>
+
+          <div id="feedback" class="feedback" aria-live="assertive"></div>
+
+          <article id="explanationCard" class="explanation-card hidden">
+            <h4 id="expConcept">Concepto</h4>
+            <p><strong>Definición:</strong> <span id="expDefinition"></span></p>
+            <p><strong>Ejemplo:</strong> <span id="expExample"></span></p>
+            <p><strong>Aplicación:</strong> <span id="expApplication"></span></p>
+            <p><strong>Procedimiento:</strong> <span id="expProcedure"></span></p>
+            <p><strong>Error frecuente:</strong> <span id="expMistakes"></span></p>
+          </article>
+        </div>
+      </div>
+
+      <div class="bottom-actions">
+        <button id="btnFinishGame" class="btn">Finalizar partida</button>
+        <button id="btnAccessibility" class="btn">Alto contraste</button>
+        <button id="btnBigText" class="btn">Fuente grande</button>
+        <button id="btnBackHome" class="btn">Volver al inicio</button>
+      </div>
+    </section>
+
+    <section id="instructionsScreen" class="panel">
+      <div class="card">
+        <h2>Instrucciones</h2>
+        <ul>
+          <li>Selecciona el nivel académico antes de jugar: 2º ESO o 4º ESO.</li>
+          <li>Responde con la palabra matemática correcta para cada letra.</li>
+          <li>En modo normal puedes pasar letras y volver más tarde.</li>
+          <li>Dispones de 5 pistas por partida.</li>
+          <li>Atajos de teclado: Enter responde, P pasa, H pide pista.</li>
+        </ul>
+        <button id="btnCloseInstructions" class="btn primary">Volver</button>
+      </div>
+    </section>
+
+    <section id="statsScreen" class="panel">
+      <div class="card">
+        <h2>Panel de Estadísticas</h2>
+        <div class="stats-grid">
+          <p>Partidas jugadas: <strong id="statGames">0</strong></p>
+          <p>Mejor nota: <strong id="statBest">0</strong></p>
+          <p>Tiempo récord: <strong id="statBestTime">--</strong></p>
+          <p>XP total: <strong id="statXP">0</strong></p>
+          <p>Nivel actual: <strong id="statLevel">1</strong></p>
+        </div>
+        <h3>Letras más falladas</h3>
+        <canvas id="lettersChart" width="800" height="260" aria-label="Gráfico de letras falladas"></canvas>
+        <h3>Porcentaje de acierto por contenido</h3>
+        <canvas id="contentChart" width="800" height="260" aria-label="Gráfico por contenidos"></canvas>
+        <h3>Medallas conseguidas</h3>
+        <div id="medalsBox" class="medals"></div>
+        <button id="btnCloseStats" class="btn primary">Volver</button>
+      </div>
+    </section>
+
+    <section id="finalScreen" class="panel">
+      <div class="card final-card">
+        <h2>Resumen final</h2>
+        <div id="finalStats"></div>
+        <p id="finalReport"></p>
+        <p id="finalRecommendations"></p>
+        <button id="btnPlayAgain" class="btn primary">Jugar otra vez</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    Este recurso ha sido realizado por Sergio Jodral, profesor de matemáticas del IES Marqués de Comares, usando tecnología IA.
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
