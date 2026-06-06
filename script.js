@@ -458,6 +458,146 @@ function escapeHtml(text) {
     .replace(/'/g, "&#39;");
 }
 
+const ACCENT_FIXES = [
+  [/\bnotacion cientifica\b/gi, "notación científica"],
+  [/\bgeometria analitica\b/gi, "geometría analítica"],
+  [/\bfuncion cuadratica\b/gi, "función cuadrática"],
+  [/\bfuncion lineal\b/gi, "función lineal"],
+  [/\bfuncion exponencial\b/gi, "función exponencial"],
+  [/\bnumero complejo\b/gi, "número complejo"],
+  [/\binterpretacion de datos\b/gi, "interpretación de datos"],
+  [/\bnumeros y calculo\b/gi, "números y cálculo"],
+  [/\bpotencias y raices\b/gi, "potencias y raíces"],
+  [/\barea\b/gi, "área"],
+  [/\bacademico\b/gi, "académico"],
+  [/\bacademica\b/gi, "académica"],
+  [/\balgebra\b/gi, "álgebra"],
+  [/\banalitica\b/gi, "analítica"],
+  [/\banalitico\b/gi, "analítico"],
+  [/\bangulo\b/gi, "ángulo"],
+  [/\bangulos\b/gi, "ángulos"],
+  [/\bano\b/gi, "año"],
+  [/\baritmetica\b/gi, "aritmética"],
+  [/\basintota\b/gi, "asíntota"],
+  [/\bbasica\b/gi, "básica"],
+  [/\bbasicas\b/gi, "básicas"],
+  [/\bcalculo\b/gi, "cálculo"],
+  [/\bcientifica\b/gi, "científica"],
+  [/\bclasificacion\b/gi, "clasificación"],
+  [/\bcombinacion\b/gi, "combinación"],
+  [/\bcomparacion\b/gi, "comparación"],
+  [/\bconexion\b/gi, "conexión"],
+  [/\bconica\b/gi, "cónica"],
+  [/\bcritica\b/gi, "crítica"],
+  [/\bcuadratica\b/gi, "cuadrática"],
+  [/\bcuadrilatero\b/gi, "cuadrilátero"],
+  [/\bdireccion\b/gi, "dirección"],
+  [/\bdimension\b/gi, "dimensión"],
+  [/\bdistribucion\b/gi, "distribución"],
+  [/\bdivision\b/gi, "división"],
+  [/\becuacion\b/gi, "ecuación"],
+  [/\belectrico\b/gi, "eléctrico"],
+  [/\benergia\b/gi, "energía"],
+  [/\bestadistica\b/gi, "estadística"],
+  [/\bexpresion\b/gi, "expresión"],
+  [/\bextension\b/gi, "extensión"],
+  [/\bfactorizacion\b/gi, "factorización"],
+  [/\bfisica\b/gi, "física"],
+  [/\bfraccion\b/gi, "fracción"],
+  [/\bfuncion\b/gi, "función"],
+  [/\bgeometria\b/gi, "geometría"],
+  [/\bgeometrica\b/gi, "geométrica"],
+  [/\bgrafica\b/gi, "gráfica"],
+  [/\bgraficas\b/gi, "gráficas"],
+  [/\bgrafico\b/gi, "gráfico"],
+  [/\bgraficos\b/gi, "gráficos"],
+  [/\bhectarea\b/gi, "hectárea"],
+  [/\bhectareas\b/gi, "hectáreas"],
+  [/\bhiperbola\b/gi, "hipérbola"],
+  [/\bhipotesis\b/gi, "hipótesis"],
+  [/\bincognita\b/gi, "incógnita"],
+  [/\binalambrica\b/gi, "inalámbrica"],
+  [/\binformacion\b/gi, "información"],
+  [/\binteres\b/gi, "interés"],
+  [/\binterpretacion\b/gi, "interpretación"],
+  [/\bjerarquia\b/gi, "jerarquía"],
+  [/\bkilometro\b/gi, "kilómetro"],
+  [/\blinea\b/gi, "línea"],
+  [/\blineas\b/gi, "líneas"],
+  [/\blimite\b/gi, "límite"],
+  [/\blimites\b/gi, "límites"],
+  [/\blogaritmica\b/gi, "logarítmica"],
+  [/\bmatematica\b/gi, "matemática"],
+  [/\bmatematicas\b/gi, "matemáticas"],
+  [/\bmatematicamente\b/gi, "matemáticamente"],
+  [/\bmatematico\b/gi, "matemático"],
+  [/\bmaximo\b/gi, "máximo"],
+  [/\bmedicion\b/gi, "medición"],
+  [/\bminimo\b/gi, "mínimo"],
+  [/\bmodelizacion\b/gi, "modelización"],
+  [/\bmodulo\b/gi, "módulo"],
+  [/\bmultiplos\b/gi, "múltiplos"],
+  [/\bmultiplicacion\b/gi, "multiplicación"],
+  [/\bnumero\b/gi, "número"],
+  [/\bnumeros\b/gi, "números"],
+  [/\bnumericas\b/gi, "numéricas"],
+  [/\boperacion\b/gi, "operación"],
+  [/\borientacion\b/gi, "orientación"],
+  [/\bparentesis\b/gi, "paréntesis"],
+  [/\bperiodica\b/gi, "periódica"],
+  [/\bperiodicas\b/gi, "periódicas"],
+  [/\bperiodico\b/gi, "periódico"],
+  [/\bperimetro\b/gi, "perímetro"],
+  [/\bperimetros\b/gi, "perímetros"],
+  [/\bpitagoras\b/gi, "pitágoras"],
+  [/\bpoligono\b/gi, "polígono"],
+  [/\bpoligonos\b/gi, "polígonos"],
+  [/\bposicion\b/gi, "posición"],
+  [/\bpotenciacion\b/gi, "potenciación"],
+  [/\bproposicion\b/gi, "proposición"],
+  [/\bproyeccion\b/gi, "proyección"],
+  [/\brapido\b/gi, "rápido"],
+  [/\brazon\b/gi, "razón"],
+  [/\braices\b/gi, "raíces"],
+  [/\braiz\b/gi, "raíz"],
+  [/\brectangulo\b/gi, "rectángulo"],
+  [/\brectangulos\b/gi, "rectángulos"],
+  [/\brelacion\b/gi, "relación"],
+  [/\brepresentacion\b/gi, "representación"],
+  [/\bresolucion\b/gi, "resolución"],
+  [/\bseccion\b/gi, "sección"],
+  [/\bsimbolo\b/gi, "símbolo"],
+  [/\bsimbolos\b/gi, "símbolos"],
+  [/\bsimetria\b/gi, "simetría"],
+  [/\bsolucion\b/gi, "solución"],
+  [/\bsubmultiplos\b/gi, "submúltiplos"],
+  [/\bsucesion\b/gi, "sucesión"],
+  [/\bsustitucion\b/gi, "sustitución"],
+  [/\btecnologia\b/gi, "tecnología"],
+  [/\btecnologias\b/gi, "tecnologías"],
+  [/\btermino\b/gi, "término"],
+  [/\bterminos\b/gi, "términos"],
+  [/\btriangulo\b/gi, "triángulo"],
+  [/\btriangulos\b/gi, "triángulos"],
+  [/\bunico\b/gi, "único"],
+  [/\bultimo\b/gi, "último"],
+  [/\bvariacion\b/gi, "variación"],
+  [/\bvertice\b/gi, "vértice"],
+  [/\bvertices\b/gi, "vértices"]
+];
+
+function preserveReplacementCase(source, replacement) {
+  if (source === source.toUpperCase()) return replacement.toUpperCase();
+  if (source[0] === source[0].toUpperCase()) return replacement.charAt(0).toUpperCase() + replacement.slice(1);
+  return replacement;
+}
+
+function restoreAccents(text) {
+  return ACCENT_FIXES.reduce((result, [pattern, replacement]) => {
+    return result.replace(pattern, (match) => preserveReplacementCase(match, replacement));
+  }, String(text || ""));
+}
+
 function applyMathTokens(expr) {
   return expr
     .replace(/\\times/g, "×")
@@ -485,7 +625,7 @@ function formatMath(exprRaw) {
 }
 
 function renderLatexLike(text) {
-  const content = String(text || "");
+  const content = restoreAccents(text);
   const chunks = content.split(/(\$[^$]+\$)/g);
   return chunks.map((chunk) => {
     if (chunk.startsWith("$") && chunk.endsWith("$") && chunk.length > 2) {
@@ -870,7 +1010,7 @@ function flashRoscoLogo() {
 }
 
 function showFeedback(text, kind) {
-  els.feedback.textContent = text;
+  els.feedback.textContent = restoreAccents(text);
   els.feedback.className = `feedback show ${kind}`;
 }
 
@@ -943,7 +1083,7 @@ function getTopContents(roundData, strongest) {
     return { name, pct };
   });
   arr.sort((a, b) => strongest ? b.pct - a.pct : a.pct - b.pct);
-  return arr.slice(0, 2).map((x) => x.name);
+  return arr.slice(0, 2).map((x) => restoreAccents(x.name));
 }
 
 function getPerformanceLevel(accuracy) {
@@ -1081,7 +1221,7 @@ function drawContentAccuracy() {
     ctx.fillRect(x, y, barWidth, h);
     ctx.fillStyle = "#1f2937";
     ctx.fillText(`${Math.round(entry.pct)}%`, x, y - 8);
-    const short = entry.name.slice(0, 10);
+    const short = restoreAccents(entry.name).slice(0, 10);
     ctx.fillText(short, x, height - 10);
   });
 }
