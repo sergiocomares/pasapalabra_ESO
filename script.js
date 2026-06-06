@@ -9,6 +9,7 @@ const MEDALS = [
 ];
 
 const STORAGE_KEY = "pasapalabra2eso_stats_v1";
+const LOGO_PREFERENCE_KEY = "pasapalabra_hide_institution_logos_v1";
 
 const QUESTION_BANK_2ESO = {
   A: [
@@ -343,6 +344,7 @@ function getDefaultStats() {
 }
 
 let globalStats = loadStats();
+let hideInstitutionLogos = loadLogoPreference();
 
 function loadStats() {
   try {
@@ -351,6 +353,14 @@ function loadStats() {
   } catch {
     return getDefaultStats();
   }
+}
+
+function loadLogoPreference() {
+  return localStorage.getItem(LOGO_PREFERENCE_KEY) === "true";
+}
+
+function saveLogoPreference() {
+  localStorage.setItem(LOGO_PREFERENCE_KEY, String(hideInstitutionLogos));
 }
 
 function saveStats() {
@@ -368,6 +378,7 @@ const els = {
   totalCorrect: document.getElementById("totalCorrect"),
   levelSelect: document.getElementById("levelSelect"),
   timeSelect: document.getElementById("timeSelect"),
+  btnToggleLogos: document.getElementById("btnToggleLogos"),
   rosco: document.getElementById("rosco"),
   hudTime: document.getElementById("hudTime"),
   hudCorrect: document.getElementById("hudCorrect"),
@@ -422,11 +433,20 @@ const buttons = {
 
 function init() {
   validateQuestionBank();
+  applyLogoVisibility();
   bindEvents();
   renderStaticLatex();
   updateStartStats();
   updateXPUI();
   renderRosco();
+}
+
+function applyLogoVisibility() {
+  document.body.classList.toggle("hide-institution-logos", hideInstitutionLogos);
+  if (els.btnToggleLogos) {
+    els.btnToggleLogos.textContent = hideInstitutionLogos ? "Mostrar logos" : "Ocultar logos";
+    els.btnToggleLogos.setAttribute("aria-pressed", String(hideInstitutionLogos));
+  }
 }
 
 function escapeHtml(text) {
@@ -528,6 +548,14 @@ function bindEvents() {
   buttons.bigText.addEventListener("click", () => {
     document.body.classList.toggle("big-text");
   });
+
+  if (els.btnToggleLogos) {
+    els.btnToggleLogos.addEventListener("click", () => {
+      hideInstitutionLogos = !hideInstitutionLogos;
+      saveLogoPreference();
+      applyLogoVisibility();
+    });
+  }
 
   els.answerForm.addEventListener("submit", (ev) => {
     ev.preventDefault();
