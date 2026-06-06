@@ -826,10 +826,17 @@ function bindEvents() {
 
   document.addEventListener("keydown", (ev) => {
     if (!els.gameScreen.classList.contains("active")) return;
+
+    const target = ev.target;
+    const isTypingField = target instanceof HTMLElement && (
+      target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)
+    );
+
     if (ev.key === "Enter") {
       ev.preventDefault();
       checkAnswer(els.answerInput.value.trim());
     }
+    if (isTypingField) return;
     if (ev.key.toLowerCase() === "p") {
       ev.preventDefault();
       passLetter();
