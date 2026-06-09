@@ -15,7 +15,7 @@ const MUSIC_MUTE_PREFERENCE_KEY = "pasapalabra_start_music_muted_v1";
 const QUESTION_BANK_2ESO = {
   A: [
     { answer: "area", question: "Con la A: magnitud que mide la superficie de una figura plana.", concept: "Area", definition: "El area mide la extension de una superficie en unidades cuadradas.", example: "Rectangulo de 8 cm y 3 cm: area = 24 cm2.", application: "Sirve para calcular pintura, azulejos o terreno necesario.", procedure: "Identifica figura, aplica formula y expresa en unidades cuadradas.", mistakes: "Confundir area con perimetro.", hint: "Se expresa en cm2 o m2.", content: "Geometria" },
-    { answer: "algebra", question: "Con la A: rama de las matematicas que usa letras y simbolos para generalizar calculos.", concept: "Algebra", definition: "Estudia expresiones, ecuaciones y relaciones numericas con variables.", example: "2x + 3 = 11 tiene solucion x = 4.", application: "Modelar problemas con desconocidos.", procedure: "Traduce texto a expresion, simplifica y resuelve.", mistakes: "No respetar la jerarquia de operaciones.", hint: "Incluye ecuaciones y expresiones.", content: "Algebra" },
+    { answer: "ecuacion", question: "Con la Q: igualdad matematica con una o mas incognitas.",
     { answer: "apotema", question: "Con la A: segmento desde el centro de un poligono regular al punto medio de un lado.", concept: "Apotema", definition: "La apotema es perpendicular al lado en poligonos regulares.", example: "Area de pentagono regular: (perimetro x apotema) / 2.", application: "Calculo de areas en poligonos regulares.", procedure: "Calcula perimetro, multiplica por apotema y divide entre 2.", mistakes: "Usar radio en lugar de apotema.", hint: "Se usa en formulas de area de poligonos regulares.", content: "Geometria" }
   ],
   B: [
@@ -99,7 +99,7 @@ const QUESTION_BANK_2ESO = {
     { answer: "pitagoras", question: "Con la P: teorema que relaciona catetos e hipotenusa en triangulo rectangulo.", concept: "Teorema de Pitagoras", definition: "a2 + b2 = c2.", example: "Catetos 6 y 8: c=10.", application: "Distancias y diagonales.", procedure: "Eleva catetos al cuadrado, suma y saca raiz.", mistakes: "Aplicarlo en triangulos no rectangulos.", hint: "a2 + b2 = c2.", content: "Geometria" }
   ],
   Q: [
-    { answer: "ecuacion", question: "Contiene la Q: igualdad matematica con una o mas incognitas.", concept: "Ecuacion", definition: "Relaciona dos expresiones y se cumple para ciertos valores.", example: "x + 7 = 12 tiene solucion x = 5.", application: "Resolver problemas de edades y precios.", procedure: "Despeja la variable con operaciones inversas.", mistakes: "No hacer la misma operacion en ambos lados.", hint: "Se resuelve despejando una letra.", content: "Algebra" },
+    { answer: "quebrado", question: "Contiene la Q: forma antigua de llamar a una fraccion.", concept: "Numero quebrado", definition: "Nombre tradicional para una fraccion o numero racional escrito en forma de cociente.", example: "3/4 es un numero quebrado.", application: "Relacionar lenguaje cotidiano con fracciones.", procedure: "Identifica numerador y denominador.", mistakes: "Confundirlo con un numero entero.", hint: "Es otro nombre para una fraccion.", content: "Fracciones" },
     { answer: "equivalente", question: "Contiene la Q: que tiene el mismo valor aunque tenga forma distinta.", concept: "Equivalencia", definition: "Dos fracciones equivalentes representan la misma cantidad.", example: "1/2 y 2/4 son equivalentes.", application: "Simplificacion de fracciones.", procedure: "Multiplica o divide numerador y denominador por el mismo numero.", mistakes: "Cambiar solo numerador o denominador.", hint: "Mismo valor, forma diferente.", content: "Fracciones" },
     { answer: "equilatero", question: "Contiene la Q: triangulo con los tres lados iguales.", concept: "Triangulo equilatero", definition: "Es un triangulo con tres lados y tres angulos iguales.", example: "Si un lado mide 6 cm, su perimetro es 18 cm.", application: "Clasificacion de triangulos y calculo de perimetros.", procedure: "Comprueba que los tres lados tengan la misma longitud.", mistakes: "Confundirlo con un triangulo isosceles.", hint: "Sus tres lados son iguales.", content: "Geometria" }
   ],
@@ -129,7 +129,6 @@ const QUESTION_BANK_2ESO = {
     { answer: "vertice", question: "Con la V: punto donde se unen dos lados o aristas.", concept: "Vertice", definition: "Esquina de figuras planas o cuerpos.", example: "Un cubo tiene 8 vertices.", application: "Identificacion de poliedros.", procedure: "Cuenta vertices, aristas y caras.", mistakes: "Confundir vertice con lado.", hint: "Es una esquina.", content: "Geometria" }
   ],
   W: [
-    { answer: "watt", question: "Contiene la W: unidad de potencia en el sistema internacional.", concept: "Watt", definition: "Mide energia transferida por segundo.", example: "Una bombilla de 10 W consume menos que una de 60 W.", application: "Problemas de consumo electrico.", procedure: "Relaciona potencia, energia y tiempo.", mistakes: "Confundir W con Wh.", hint: "Se abrevia con una letra poco frecuente.", content: "Numeros y calculo" },
     { answer: "web", question: "Contiene la W: medio digital donde se publican tablas y graficos para interpretar datos.", concept: "Web", definition: "Entorno digital donde se consulta informacion y datos.", example: "Consultar una grafica de temperaturas en una web educativa.", application: "Lectura critica de datos reales.", procedure: "Revisa fuente, ejes y unidades antes de interpretar.", mistakes: "Confiar en datos sin verificar origen.", hint: "Internet.", content: "Interpretacion de datos" },
     { answer: "wifi", question: "Contiene la W: tecnologia de conexion usada para acceder a plataformas con recursos matematicos.", concept: "Conectividad digital", definition: "Permite acceder a contenido y actividades en linea.", example: "Resolver ejercicios interactivos en clase virtual.", application: "Aprendizaje digital y consulta de recursos.", procedure: "Conecta, verifica fuente y analiza informacion.", mistakes: "Usar fuentes no fiables.", hint: "Conexion inalambrica.", content: "Interpretacion de datos" }
   ],
@@ -179,7 +178,7 @@ const QUESTION_BANK_4ESO_B = {
     { answer: "inecuacion", question: "Con la I: desigualdad algebraica con una o varias incognitas.", concept: "Inecuacion", definition: "Expresa relaciones con <, >, <= o >=.", example: "2x-1>5.", application: "Intervalos solucion y modelizacion.", procedure: "Despeja y representa en recta.", mistakes: "No invertir signo al multiplicar por negativo.", hint: "No lleva igual.", content: "Algebra" }
   ],
   J: [
-    { answer: "bijeccion", question: "Contiene la J: correspondencia que es inyectiva y sobreyectiva a la vez.", concept: "Bijeccion", definition: "Cada elemento tiene imagen unica y todos quedan cubiertos.", example: "f(x)=x en reales es biyectiva.", application: "Estudio formal de funciones.", procedure: "Comprueba inyectividad y sobreyectividad.", mistakes: "Confundir con inyeccion simple.", hint: "Combina dos propiedades.", content: "Funciones" }
+    { answer: "justificacion", question: "Con la J: explicacion matematica de por que un resultado es correcto.", concept: "Justificacion", definition: "Argumentacion con propiedades y pasos validos que respaldan una conclusion.", example: "Demostrar una igualdad paso a paso.", application: "Razonamiento matematico y demostraciones.", procedure: "Explica cada paso con una propiedad.", mistakes: "Dar solo el resultado final.", hint: "No basta con acertar, hay que explicar.", content: "Algebra" }
   ],
   K: [
     { answer: "kilovatio", question: "Contiene la K: unidad de potencia equivalente a mil vatios.", concept: "Kilovatio", definition: "Se usa para potencia electrica en contextos reales.", example: "2 kW = 2000 W.", application: "Consumo energetico y conversiones.", procedure: "Convierte entre kW y W.", mistakes: "Confundir potencia con energia.", hint: "Se abrevia kW.", content: "Numeros y calculo" }
@@ -221,7 +220,7 @@ const QUESTION_BANK_4ESO_B = {
     { answer: "vector", question: "Con la V: magnitud con modulo, direccion y sentido.", concept: "Vector", definition: "Se representa mediante segmento orientado.", example: "v=(3, -1).", application: "Geometria analitica y fisica.", procedure: "Opera por componentes.", mistakes: "Confundir modulo con coordenadas.", hint: "Tiene direccion.", content: "Geometria" }
   ],
   W: [
-    { answer: "watt", question: "Contiene la W: unidad de potencia utilizada en contextos de modelizacion.", concept: "Watt", definition: "Mide potencia en el SI.", example: "1500 W = 1,5 kW.", application: "Problemas de consumo.", procedure: "Convierte W y kW segun potencias de 10.", mistakes: "Confundir W con Wh.", hint: "Aparece en electrodomesticos.", content: "Numeros y calculo" }
+    { answer: "web", question: "Contiene la W: medio digital donde se publican tablas y graficos para interpretar datos.", concept: "Web", definition: "Entorno digital donde se consulta informacion y datos.", example: "Consultar una grafica de temperaturas en una web educativa.", application: "Lectura critica de datos reales.", procedure: "Revisa fuente, ejes y unidades antes de interpretar.", mistakes: "Confiar en datos sin verificar origen.", hint: "Internet.", content: "Interpretacion de datos" }
   ],
   X: [
     { answer: "exponencial", question: "Contiene la X: tipo de funcion de la forma a·b^x.", concept: "Funcion exponencial", definition: "La variable aparece en el exponente.", example: "f(x)=2^x.", application: "Crecimiento y decrecimiento rapido.", procedure: "Analiza base y comportamiento.", mistakes: "Confundirla con potencia.", hint: "La x esta en el exponente.", content: "Funciones" }
@@ -235,33 +234,37 @@ const QUESTION_BANK_4ESO_B = {
 };
 
 const QUESTION_BANK_1ESO = {
-  A: [QUESTION_BANK_2ESO.A[0]],
-  B: [QUESTION_BANK_2ESO.B[1]],
-  C: [QUESTION_BANK_2ESO.C[2]],
-  D: [QUESTION_BANK_2ESO.D[0]],
-  E: [QUESTION_BANK_2ESO.E[1]],
-  F: [QUESTION_BANK_2ESO.F[0]],
-  G: [QUESTION_BANK_2ESO.G[1]],
-  H: [QUESTION_BANK_2ESO.H[1]],
-  I: [QUESTION_BANK_2ESO.I[0]],
-  J: [QUESTION_BANK_2ESO.J[0]],
-  K: [QUESTION_BANK_2ESO.K[0]],
-  L: [QUESTION_BANK_2ESO.L[1]],
-  M: [QUESTION_BANK_2ESO.M[0]],
-  N: [QUESTION_BANK_2ESO.N[0]],
-  "Ñ": [QUESTION_BANK_2ESO["Ñ"][1]],
-  O: [QUESTION_BANK_2ESO.O[0]],
-  P: [QUESTION_BANK_2ESO.P[1]],
-  Q: [QUESTION_BANK_2ESO.Q[2]],
-  R: [QUESTION_BANK_2ESO.R[1]],
-  S: [QUESTION_BANK_2ESO.S[2]],
-  T: [QUESTION_BANK_2ESO.T[2]],
-  U: [QUESTION_BANK_2ESO.U[0]],
-  V: [QUESTION_BANK_2ESO.V[2]],
-  W: [QUESTION_BANK_2ESO.W[1]],
-  X: [QUESTION_BANK_2ESO.X[1]],
-  Y: [QUESTION_BANK_2ESO.Y[0]],
-  Z: [QUESTION_BANK_2ESO.Z[1]]
+  A: [...QUESTION_BANK_2ESO.A],
+  B: [...QUESTION_BANK_2ESO.B],
+  C: [...QUESTION_BANK_2ESO.C],
+  D: [...QUESTION_BANK_2ESO.D],
+  E: [...QUESTION_BANK_2ESO.E],
+  F: [...QUESTION_BANK_2ESO.F],
+  G: [...QUESTION_BANK_2ESO.G],
+  H: [...QUESTION_BANK_2ESO.H],
+  I: [...QUESTION_BANK_2ESO.I],
+  J: [...QUESTION_BANK_2ESO.J],
+  K: [...QUESTION_BANK_2ESO.K],
+  L: [...QUESTION_BANK_2ESO.L],
+  M: [...QUESTION_BANK_2ESO.M],
+  N: [...QUESTION_BANK_2ESO.N],
+  "Ñ": [...QUESTION_BANK_2ESO["Ñ"]],
+  O: [...QUESTION_BANK_2ESO.O],
+  P: [...QUESTION_BANK_2ESO.P],
+  Q: [QUESTION_BANK_2ESO.Q[0], QUESTION_BANK_2ESO.Q[1], QUESTION_BANK_2ESO.Q[2]],
+  R: [...QUESTION_BANK_2ESO.R],
+  S: [...QUESTION_BANK_2ESO.S],
+  T: [...QUESTION_BANK_2ESO.T],
+  U: [...QUESTION_BANK_2ESO.U],
+  V: [...QUESTION_BANK_2ESO.V],
+  W: [
+    { answer: "watt", question: "Contiene la W: unidad de potencia en el sistema internacional.", concept: "Watt", definition: "Mide energia transferida por segundo.", example: "Una bombilla de 10 W consume menos que una de 60 W.", application: "Problemas de consumo electrico.", procedure: "Relaciona potencia, energia y tiempo.", mistakes: "Confundir W con Wh.", hint: "Se abrevia con una letra poco frecuente.", content: "Numeros y calculo" },
+    QUESTION_BANK_2ESO.W[0],
+    QUESTION_BANK_2ESO.W[1]
+  ],
+  X: [...QUESTION_BANK_2ESO.X],
+  Y: [...QUESTION_BANK_2ESO.Y],
+  Z: [...QUESTION_BANK_2ESO.Z]
 };
 
 const QUESTION_BANK_3ESO = {
@@ -275,13 +278,20 @@ const QUESTION_BANK_3ESO = {
   F: [QUESTION_BANK_2ESO.F[2]],
   G: [QUESTION_BANK_2ESO.G[0]],
   H: [QUESTION_BANK_2ESO.H[1]],
-  I: [QUESTION_BANK_4ESO_B.I[0]],
+  Q: [
+    { answer: "quebrado", question: "Contiene la Q: forma antigua de llamar a una fraccion.", concept: "Numero quebrado", definition: "Nombre tradicional para una fraccion o numero racional escrito en forma de cociente.", example: "3/4 es un numero quebrado.", application: "Relacionar lenguaje cotidiano con fracciones.", procedure: "Identifica numerador y denominador.", mistakes: "Confundirlo con un numero entero.", hint: "Es otro nombre para una fraccion.", content: "Fracciones" },
+    QUESTION_BANK_2ESO.Q[1],
+    QUESTION_BANK_2ESO.Q[2]
+  ],
   J: [QUESTION_BANK_2ESO.J[2]],
   K: [QUESTION_BANK_2ESO.K[2]],
   L: [QUESTION_BANK_2ESO.L[0]],
   M: [QUESTION_BANK_2ESO.M[0]],
   N: [QUESTION_BANK_4ESO_B.N[0]],
-  "Ñ": [QUESTION_BANK_2ESO["Ñ"][2]],
+  W: [
+    { answer: "web", question: "Contiene la W: medio digital donde se publican tablas y graficos para interpretar datos.", concept: "Web", definition: "Entorno digital donde se consulta informacion y datos.", example: "Consultar una grafica de temperaturas en una web educativa.", application: "Lectura critica de datos reales.", procedure: "Revisa fuente, ejes y unidades antes de interpretar.", mistakes: "Confiar en datos sin verificar origen.", hint: "Internet.", content: "Interpretacion de datos" },
+    { answer: "wifi", question: "Contiene la W: tecnologia de conexion usada para acceder a plataformas con recursos matematicos.", concept: "Conectividad digital", definition: "Permite acceder a contenido y actividades en linea.", example: "Resolver ejercicios interactivos en clase virtual.", application: "Aprendizaje digital y consulta de recursos.", procedure: "Conecta, verifica fuente y analiza informacion.", mistakes: "Usar fuentes no fiables.", hint: "Conexion inalambrica.", content: "Interpretacion de datos" }
+  ],
   O: [QUESTION_BANK_2ESO.O[1]],
   P: [QUESTION_BANK_4ESO_B.P[0]],
   Q: [QUESTION_BANK_4ESO_B.Q[0]],
@@ -458,7 +468,22 @@ function init() {
   updateStartStats();
   updateXPUI();
   renderRosco();
-  updateStartScreenMusic("start");
+  startCabeceraMusic();
+}
+
+function startCabeceraMusic() {
+  const playPromise = updateStartScreenMusic("start");
+  if (playPromise && typeof playPromise.catch === "function") {
+    playPromise.catch(() => {
+      const retryStartMusic = () => {
+        updateStartScreenMusic("start");
+        window.removeEventListener("pointerdown", retryStartMusic);
+        window.removeEventListener("keydown", retryStartMusic);
+      };
+      window.addEventListener("pointerdown", retryStartMusic);
+      window.addEventListener("keydown", retryStartMusic);
+    });
+  }
 }
 
 function applyLogoVisibility() {
@@ -480,12 +505,12 @@ function applyStartMusicPreference() {
 }
 
 function updateStartScreenMusic(screenName) {
-  if (!els.startMusic) return;
+  if (!els.startMusic) return null;
 
   if (screenName !== "start") {
     els.startMusic.pause();
     els.startMusic.currentTime = 0;
-    return;
+    return null;
   }
 
   const playPromise = els.startMusic.play();
@@ -494,6 +519,7 @@ function updateStartScreenMusic(screenName) {
       // El navegador puede bloquear el autoplay con sonido hasta una interacción del usuario.
     });
   }
+  return playPromise;
 }
 
 function playResultSound(type) {
@@ -742,128 +768,72 @@ function renderLatexLike(text) {
       return formatMath(chunk.slice(1, -1));
     }
     return escapeHtml(chunk);
+
+const EXTRA_LEVEL_QUESTIONS = {
+  desigualdad: { answer: "desigualdad", question: "Con la D: relacion matematica que compara dos expresiones con signos como >, <, <= o >=.", concept: "Desigualdad", definition: "Indica que dos cantidades no son iguales y establece un orden entre ellas.", example: "x + 2 > 7 implica x > 5.", application: "Resolver inecuaciones y comparar intervalos.", procedure: "Opera como en una ecuacion y cambia el signo si multiplicas o divides por un numero negativo.", mistakes: "Olvidar invertir el signo al multiplicar o dividir por un numero negativo.", hint: "Se representa con > o <.", content: "Algebra" },
+  justificacion: { answer: "justificacion", question: "Con la J: explicacion matematica de por que un resultado es correcto.", concept: "Justificacion", definition: "Argumentacion con propiedades y pasos validos que respaldan una conclusion.", example: "Demostrar una igualdad paso a paso.", application: "Razonamiento matematico y demostraciones.", procedure: "Explica cada paso con una propiedad.", mistakes: "Dar solo el resultado final.", hint: "No basta con acertar, hay que explicar.", content: "Algebra" },
+  quebrado: { answer: "quebrado", question: "Contiene la Q: forma antigua de llamar a una fraccion.", concept: "Numero quebrado", definition: "Nombre tradicional para una fraccion o numero racional escrito en forma de cociente.", example: "3/4 es un numero quebrado.", application: "Relacionar lenguaje cotidiano con fracciones.", procedure: "Identifica numerador y denominador.", mistakes: "Confundirlo con un numero entero.", hint: "Es otro nombre para una fraccion.", content: "Fracciones" },
+  wiki: { answer: "wiki", question: "Contiene la W: sitio colaborativo donde se consulta y edita informacion.", concept: "Wiki", definition: "Recurso digital para organizar conocimiento y datos.", example: "Consultar una explicacion de estadistica en una wiki educativa.", application: "Búsqueda guiada de informacion.", procedure: "Comprueba fuentes y fecha antes de usarla.", mistakes: "Confiar sin verificar.", hint: "Se edita entre varios usuarios.", content: "Interpretacion de datos" }
+};
   }).join("");
 }
-
-function setLatexText(element, text) {
-  element.innerHTML = renderLatexLike(text);
-}
-
-function renderStaticLatex() {
-  document.querySelectorAll(".latex-chip").forEach((chip) => {
-    setLatexText(chip, chip.textContent || "");
-  });
-}
-
-function validateQuestionBank() {
-  Object.entries(QUESTION_BANKS).forEach(([level, bank]) => {
-    const missingLetters = LETTERS.filter((letter) => !bank[letter] || bank[letter].length === 0);
-    if (missingLetters.length) {
-      console.warn(`El banco ${level} no tiene preguntas para: ${missingLetters.join(", ")}`);
-    }
-  });
-}
-
-function bindEvents() {
-  buttons.play.addEventListener("click", () => startGame());
-  buttons.instructions.addEventListener("click", () => showScreen("instructions"));
-  buttons.stats.addEventListener("click", () => {
-    showScreen("stats");
-    drawStats();
-  });
-  buttons.closeInstructions.addEventListener("click", () => showScreen("start"));
-  buttons.closeStats.addEventListener("click", () => showScreen("start"));
-  buttons.backHome.addEventListener("click", () => {
-    stopTimer();
-    showScreen("start");
-  });
-  buttons.playAgain.addEventListener("click", () => showScreen("start"));
-
-  buttons.reset.addEventListener("click", () => {
-    const sure = confirm("Se reiniciarán todas las estadísticas. ¿Continuar?");
-    if (!sure) return;
-    globalStats = getDefaultStats();
-    saveStats();
-    updateStartStats();
-    updateXPUI();
-    drawStats();
-  });
-
-  buttons.finishGame.addEventListener("click", () => finishGame("Partida finalizada manualmente."));
-
-  buttons.accessibility.addEventListener("click", () => {
-    document.body.classList.toggle("high-contrast");
-  });
-
-  buttons.bigText.addEventListener("click", () => {
-    document.body.classList.toggle("big-text");
-  });
-
-  if (els.btnToggleLogos) {
-    els.btnToggleLogos.addEventListener("click", () => {
-      hideInstitutionLogos = !hideInstitutionLogos;
-      saveLogoPreference();
-      applyLogoVisibility();
-    });
-  }
-
-  if (els.btnToggleMusic) {
-    els.btnToggleMusic.addEventListener("click", () => {
-      isStartMusicMuted = !isStartMusicMuted;
-      saveMusicMutePreference();
-      applyStartMusicPreference();
-      updateStartScreenMusic("start");
-    });
-  }
-
-  els.answerForm.addEventListener("submit", (ev) => {
-    ev.preventDefault();
-    checkAnswer(els.answerInput.value.trim());
-  });
-
-  els.btnPass.addEventListener("click", passLetter);
-  els.btnHint.addEventListener("click", useHint);
-
-  document.addEventListener("keydown", (ev) => {
+  A: [QUESTION_BANK_2ESO.A[1], QUESTION_BANK_2ESO.A[0], QUESTION_BANK_2ESO.A[2]],
+  B: [QUESTION_BANK_2ESO.B[0], QUESTION_BANK_2ESO.B[1], QUESTION_BANK_4ESO_B.B[0]],
+  C: [QUESTION_BANK_2ESO.C[0], QUESTION_BANK_2ESO.C[1], QUESTION_BANK_4ESO_B.C[0]],
+  D: [EXTRA_LEVEL_QUESTIONS.desigualdad, QUESTION_BANK_2ESO.D[0], QUESTION_BANK_4ESO_B.D[0]],
+  E: [QUESTION_BANK_2ESO.E[0], QUESTION_BANK_2ESO.E[1], QUESTION_BANK_4ESO_B.E[0]],
+  F: [QUESTION_BANK_2ESO.F[2], QUESTION_BANK_2ESO.F[0], QUESTION_BANK_4ESO_B.F[0]],
+  G: [QUESTION_BANK_4ESO_B.G[0], QUESTION_BANK_2ESO.G[0], QUESTION_BANK_2ESO.G[1]],
+  H: [QUESTION_BANK_2ESO.H[0], QUESTION_BANK_4ESO_B.H[0], QUESTION_BANK_2ESO.H[1]],
+  I: [QUESTION_BANK_4ESO_B.I[0], QUESTION_BANK_2ESO.I[0], QUESTION_BANK_2ESO.I[1]],
+  J: [EXTRA_LEVEL_QUESTIONS.justificacion, QUESTION_BANK_2ESO.J[0], QUESTION_BANK_2ESO.J[1]],
+  K: [QUESTION_BANK_4ESO_B.K[0], QUESTION_BANK_2ESO.K[0], QUESTION_BANK_2ESO.K[1]],
+  L: [QUESTION_BANK_4ESO_B.L[0], QUESTION_BANK_2ESO.L[0], QUESTION_BANK_2ESO.L[2]],
+  M: [QUESTION_BANK_4ESO_B.M[0], QUESTION_BANK_2ESO.M[0], QUESTION_BANK_2ESO.M[1]],
+  N: [QUESTION_BANK_4ESO_B.N[0], QUESTION_BANK_2ESO.N[0], QUESTION_BANK_2ESO.N[1]],
+  "Ñ": [QUESTION_BANK_2ESO["Ñ"][2], QUESTION_BANK_2ESO["Ñ"][0], QUESTION_BANK_2ESO["Ñ"][1]],
+  O: [QUESTION_BANK_4ESO_B.O[0], QUESTION_BANK_2ESO.O[0], QUESTION_BANK_2ESO.O[1]],
+  P: [QUESTION_BANK_4ESO_B.P[0], QUESTION_BANK_2ESO.P[1], QUESTION_BANK_2ESO.P[2]],
+  Q: [QUESTION_BANK_2ESO.Q[2], QUESTION_BANK_2ESO.Q[1], EXTRA_LEVEL_QUESTIONS.quebrado],
+  R: [QUESTION_BANK_4ESO_B.R[0], QUESTION_BANK_2ESO.R[0], QUESTION_BANK_2ESO.R[2]],
+  S: [QUESTION_BANK_2ESO.S[1], QUESTION_BANK_2ESO.S[0], QUESTION_BANK_2ESO.S[2]],
+  T: [QUESTION_BANK_4ESO_B.T[0], QUESTION_BANK_2ESO.T[0], QUESTION_BANK_2ESO.T[1]],
+  U: [QUESTION_BANK_2ESO.U[0], QUESTION_BANK_2ESO.U[1], QUESTION_BANK_4ESO_B.U[0]],
+  V: [QUESTION_BANK_4ESO_B.V[0], QUESTION_BANK_2ESO.V[0], QUESTION_BANK_2ESO.V[1]],
+  W: [QUESTION_BANK_2ESO.W[0], QUESTION_BANK_2ESO.W[1], EXTRA_LEVEL_QUESTIONS.wiki],
+  X: [QUESTION_BANK_4ESO_B.X[0], QUESTION_BANK_2ESO.X[0], QUESTION_BANK_2ESO.X[1]],
+  Y: [QUESTION_BANK_2ESO.Y[2], QUESTION_BANK_2ESO.Y[0], QUESTION_BANK_2ESO.Y[1]],
+  Z: [QUESTION_BANK_2ESO.Z[1], QUESTION_BANK_2ESO.Z[2], QUESTION_BANK_2ESO.Z[0]]
     if (!els.gameScreen.classList.contains("active")) return;
 
     const target = ev.target;
-    const isTypingField = target instanceof HTMLElement && (
-      target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)
-    );
-
-    if (ev.key === "Enter") {
-      ev.preventDefault();
-      checkAnswer(els.answerInput.value.trim());
-    }
-    if (isTypingField) return;
-    if (ev.key.toLowerCase() === "p") {
-      ev.preventDefault();
-      passLetter();
-    }
-    if (ev.key.toLowerCase() === "h") {
-      ev.preventDefault();
-      useHint();
-    }
-  });
-}
-
-function showScreen(name) {
-  const map = {
-    start: els.startScreen,
-    game: els.gameScreen,
-    instructions: els.instructionsScreen,
-    stats: els.statsScreen,
-    final: els.finalScreen
-  };
-  Object.values(map).forEach((node) => node.classList.remove("active"));
-  map[name].classList.add("active");
-  updateStartScreenMusic(name);
-}
-
-function startGame() {
-  state.mode = "normal";
-  state.academicLevel = els.levelSelect.value;
+  A: [QUESTION_BANK_2ESO.A[1], QUESTION_BANK_2ESO.A[0], QUESTION_BANK_2ESO.A[2]],
+  B: [QUESTION_BANK_4ESO_B.B[0], QUESTION_BANK_2ESO.B[0], QUESTION_BANK_2ESO.B[1]],
+  C: [QUESTION_BANK_2ESO.C[0], QUESTION_BANK_4ESO_B.C[0], QUESTION_BANK_2ESO.C[1]],
+  D: [EXTRA_LEVEL_QUESTIONS.desigualdad, QUESTION_BANK_2ESO.D[0], QUESTION_BANK_4ESO_B.D[0]],
+  E: [QUESTION_BANK_4ESO_B.E[0], QUESTION_BANK_2ESO.E[0], QUESTION_BANK_2ESO.E[1]],
+  F: [QUESTION_BANK_4ESO_B.F[0], QUESTION_BANK_2ESO.F[0], QUESTION_BANK_2ESO.F[2]],
+  G: [QUESTION_BANK_4ESO_B.G[0], QUESTION_BANK_2ESO.G[0], QUESTION_BANK_2ESO.G[1]],
+  H: [QUESTION_BANK_2ESO.H[0], QUESTION_BANK_4ESO_B.H[0], QUESTION_BANK_2ESO.H[1]],
+  I: [QUESTION_BANK_4ESO_B.I[0], QUESTION_BANK_2ESO.I[0], QUESTION_BANK_2ESO.I[1]],
+  J: [EXTRA_LEVEL_QUESTIONS.justificacion, QUESTION_BANK_2ESO.J[0], QUESTION_BANK_2ESO.J[1]],
+  K: [QUESTION_BANK_4ESO_B.K[0], QUESTION_BANK_2ESO.K[0], QUESTION_BANK_2ESO.K[1]],
+  L: [QUESTION_BANK_4ESO_B.L[0], QUESTION_BANK_2ESO.L[0], QUESTION_BANK_2ESO.L[2]],
+  M: [QUESTION_BANK_4ESO_B.M[0], QUESTION_BANK_2ESO.M[0], QUESTION_BANK_2ESO.M[1]],
+  N: [QUESTION_BANK_4ESO_B.N[0], QUESTION_BANK_2ESO.N[0], QUESTION_BANK_2ESO.N[1]],
+  "Ñ": [QUESTION_BANK_2ESO["Ñ"][2], QUESTION_BANK_2ESO["Ñ"][0], QUESTION_BANK_2ESO["Ñ"][1]],
+  O: [QUESTION_BANK_4ESO_B.O[0], QUESTION_BANK_2ESO.O[0], QUESTION_BANK_2ESO.O[1]],
+  P: [QUESTION_BANK_4ESO_B.P[0], QUESTION_BANK_2ESO.P[1], QUESTION_BANK_2ESO.P[2]],
+  Q: [EXTRA_LEVEL_QUESTIONS.quebrado, QUESTION_BANK_2ESO.Q[1], QUESTION_BANK_2ESO.Q[2]],
+  R: [QUESTION_BANK_4ESO_B.R[0], QUESTION_BANK_2ESO.R[0], QUESTION_BANK_2ESO.R[2]],
+  S: [QUESTION_BANK_2ESO.S[1], QUESTION_BANK_2ESO.S[0], QUESTION_BANK_2ESO.S[2]],
+  T: [QUESTION_BANK_4ESO_B.T[0], QUESTION_BANK_2ESO.T[0], QUESTION_BANK_2ESO.T[1]],
+  U: [QUESTION_BANK_2ESO.U[0], QUESTION_BANK_2ESO.U[1], QUESTION_BANK_4ESO_B.U[0]],
+  V: [QUESTION_BANK_4ESO_B.V[0], QUESTION_BANK_2ESO.V[0], QUESTION_BANK_2ESO.V[1]],
+  W: [QUESTION_BANK_2ESO.W[0], QUESTION_BANK_2ESO.W[1], EXTRA_LEVEL_QUESTIONS.wiki],
+  X: [QUESTION_BANK_4ESO_B.X[0], QUESTION_BANK_2ESO.X[0], QUESTION_BANK_2ESO.X[1]],
+  Y: [QUESTION_BANK_2ESO.Y[2], QUESTION_BANK_2ESO.Y[0], QUESTION_BANK_2ESO.Y[1]],
+  Z: [QUESTION_BANK_2ESO.Z[1], QUESTION_BANK_2ESO.Z[2], QUESTION_BANK_2ESO.Z[0]]
   state.timerSetting = Number(els.timeSelect.value);
   state.timerLeft = state.timerSetting;
   state.usedHints = 0;
