@@ -15,8 +15,8 @@ const MUSIC_MUTE_PREFERENCE_KEY = "pasapalabra_start_music_muted_v1";
 const QUESTION_BANK_2ESO = {
   A: [
     { answer: "area", question: "Con la A: magnitud que mide la superficie de una figura plana.", concept: "Area", definition: "El area mide la extension de una superficie en unidades cuadradas.", example: "Rectangulo de 8 cm y 3 cm: area = 24 cm2.", application: "Sirve para calcular pintura, azulejos o terreno necesario.", procedure: "Identifica figura, aplica formula y expresa en unidades cuadradas.", mistakes: "Confundir area con perimetro.", hint: "Se expresa en cm2 o m2.", content: "Geometria" },
-    { answer: "ecuacion", question: "Con la Q: igualdad matematica con una o mas incognitas.",
-    { answer: "apotema", question: "Con la A: segmento desde el centro de un poligono regular al punto medio de un lado.", concept: "Apotema", definition: "La apotema es perpendicular al lado en poligonos regulares.", example: "Area de pentagono regular: (perimetro x apotema) / 2.", application: "Calculo de areas en poligonos regulares.", procedure: "Calcula perimetro, multiplica por apotema y divide entre 2.", mistakes: "Usar radio en lugar de apotema.", hint: "Se usa en formulas de area de poligonos regulares.", content: "Geometria" }
+    { answer: "apotema", question: "Con la A: segmento desde el centro de un poligono regular al punto medio de un lado.", concept: "Apotema", definition: "La apotema es perpendicular al lado en poligonos regulares.", example: "Area de pentagono regular: (perimetro x apotema) / 2.", application: "Calculo de areas en poligonos regulares.", procedure: "Calcula perimetro, multiplica por apotema y divide entre 2.", mistakes: "Usar radio en lugar de apotema.", hint: "Se usa en formulas de area de poligonos regulares.", content: "Geometria" },
+    { answer: "angulo", question: "Con la A: abertura formada por dos semirrectas con un mismo origen.", concept: "Angulo", definition: "Figura geometrica formada por dos lados que comparten un vertice.", example: "Un angulo recto mide 90 grados.", application: "Medir giros y clasificar figuras.", procedure: "Mide con transportador o compara con referencias conocidas.", mistakes: "Confundirlo con un segmento o con una recta.", hint: "Se mide en grados.", content: "Geometria" }
   ],
   B: [
     { answer: "bisectriz", question: "Con la B: semirrecta que divide un angulo en dos partes iguales.", concept: "Bisectriz", definition: "Divide un angulo en dos angulos de la misma medida.", example: "Si un angulo mide 70 grados, cada parte de la bisectriz mide 35 grados.", application: "Construcciones geometricas y triangulos.", procedure: "Con compas, marca arcos y une el vertice con su interseccion.", mistakes: "Confundir bisectriz con mediatriz.", hint: "Parte un angulo en dos.", content: "Geometria" },
@@ -459,6 +459,16 @@ const buttons = {
   bigText: document.getElementById("btnBigText")
 };
 
+function validateQuestionBank() {
+  Object.entries(QUESTION_BANKS).forEach(([level, bank]) => {
+    LETTERS.forEach((letter) => {
+      if (!Array.isArray(bank[letter]) || bank[letter].length === 0) {
+        console.warn(`La letra ${letter} no tiene preguntas definidas para ${level}.`);
+      }
+    });
+  });
+}
+
 function init() {
   validateQuestionBank();
   applyLogoVisibility();
@@ -504,6 +514,162 @@ function applyStartMusicPreference() {
     els.btnToggleMusic.textContent = isStartMusicMuted ? "Activar música" : "Silenciar música";
     els.btnToggleMusic.setAttribute("aria-pressed", String(isStartMusicMuted));
   }
+}
+
+function renderStaticLatex() {
+  document.querySelectorAll(".latex-chip").forEach((element) => {
+    element.innerHTML = renderLatexLike(element.textContent || "");
+  });
+}
+
+function showScreen(screenName) {
+  const screens = {
+    start: els.startScreen,
+    game: els.gameScreen,
+    instructions: els.instructionsScreen,
+    stats: els.statsScreen,
+    final: els.finalScreen
+  };
+
+  Object.entries(screens).forEach(([name, element]) => {
+    if (!element) return;
+    element.classList.toggle("active", name === screenName);
+  });
+
+  if (screenName === "start") {
+    updateStartStats();
+    updateXPUI();
+    applyStartMusicPreference();
+    updateStartScreenMusic("start");
+    return;
+  }
+
+  if (els.startMusic) {
+    els.startMusic.pause();
+    els.startMusic.currentTime = 0;
+  }
+
+  if (screenName === "stats") {
+    drawStats();
+  }
+}
+
+function startGame() {
+  state.academicLevel = els.levelSelect.value;
+  state.timerSetting = Number(els.timeSelect.value);
+  state.timerLeft = state.timerSetting;
+  state.usedHints = 0;
+  state.questions = buildRoundQuestions();
+  state.statuses = Object.fromEntries(LETTERS.map((l) => [l, "pending"]));
+  state.currentIndex = 0;
+  state.correct = 0;
+  state.wrong = 0;
+  state.passed = 0;
+  state.finished = false;
+  state.contentRound = {};
+  state.totalXPThisGame = 0;
+  state.startedAt = Date.now();
+
+  els.modeTitle.textContent = modeLabel();
+  els.answerInput.value = "";
+  els.explanationCard.classList.add("hidden");
+  setupModeControls();
+
+  renderRosco();
+  updateHUD();
+  showScreen("game");
+
+  if (state.timerLeft > 0) {
+    startTimer();
+  } else {
+    stopTimer();
+  }
+
+  renderCurrentQuestion();
+  els.answerInput.focus();
+}
+
+function toggleStartMusic() {
+  isStartMusicMuted = !isStartMusicMuted;
+  saveMusicMutePreference();
+  applyStartMusicPreference();
+
+  if (!els.startMusic) return;
+
+  if (isStartMusicMuted) {
+    els.startMusic.pause();
+    els.startMusic.currentTime = 0;
+    return;
+  }
+
+  if (els.startScreen && els.startScreen.classList.contains("active")) {
+    updateStartScreenMusic("start");
+  }
+}
+
+function toggleInstitutionLogos() {
+  hideInstitutionLogos = !hideInstitutionLogos;
+  saveLogoPreference();
+  applyLogoVisibility();
+}
+
+function toggleAccessibilityMode() {
+  document.body.classList.toggle("high-contrast");
+  if (els.btnAccessibility) {
+    const enabled = document.body.classList.contains("high-contrast");
+    els.btnAccessibility.textContent = enabled ? "Desactivar contraste" : "Alto contraste";
+    els.btnAccessibility.setAttribute("aria-pressed", String(enabled));
+  }
+}
+
+function toggleLargeText() {
+  document.body.classList.toggle("big-text");
+  if (els.btnBigText) {
+    const enabled = document.body.classList.contains("big-text");
+    els.btnBigText.textContent = enabled ? "Fuente normal" : "Fuente grande";
+    els.btnBigText.setAttribute("aria-pressed", String(enabled));
+  }
+}
+
+function resetProgress() {
+  if (!window.confirm("Se borrarán las estadísticas guardadas. ¿Quieres continuar?")) {
+    return;
+  }
+
+  localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(LOGO_PREFERENCE_KEY);
+  localStorage.removeItem(MUSIC_MUTE_PREFERENCE_KEY);
+  globalStats = getDefaultStats();
+  hideInstitutionLogos = false;
+  isStartMusicMuted = false;
+  applyLogoVisibility();
+  applyStartMusicPreference();
+  updateStartStats();
+  updateXPUI();
+  if (els.startMusic) {
+    updateStartScreenMusic("start");
+  }
+}
+
+function bindEvents() {
+  buttons.play?.addEventListener("click", startGame);
+  buttons.instructions?.addEventListener("click", () => showScreen("instructions"));
+  buttons.stats?.addEventListener("click", () => showScreen("stats"));
+  buttons.reset?.addEventListener("click", resetProgress);
+  buttons.closeInstructions?.addEventListener("click", () => showScreen("start"));
+  buttons.closeStats?.addEventListener("click", () => showScreen("start"));
+  buttons.finishGame?.addEventListener("click", () => finishGame("Has finalizado la partida manualmente."));
+  buttons.backHome?.addEventListener("click", () => showScreen("start"));
+  buttons.playAgain?.addEventListener("click", startGame);
+  buttons.accessibility?.addEventListener("click", toggleAccessibilityMode);
+  buttons.bigText?.addEventListener("click", toggleLargeText);
+
+  els.btnToggleMusic?.addEventListener("click", toggleStartMusic);
+  els.btnToggleLogos?.addEventListener("click", toggleInstitutionLogos);
+  els.answerForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    checkAnswer(els.answerInput.value);
+  });
 }
 
 function updateStartScreenMusic(screenName) {
@@ -785,97 +951,6 @@ const EXTRA_LEVEL_QUESTIONS = {
   quebrado: { answer: "quebrado", question: "Contiene la Q: forma antigua de llamar a una fraccion.", concept: "Numero quebrado", definition: "Nombre tradicional para una fraccion o numero racional escrito en forma de cociente.", example: "3/4 es un numero quebrado.", application: "Relacionar lenguaje cotidiano con fracciones.", procedure: "Identifica numerador y denominador.", mistakes: "Confundirlo con un numero entero.", hint: "Es otro nombre para una fraccion.", content: "Fracciones" },
   wiki: { answer: "wiki", question: "Contiene la W: sitio colaborativo donde se consulta y edita informacion.", concept: "Wiki", definition: "Recurso digital para organizar conocimiento y datos.", example: "Consultar una explicacion de estadistica en una wiki educativa.", application: "Búsqueda guiada de informacion.", procedure: "Comprueba fuentes y fecha antes de usarla.", mistakes: "Confiar sin verificar.", hint: "Se edita entre varios usuarios.", content: "Interpretacion de datos" }
 };
-  }).join("");
-}
-  A: [QUESTION_BANK_2ESO.A[1], QUESTION_BANK_2ESO.A[0], QUESTION_BANK_2ESO.A[2]],
-  B: [QUESTION_BANK_2ESO.B[0], QUESTION_BANK_2ESO.B[1], QUESTION_BANK_4ESO_B.B[0]],
-  C: [QUESTION_BANK_2ESO.C[0], QUESTION_BANK_2ESO.C[1], QUESTION_BANK_4ESO_B.C[0]],
-  D: [EXTRA_LEVEL_QUESTIONS.desigualdad, QUESTION_BANK_2ESO.D[0], QUESTION_BANK_4ESO_B.D[0]],
-  E: [QUESTION_BANK_2ESO.E[0], QUESTION_BANK_2ESO.E[1], QUESTION_BANK_4ESO_B.E[0]],
-  F: [QUESTION_BANK_2ESO.F[2], QUESTION_BANK_2ESO.F[0], QUESTION_BANK_4ESO_B.F[0]],
-  G: [QUESTION_BANK_4ESO_B.G[0], QUESTION_BANK_2ESO.G[0], QUESTION_BANK_2ESO.G[1]],
-  H: [QUESTION_BANK_2ESO.H[0], QUESTION_BANK_4ESO_B.H[0], QUESTION_BANK_2ESO.H[1]],
-  I: [QUESTION_BANK_4ESO_B.I[0], QUESTION_BANK_2ESO.I[0], QUESTION_BANK_2ESO.I[1]],
-  J: [EXTRA_LEVEL_QUESTIONS.justificacion, QUESTION_BANK_2ESO.J[0], QUESTION_BANK_2ESO.J[1]],
-  K: [QUESTION_BANK_4ESO_B.K[0], QUESTION_BANK_2ESO.K[0], QUESTION_BANK_2ESO.K[1]],
-  L: [QUESTION_BANK_4ESO_B.L[0], QUESTION_BANK_2ESO.L[0], QUESTION_BANK_2ESO.L[2]],
-  M: [QUESTION_BANK_4ESO_B.M[0], QUESTION_BANK_2ESO.M[0], QUESTION_BANK_2ESO.M[1]],
-  N: [QUESTION_BANK_4ESO_B.N[0], QUESTION_BANK_2ESO.N[0], QUESTION_BANK_2ESO.N[1]],
-  "Ñ": [QUESTION_BANK_2ESO["Ñ"][2], QUESTION_BANK_2ESO["Ñ"][0], QUESTION_BANK_2ESO["Ñ"][1]],
-  O: [QUESTION_BANK_4ESO_B.O[0], QUESTION_BANK_2ESO.O[0], QUESTION_BANK_2ESO.O[1]],
-  P: [QUESTION_BANK_4ESO_B.P[0], QUESTION_BANK_2ESO.P[1], QUESTION_BANK_2ESO.P[2]],
-  Q: [QUESTION_BANK_2ESO.Q[2], QUESTION_BANK_2ESO.Q[1], EXTRA_LEVEL_QUESTIONS.quebrado],
-  R: [QUESTION_BANK_4ESO_B.R[0], QUESTION_BANK_2ESO.R[0], QUESTION_BANK_2ESO.R[2]],
-  S: [QUESTION_BANK_2ESO.S[1], QUESTION_BANK_2ESO.S[0], QUESTION_BANK_2ESO.S[2]],
-  T: [QUESTION_BANK_4ESO_B.T[0], QUESTION_BANK_2ESO.T[0], QUESTION_BANK_2ESO.T[1]],
-  U: [QUESTION_BANK_2ESO.U[0], QUESTION_BANK_2ESO.U[1], QUESTION_BANK_4ESO_B.U[0]],
-  V: [QUESTION_BANK_4ESO_B.V[0], QUESTION_BANK_2ESO.V[0], QUESTION_BANK_2ESO.V[1]],
-  W: [QUESTION_BANK_2ESO.W[0], QUESTION_BANK_2ESO.W[1], EXTRA_LEVEL_QUESTIONS.wiki],
-  X: [QUESTION_BANK_4ESO_B.X[0], QUESTION_BANK_2ESO.X[0], QUESTION_BANK_2ESO.X[1]],
-  Y: [QUESTION_BANK_2ESO.Y[2], QUESTION_BANK_2ESO.Y[0], QUESTION_BANK_2ESO.Y[1]],
-  Z: [QUESTION_BANK_2ESO.Z[1], QUESTION_BANK_2ESO.Z[2], QUESTION_BANK_2ESO.Z[0]]
-    if (!els.gameScreen.classList.contains("active")) return;
-
-    const target = ev.target;
-  A: [QUESTION_BANK_2ESO.A[1], QUESTION_BANK_2ESO.A[0], QUESTION_BANK_2ESO.A[2]],
-  B: [QUESTION_BANK_4ESO_B.B[0], QUESTION_BANK_2ESO.B[0], QUESTION_BANK_2ESO.B[1]],
-  C: [QUESTION_BANK_2ESO.C[0], QUESTION_BANK_4ESO_B.C[0], QUESTION_BANK_2ESO.C[1]],
-  D: [EXTRA_LEVEL_QUESTIONS.desigualdad, QUESTION_BANK_2ESO.D[0], QUESTION_BANK_4ESO_B.D[0]],
-  E: [QUESTION_BANK_4ESO_B.E[0], QUESTION_BANK_2ESO.E[0], QUESTION_BANK_2ESO.E[1]],
-  F: [QUESTION_BANK_4ESO_B.F[0], QUESTION_BANK_2ESO.F[0], QUESTION_BANK_2ESO.F[2]],
-  G: [QUESTION_BANK_4ESO_B.G[0], QUESTION_BANK_2ESO.G[0], QUESTION_BANK_2ESO.G[1]],
-  H: [QUESTION_BANK_2ESO.H[0], QUESTION_BANK_4ESO_B.H[0], QUESTION_BANK_2ESO.H[1]],
-  I: [QUESTION_BANK_4ESO_B.I[0], QUESTION_BANK_2ESO.I[0], QUESTION_BANK_2ESO.I[1]],
-  J: [EXTRA_LEVEL_QUESTIONS.justificacion, QUESTION_BANK_2ESO.J[0], QUESTION_BANK_2ESO.J[1]],
-  K: [QUESTION_BANK_4ESO_B.K[0], QUESTION_BANK_2ESO.K[0], QUESTION_BANK_2ESO.K[1]],
-  L: [QUESTION_BANK_4ESO_B.L[0], QUESTION_BANK_2ESO.L[0], QUESTION_BANK_2ESO.L[2]],
-  M: [QUESTION_BANK_4ESO_B.M[0], QUESTION_BANK_2ESO.M[0], QUESTION_BANK_2ESO.M[1]],
-  N: [QUESTION_BANK_4ESO_B.N[0], QUESTION_BANK_2ESO.N[0], QUESTION_BANK_2ESO.N[1]],
-  "Ñ": [QUESTION_BANK_2ESO["Ñ"][2], QUESTION_BANK_2ESO["Ñ"][0], QUESTION_BANK_2ESO["Ñ"][1]],
-  O: [QUESTION_BANK_4ESO_B.O[0], QUESTION_BANK_2ESO.O[0], QUESTION_BANK_2ESO.O[1]],
-  P: [QUESTION_BANK_4ESO_B.P[0], QUESTION_BANK_2ESO.P[1], QUESTION_BANK_2ESO.P[2]],
-  Q: [EXTRA_LEVEL_QUESTIONS.quebrado, QUESTION_BANK_2ESO.Q[1], QUESTION_BANK_2ESO.Q[2]],
-  R: [QUESTION_BANK_4ESO_B.R[0], QUESTION_BANK_2ESO.R[0], QUESTION_BANK_2ESO.R[2]],
-  S: [QUESTION_BANK_2ESO.S[1], QUESTION_BANK_2ESO.S[0], QUESTION_BANK_2ESO.S[2]],
-  T: [QUESTION_BANK_4ESO_B.T[0], QUESTION_BANK_2ESO.T[0], QUESTION_BANK_2ESO.T[1]],
-  U: [QUESTION_BANK_2ESO.U[0], QUESTION_BANK_2ESO.U[1], QUESTION_BANK_4ESO_B.U[0]],
-  V: [QUESTION_BANK_4ESO_B.V[0], QUESTION_BANK_2ESO.V[0], QUESTION_BANK_2ESO.V[1]],
-  W: [QUESTION_BANK_2ESO.W[0], QUESTION_BANK_2ESO.W[1], EXTRA_LEVEL_QUESTIONS.wiki],
-  X: [QUESTION_BANK_4ESO_B.X[0], QUESTION_BANK_2ESO.X[0], QUESTION_BANK_2ESO.X[1]],
-  Y: [QUESTION_BANK_2ESO.Y[2], QUESTION_BANK_2ESO.Y[0], QUESTION_BANK_2ESO.Y[1]],
-  Z: [QUESTION_BANK_2ESO.Z[1], QUESTION_BANK_2ESO.Z[2], QUESTION_BANK_2ESO.Z[0]]
-  state.timerSetting = Number(els.timeSelect.value);
-  state.timerLeft = state.timerSetting;
-  state.usedHints = 0;
-  state.questions = buildRoundQuestions();
-  state.statuses = Object.fromEntries(LETTERS.map((l) => [l, "pending"]));
-  state.currentIndex = 0;
-  state.correct = 0;
-  state.wrong = 0;
-  state.passed = 0;
-  state.finished = false;
-  state.contentRound = {};
-  state.totalXPThisGame = 0;
-  state.startedAt = Date.now();
-
-  els.modeTitle.textContent = modeLabel();
-  els.answerInput.value = "";
-  els.explanationCard.classList.add("hidden");
-  setupModeControls();
-
-  renderRosco();
-  updateHUD();
-  showScreen("game");
-
-  if (state.timerLeft > 0) {
-    startTimer();
-  } else {
-    stopTimer();
-  }
-
-  renderCurrentQuestion();
-  els.answerInput.focus();
-}
 
 function getAcademicLevelLabel(level) {
   return LEVEL_LABELS[level] || level;
