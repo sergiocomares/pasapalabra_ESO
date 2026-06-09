@@ -478,9 +478,11 @@ function startCabeceraMusic() {
       const retryStartMusic = () => {
         updateStartScreenMusic("start");
         window.removeEventListener("pointerdown", retryStartMusic);
+        window.removeEventListener("touchstart", retryStartMusic);
         window.removeEventListener("keydown", retryStartMusic);
       };
       window.addEventListener("pointerdown", retryStartMusic);
+      window.addEventListener("touchstart", retryStartMusic);
       window.addEventListener("keydown", retryStartMusic);
     });
   }
@@ -513,6 +515,7 @@ function updateStartScreenMusic(screenName) {
     return null;
   }
 
+  els.startMusic.load();
   const playPromise = els.startMusic.play();
   if (playPromise && typeof playPromise.catch === "function") {
     playPromise.catch(() => {
@@ -768,6 +771,13 @@ function renderLatexLike(text) {
       return formatMath(chunk.slice(1, -1));
     }
     return escapeHtml(chunk);
+  }).join("");
+}
+
+function setLatexText(element, text) {
+  if (!element) return;
+  element.innerHTML = renderLatexLike(text);
+}
 
 const EXTRA_LEVEL_QUESTIONS = {
   desigualdad: { answer: "desigualdad", question: "Con la D: relacion matematica que compara dos expresiones con signos como >, <, <= o >=.", concept: "Desigualdad", definition: "Indica que dos cantidades no son iguales y establece un orden entre ellas.", example: "x + 2 > 7 implica x > 5.", application: "Resolver inecuaciones y comparar intervalos.", procedure: "Opera como en una ecuacion y cambia el signo si multiplicas o divides por un numero negativo.", mistakes: "Olvidar invertir el signo al multiplicar o dividir por un numero negativo.", hint: "Se representa con > o <.", content: "Algebra" },
