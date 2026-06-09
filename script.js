@@ -159,7 +159,7 @@ const QUESTION_BANK_4ESO_B = {
     { answer: "biyeccion", question: "Con la B: correspondencia uno a uno entre dos conjuntos.", concept: "Biyeccion", definition: "Funcion que es inyectiva y sobreyectiva al mismo tiempo.", example: "f(x)=x+1 en enteros define una biyeccion.", application: "Estudio formal de funciones y cardinalidad.", procedure: "Comprueba unicidad de imagen y cobertura del codominio.", mistakes: "Confundir inyectiva con biyectiva.", hint: "Empareja todos los elementos sin repetir.", content: "Funciones" }
   ],
   C: [
-    { answer: "complejo", question: "Con la C: numero de la forma a + bi.", concept: "Numero complejo", definition: "Extiende los reales incorporando la unidad imaginaria i.", example: "3 + 2i.", application: "Resolucion general de ecuaciones.", procedure: "Separa parte real e imaginaria.", mistakes: "Tomar i^2 como 1.", hint: "Incluye parte imaginaria.", content: "Numeros y calculo" }
+    { answer: "cociente", question: "Con la C: resultado de una division.", concept: "Cociente", definition: "Numero obtenido al dividir el dividendo entre el divisor.", example: "18 / 6 = 3.", application: "Resolucion de operaciones y proporcionalidad.", procedure: "Realiza la division y verifica multiplicando cociente por divisor.", mistakes: "Confundir cociente con resto en divisiones no exactas.", hint: "Es el resultado principal de dividir.", content: "Numeros y calculo" }
   ],
   D: [
     { answer: "derivada", question: "Con la D: tasa de variacion instantanea de una funcion.", concept: "Derivada", definition: "Mide la pendiente de la recta tangente en un punto.", example: "Si f(x)=x^2, entonces f'(x)=2x.", application: "Maximos, minimos y crecimiento.", procedure: "Aplica reglas de derivacion.", mistakes: "Derivar constantes como si fueran variables.", hint: "Relacionada con la pendiente.", content: "Funciones" }
@@ -405,7 +405,7 @@ const PASAPALABRA_MATEMATICAS = {
   "4ESO": {
     "A": ["asintota", "argumento", "angulo"],
     "B": ["binomio", "biyeccion", "base"],
-    "C": ["complejo", "cuadratica", "coordenadas"],
+    "C": ["cociente", "cuadratica", "coordenadas"],
     "D": ["dominio", "distancia", "discriminante"],
     "E": ["exponencial", "ecuacion", "exponente"],
     "F": ["factorizacion", "funcion", "fraccion"],
