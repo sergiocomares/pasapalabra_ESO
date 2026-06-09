@@ -151,10 +151,12 @@ const QUESTION_BANK_2ESO = {
 
 const QUESTION_BANK_4ESO_B = {
   A: [
-    { answer: "asintota", question: "Con la A: recta a la que una curva se aproxima indefinidamente.", concept: "Asintota", definition: "Linea limite que la funcion se acerca sin llegar a tocar en ciertos casos.", example: "f(x)=1/x tiene asintota vertical x=0 y horizontal y=0.", application: "Estudio de funciones racionales.", procedure: "Analiza denominadores y limites.", mistakes: "Confundir corte con asintota.", hint: "Puede ser vertical u horizontal.", content: "Funciones" }
+    { answer: "asintota", question: "Con la A: recta a la que una curva se aproxima indefinidamente.", concept: "Asintota", definition: "Linea limite que la funcion se acerca sin llegar a tocar en ciertos casos.", example: "f(x)=1/x tiene asintota vertical x=0 y horizontal y=0.", application: "Estudio de funciones racionales.", procedure: "Analiza denominadores y limites.", mistakes: "Confundir corte con asintota.", hint: "Puede ser vertical u horizontal.", content: "Funciones" },
+    { answer: "argumento", question: "Con la A: razonamiento matematico que justifica una conclusion.", concept: "Argumento", definition: "Cadena logica de ideas que sustenta una afirmacion matematica.", example: "Usar propiedades algebraicas para demostrar una igualdad.", application: "Demostraciones y resolucion de problemas.", procedure: "Expone premisas, aplica propiedades y concluye con claridad.", mistakes: "Afirmar sin justificar pasos intermedios.", hint: "Es la base de una buena demostracion.", content: "Algebra" }
   ],
   B: [
-    { answer: "binomio", question: "Con la B: expresion algebraica con dos terminos.", concept: "Binomio", definition: "Polinomio formado por la suma o resta de dos monomios.", example: "(x + 3)^2 es cuadrado de un binomio.", application: "Productos notables y factorizacion.", procedure: "Identifica terminos y aplica identidades.", mistakes: "Olvidar termino doble.", hint: "Tiene exactamente dos terminos.", content: "Algebra" }
+    { answer: "binomio", question: "Con la B: expresion algebraica con dos terminos.", concept: "Binomio", definition: "Polinomio formado por la suma o resta de dos monomios.", example: "(x + 3)^2 es cuadrado de un binomio.", application: "Productos notables y factorizacion.", procedure: "Identifica terminos y aplica identidades.", mistakes: "Olvidar termino doble.", hint: "Tiene exactamente dos terminos.", content: "Algebra" },
+    { answer: "biyeccion", question: "Con la B: correspondencia uno a uno entre dos conjuntos.", concept: "Biyeccion", definition: "Funcion que es inyectiva y sobreyectiva al mismo tiempo.", example: "f(x)=x+1 en enteros define una biyeccion.", application: "Estudio formal de funciones y cardinalidad.", procedure: "Comprueba unicidad de imagen y cobertura del codominio.", mistakes: "Confundir inyectiva con biyectiva.", hint: "Empareja todos los elementos sin repetir.", content: "Funciones" }
   ],
   C: [
     { answer: "complejo", question: "Con la C: numero de la forma a + bi.", concept: "Numero complejo", definition: "Extiende los reales incorporando la unidad imaginaria i.", example: "3 + 2i.", application: "Resolucion general de ecuaciones.", procedure: "Separa parte real e imaginaria.", mistakes: "Tomar i^2 como 1.", hint: "Incluye parte imaginaria.", content: "Numeros y calculo" }
@@ -258,7 +260,6 @@ const QUESTION_BANK_1ESO = {
   U: [...QUESTION_BANK_2ESO.U],
   V: [...QUESTION_BANK_2ESO.V],
   W: [
-    { answer: "watt", question: "Contiene la W: unidad de potencia en el sistema internacional.", concept: "Watt", definition: "Mide energia transferida por segundo.", example: "Una bombilla de 10 W consume menos que una de 60 W.", application: "Problemas de consumo electrico.", procedure: "Relaciona potencia, energia y tiempo.", mistakes: "Confundir W con Wh.", hint: "Se abrevia con una letra poco frecuente.", content: "Numeros y calculo" },
     QUESTION_BANK_2ESO.W[0],
     QUESTION_BANK_2ESO.W[1]
   ],
@@ -268,8 +269,8 @@ const QUESTION_BANK_1ESO = {
 };
 
 const QUESTION_BANK_3ESO = {
-  A: [QUESTION_BANK_2ESO.A[1]],
-  B: [QUESTION_BANK_4ESO_B.B[0]],
+  A: [QUESTION_BANK_2ESO.A[1], QUESTION_BANK_2ESO.A[0]],
+  B: [QUESTION_BANK_4ESO_B.B[0], QUESTION_BANK_2ESO.B[0]],
   C: [QUESTION_BANK_2ESO.C[0]],
   D: [
     { answer: "desigualdad", question: "Con la D: relacion matematica que compara dos expresiones con signos como >, <, <= o >=.", concept: "Desigualdad", definition: "Indica que dos cantidades no son iguales y establece un orden entre ellas.", example: "x + 2 > 7 implica x > 5.", application: "Resolver inecuaciones y comparar intervalos.", procedure: "Opera como en una ecuacion y cambia el signo si multiplicas o divides por un numero negativo.", mistakes: "Olvidar invertir el signo al multiplicar o dividir por un numero negativo.", hint: "Se representa con > o <.", content: "Algebra" }
