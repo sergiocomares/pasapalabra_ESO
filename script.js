@@ -314,12 +314,367 @@ const LEVEL_LABELS = {
   "4ESO_B": "4º ESO"
 };
 
-const QUESTION_BANKS = {
-  "1ESO": QUESTION_BANK_1ESO,
-  "2ESO": QUESTION_BANK_2ESO,
-  "3ESO": QUESTION_BANK_3ESO,
-  "4ESO_B": QUESTION_BANK_4ESO_B
+const PASAPALABRA_MATEMATICAS = {
+  "1ESO": {
+    "A": ["area", "angulo", "azar"],
+    "B": ["base", "bisectriz", "bloque"],
+    "C": ["coordenadas", "circunferencia", "cociente"],
+    "D": ["decimal", "denominador", "diagrama"],
+    "E": ["ecuacion", "equivalente", "exponente"],
+    "F": ["fraccion", "frecuencia", "figura"],
+    "G": ["grafico", "grado", "geometria"],
+    "H": ["hipotenusa", "hectarea", "histograma"],
+    "I": ["incognita", "intervalo", "igualdad"],
+    "J": ["jerarquia", "justificar", "juego"],
+    "K": ["kilometro", "kilogramo", "kilo"],
+    "L": ["longitud", "lineal", "literal"],
+    "M": ["media", "mediana", "moda"],
+    "N": ["numero", "numerador", "negativo"],
+    "Ñ": ["senal", "tamano", "ano"],
+    "O": ["operacion", "ordenada", "opuesto"],
+    "P": ["porcentaje", "proporcionalidad", "pitagoras"],
+    "Q": ["quebrado", "equivalente", "equilatero"],
+    "R": ["recta", "razon", "raiz"],
+    "S": ["simetria", "sistema", "sucesion"],
+    "T": ["tabla", "triangulo", "teorema"],
+    "U": ["unidad", "uniforme", "ultimo"],
+    "V": ["variable", "vertice", "volumen"],
+    "W": ["web", "wiki", "software"],
+    "X": ["exponente", "expresion", "eje_x"],
+    "Y": ["eje_y", "coordenada_y", "valor_y"],
+    "Z": ["azar", "razon", "trapezoide"]
+  },
+  "2ESO": {
+    "A": ["apotema", "area", "altura"],
+    "B": ["base", "bisectriz", "binomio"],
+    "C": ["circunferencia", "coordenadas", "cuerpo"],
+    "D": ["desigualdad", "decimal", "diagrama"],
+    "E": ["ecuacion", "expresion", "equivalente"],
+    "F": ["funcion", "fraccion", "frecuencia"],
+    "G": ["grafica", "geometria", "grado"],
+    "H": ["histograma", "hipotenusa", "hectarea"],
+    "I": ["intervalo", "incognita", "inversa"],
+    "J": ["jerarquia", "justificar", "justificacion"],
+    "K": ["kilometro", "kilogramo", "kilo"],
+    "L": ["lineal", "longitud", "literal"],
+    "M": ["mediana", "media", "moda"],
+    "N": ["negativo", "numerador", "numero"],
+    "Ñ": ["senal", "tamano_muestral", "ano"],
+    "O": ["ordenada", "operacion", "opuesto"],
+    "P": ["proporcionalidad", "porcentaje", "pitagoras"],
+    "Q": ["quebrado", "equivalente", "cuadrado"],
+    "R": ["razon", "raiz", "recta"],
+    "S": ["sistema", "simetria", "semejanza"],
+    "T": ["teorema", "tabla", "triangulo"],
+    "U": ["unidad", "uniforme", "ultimo"],
+    "V": ["volumen", "variable", "vertice"],
+    "W": ["web", "wiki", "software"],
+    "X": ["expresion", "exponente", "eje_x"],
+    "Y": ["eje_y", "coordenada_y", "valor_y"],
+    "Z": ["azar", "razon", "trapezoide"]
+  },
+  "3ESO": {
+    "A": ["algebra", "azar", "area"],
+    "B": ["binomio", "bisectriz", "base"],
+    "C": ["coordenadas", "cuadratica", "cociente"],
+    "D": ["desigualdad", "distribucion", "decimal"],
+    "E": ["ecuacion", "expresion", "exponente"],
+    "F": ["funcion", "frecuencia", "fraccion"],
+    "G": ["grafica", "geometria", "grado"],
+    "H": ["histograma", "hipotenusa", "hectarea"],
+    "I": ["inecuacion", "intervalo", "incognita"],
+    "J": ["justificacion", "jerarquia", "justificar"],
+    "K": ["kilometro", "kilogramo", "kilo"],
+    "L": ["lineal", "literal", "longitud"],
+    "M": ["media", "moda", "mediana"],
+    "N": ["notacion_cientifica", "numero", "negativo"],
+    "Ñ": ["senal", "tamano_muestral", "ano"],
+    "O": ["ordenada", "opuesto", "operacion"],
+    "P": ["parabola", "proporcionalidad", "polinomio"],
+    "Q": ["cuadratica", "quebrado", "equivalente"],
+    "R": ["raiz", "razon", "recta"],
+    "S": ["sistema", "sucesion", "simetria"],
+    "T": ["tabla", "teorema", "triangulo"],
+    "U": ["uniforme", "unidad", "ultimo"],
+    "V": ["variable", "vertice", "volumen"],
+    "W": ["web", "wiki", "software"],
+    "X": ["exponente", "expresion", "eje_x"],
+    "Y": ["eje_y", "coordenada_y", "valor_y"],
+    "Z": ["azar", "razon", "trapezoide"]
+  },
+  "4ESO": {
+    "A": ["asintota", "argumento", "angulo"],
+    "B": ["binomio", "biyeccion", "base"],
+    "C": ["complejo", "cuadratica", "coordenadas"],
+    "D": ["dominio", "distancia", "discriminante"],
+    "E": ["exponencial", "ecuacion", "exponente"],
+    "F": ["factorizacion", "funcion", "fraccion"],
+    "G": ["geometria_analitica", "grafica", "grado"],
+    "H": ["hiperbola", "hipotenusa", "histograma"],
+    "I": ["inecuacion", "intervalo", "incognita"],
+    "J": ["justificacion", "jerarquia", "justificar"],
+    "K": ["kilovatio", "kilometro", "kilo"],
+    "L": ["logaritmo", "limite", "lineal"],
+    "M": ["matriz", "media", "modulo"],
+    "N": ["notacion_cientifica", "numero_real", "negativo"],
+    "Ñ": ["senal", "tamano_muestral", "ano"],
+    "O": ["ordenada", "operacion", "opuesto"],
+    "P": ["polinomio", "parabola", "probabilidad"],
+    "Q": ["cuadratica", "quebrado", "equivalente"],
+    "R": ["radical", "razon", "raiz"],
+    "S": ["sucesion", "sistema", "simetria"],
+    "T": ["trigonometria", "tangente", "teorema"],
+    "U": ["unidad", "uniforme", "ultimo"],
+    "V": ["vector", "variable", "vertice"],
+    "W": ["web", "wiki", "software"],
+    "X": ["exponente", "expresion", "eje_x"],
+    "Y": ["eje_y", "coordenada_y", "valor_y"],
+    "Z": ["azar", "razon", "trapezoide"]
+  }
 };
+
+function normalizeListadoWord(word) {
+  return String(word || "").replace(/_/g, " ").trim();
+}
+
+function termToConcept(term) {
+  return normalizeListadoWord(term)
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function normalizeTermKey(value) {
+  return String(value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9ñ ]/g, "")
+    .trim();
+}
+
+function extractPromptLetter(question) {
+  const match = String(question || "").match(/(?:Con|Contiene) la\s+([A-ZÑ])/i);
+  return match ? match[1].toUpperCase() : "";
+}
+
+function buildLegacyQuestionCatalog() {
+  const catalog = {};
+  const sourceBanks = [QUESTION_BANK_1ESO, QUESTION_BANK_2ESO, QUESTION_BANK_3ESO, QUESTION_BANK_4ESO_B];
+
+  sourceBanks.forEach((bank) => {
+    LETTERS.forEach((letter) => {
+      const pool = Array.isArray(bank?.[letter]) ? bank[letter] : [];
+      pool.forEach((q) => {
+        if (!q || !q.answer || !q.question) return;
+        const key = normalizeTermKey(q.answer);
+        if (!catalog[key]) catalog[key] = [];
+        catalog[key].push(q);
+      });
+    });
+  });
+
+  return catalog;
+}
+
+const LEGACY_QUESTION_CATALOG = buildLegacyQuestionCatalog();
+
+const TERM_CLUES = {
+  algebra: {
+    prompt: "rama de las matematicas que usa letras y simbolos para generalizar operaciones",
+    definition: "Estudia expresiones, ecuaciones e inecuaciones con variables.",
+    content: "Algebra"
+  },
+  altura: {
+    prompt: "segmento perpendicular desde un vertice a la base o su prolongacion",
+    definition: "Se usa para calcular areas de triangulos y otras figuras.",
+    content: "Geometria"
+  },
+  bloque: {
+    prompt: "cuerpo geometrico de caras planas, como un prisma rectangular",
+    definition: "En contextos escolares suele referirse a un solido tipo prisma.",
+    content: "Geometria"
+  },
+  "coordenada y": {
+    prompt: "valor vertical de un punto en el plano cartesiano",
+    definition: "Es la segunda componente del par ordenado (x, y).",
+    content: "Funciones"
+  },
+  cuadrado: {
+    prompt: "poligono de cuatro lados iguales y cuatro angulos rectos",
+    definition: "Es un caso particular de rectangulo y de rombo.",
+    content: "Geometria"
+  },
+  cuerpo: {
+    prompt: "figura geometrica tridimensional con volumen",
+    definition: "Incluye prismas, piramides, cilindros, conos y esferas.",
+    content: "Geometria"
+  },
+  discriminante: {
+    prompt: "expresion b^2 - 4ac de una ecuacion cuadratica",
+    definition: "Permite conocer el numero de soluciones reales.",
+    content: "Algebra"
+  },
+  distancia: {
+    prompt: "longitud del segmento que une dos puntos",
+    definition: "En el plano puede calcularse con la formula de distancia.",
+    content: "Geometria"
+  },
+  distribucion: {
+    prompt: "forma en que se reparten los datos en una muestra",
+    definition: "Describe concentracion, dispersion y frecuencia de valores.",
+    content: "Estadistica"
+  },
+  dominio: {
+    prompt: "conjunto de valores de entrada para los que una funcion esta definida",
+    definition: "Suele expresarse mediante intervalos o condiciones.",
+    content: "Funciones"
+  },
+  "eje x": {
+    prompt: "eje horizontal del plano cartesiano",
+    definition: "Tambien se llama eje de abscisas.",
+    content: "Funciones"
+  },
+  figura: {
+    prompt: "forma geometrica definida por puntos, lineas o superficies",
+    definition: "Puede ser plana o espacial.",
+    content: "Geometria"
+  },
+  grafica: {
+    prompt: "representacion visual de datos o de una funcion",
+    definition: "Ayuda a interpretar tendencias y relaciones.",
+    content: "Funciones"
+  },
+  igualdad: {
+    prompt: "relacion que indica que dos expresiones tienen el mismo valor",
+    definition: "Se representa con el signo =.",
+    content: "Algebra"
+  },
+  juego: {
+    prompt: "actividad con reglas usada para aprender y practicar contenidos",
+    definition: "Favorece la motivacion y la consolidacion de conceptos.",
+    content: "Metodologia"
+  },
+  limite: {
+    prompt: "valor al que se aproxima una funcion cuando la variable se acerca a un punto",
+    definition: "Concepto central del analisis matematico.",
+    content: "Funciones"
+  },
+  modulo: {
+    prompt: "valor absoluto de un numero o magnitud de un vector",
+    definition: "Representa distancia al cero o longitud de un vector.",
+    content: "Numeros y calculo"
+  },
+  "numero real": {
+    prompt: "numero que puede representarse en la recta numerica",
+    definition: "Incluye racionales e irracionales.",
+    content: "Numeros y calculo"
+  },
+  probabilidad: {
+    prompt: "medida de la posibilidad de que ocurra un suceso",
+    definition: "Toma valores entre 0 y 1, o entre 0% y 100%.",
+    content: "Probabilidad"
+  },
+  semejanza: {
+    prompt: "relacion entre figuras con misma forma y distinta escala",
+    definition: "Conserva angulos y proporcionalidad entre lados.",
+    content: "Geometria"
+  },
+  software: {
+    prompt: "conjunto de programas que permite realizar tareas en un dispositivo",
+    definition: "En clase puede usarse para calcular, graficar o simular.",
+    content: "Interpretacion de datos"
+  },
+  "tamano muestral": {
+    prompt: "numero de datos u observaciones que tiene una muestra",
+    definition: "Suele representarse con n en estadistica.",
+    content: "Estadistica"
+  },
+  tangente: {
+    prompt: "razon trigonometrica entre cateto opuesto y cateto adyacente",
+    definition: "Tambien es la recta que toca una curva en un punto.",
+    content: "Geometria"
+  },
+  "valor y": {
+    prompt: "resultado vertical asociado a un valor de x en una funcion",
+    definition: "Es la salida o imagen de la funcion.",
+    content: "Funciones"
+  },
+  wiki: {
+    prompt: "sitio colaborativo donde se crea y edita informacion",
+    definition: "Puede emplearse para consultar conceptos y ejemplos.",
+    content: "Interpretacion de datos"
+  }
+};
+
+function findLegacyQuestionForLetter(letter, answer) {
+  const key = normalizeTermKey(answer);
+  const candidates = LEGACY_QUESTION_CATALOG[key] || [];
+  if (!candidates.length) return null;
+
+  return (
+    candidates.find((q) => extractPromptLetter(q.question) === letter) ||
+    candidates.find((q) => normalizeTermKey(q.answer).startsWith(letter.toLowerCase())) ||
+    candidates[0]
+  );
+}
+
+function buildQuestionFromTerm(letter, rawTerm) {
+  const answer = normalizeListadoWord(rawTerm);
+  const legacyQuestion = findLegacyQuestionForLetter(letter, answer);
+
+  if (legacyQuestion) {
+    return {
+      ...legacyQuestion,
+      answer,
+      concept: legacyQuestion.concept || termToConcept(rawTerm)
+    };
+  }
+
+  const concept = termToConcept(rawTerm);
+  const startsWithLetter = answer.charAt(0).toUpperCase() === letter;
+  const lead = startsWithLetter ? `Con la ${letter}` : `Contiene la ${letter}`;
+  const clue = TERM_CLUES[normalizeTermKey(answer)];
+
+  return {
+    answer,
+    question: clue ? `${lead}: ${clue.prompt}.` : `${lead}: termino matematico "${answer}".`,
+    concept,
+    definition: clue?.definition || `Concepto clave del vocabulario matematico: ${answer}.`,
+    example: `Ejemplo de uso: ${answer}.`,
+    application: "Aplicacion en ejercicios y resolucion de problemas.",
+    procedure: "Relaciona el termino con su definicion y contexto matematico.",
+    mistakes: "No confundir el termino con otros conceptos similares.",
+    hint: `Empieza con ${letter}.`,
+    content: clue?.content || "Vocabulario"
+  };
+}
+
+function buildQuestionBanksFromList(listado) {
+  const levelMap = {
+    "1ESO": "1ESO",
+    "2ESO": "2ESO",
+    "3ESO": "3ESO",
+    "4ESO": "4ESO_B"
+  };
+
+  const banks = {};
+
+  Object.entries(levelMap).forEach(([sourceLevel, gameLevel]) => {
+    const source = listado[sourceLevel] || {};
+    const bank = {};
+    LETTERS.forEach((letter) => {
+      const terms = Array.isArray(source[letter]) ? source[letter] : [];
+      bank[letter] = terms.map((term) => buildQuestionFromTerm(letter, term));
+    });
+    banks[gameLevel] = bank;
+  });
+
+  return banks;
+}
+
+const QUESTION_BANKS = buildQuestionBanksFromList(PASAPALABRA_MATEMATICAS);
 
 const state = {
   mode: "normal",
@@ -1030,8 +1385,10 @@ function normalizeText(value) {
   return value
     .toLowerCase()
     .normalize("NFD")
+    .replace(/_/g, " ")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9ñ ]/g, "")
+    .replace(/\s+/g, " ")
     .trim();
 }
 
