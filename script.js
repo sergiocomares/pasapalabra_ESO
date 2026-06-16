@@ -362,7 +362,7 @@ const PASAPALABRA_MATEMATICAS = {
     "Ñ": ["senal", "tamano_muestral", "ano"],
     "O": ["ordenada", "operacion", "opuesto"],
     "P": ["proporcionalidad", "porcentaje", "pitagoras"],
-    "Q": ["quebrado", "equivalente", "cuadrado"],
+    "Q": ["quebrado", "equivalente", "equilatero"],
     "R": ["razon", "raiz", "recta"],
     "S": ["sistema", "simetria", "semejanza"],
     "T": ["teorema", "tabla", "triangulo"],
@@ -391,7 +391,7 @@ const PASAPALABRA_MATEMATICAS = {
     "Ñ": ["senal", "tamano_muestral", "ano"],
     "O": ["ordenada", "opuesto", "operacion"],
     "P": ["parabola", "proporcionalidad", "polinomio"],
-    "Q": ["cuadratica", "quebrado", "equivalente"],
+    "Q": ["quebrado", "equivalente", "equilatero"],
     "R": ["raiz", "razon", "recta"],
     "S": ["sistema", "sucesion", "simetria"],
     "T": ["tabla", "teorema", "triangulo"],
@@ -420,7 +420,7 @@ const PASAPALABRA_MATEMATICAS = {
     "Ñ": ["senal", "tamano_muestral", "ano"],
     "O": ["ordenada", "operacion", "opuesto"],
     "P": ["polinomio", "parabola", "probabilidad"],
-    "Q": ["cuadratica", "quebrado", "equivalente"],
+    "Q": ["quebrado", "equivalente", "equilatero"],
     "R": ["radical", "razon", "raiz"],
     "S": ["sucesion", "sistema", "simetria"],
     "T": ["trigonometria", "tangente", "teorema"],
@@ -615,8 +615,7 @@ function findLegacyQuestionForLetter(letter, answer) {
 
   return (
     candidates.find((q) => extractPromptLetter(q.question) === letter) ||
-    candidates.find((q) => normalizeTermKey(q.answer).startsWith(letter.toLowerCase())) ||
-    candidates[0]
+    null
   );
 }
 
@@ -928,6 +927,8 @@ function startGame() {
 
   els.modeTitle.textContent = modeLabel();
   els.answerInput.value = "";
+  els.feedback.textContent = "";
+  els.feedback.className = "feedback";
   els.explanationCard.classList.add("hidden");
   setupModeControls();
 
@@ -1025,6 +1026,19 @@ function bindEvents() {
   els.answerForm?.addEventListener("submit", (event) => {
     event.preventDefault();
     checkAnswer(els.answerInput.value);
+  });
+  els.btnPass?.addEventListener("click", passLetter);
+  els.btnHint?.addEventListener("click", useHint);
+  document.addEventListener("keydown", (event) => {
+    if (!els.gameScreen?.classList.contains("active") || state.finished) return;
+    if (event.key === "p" || event.key === "P") {
+      event.preventDefault();
+      passLetter();
+    }
+    if (event.key === "h" || event.key === "H") {
+      event.preventDefault();
+      useHint();
+    }
   });
 }
 
@@ -1364,6 +1378,10 @@ function renderRosco() {
     if (LETTERS[state.currentIndex] === letter) node.classList.add("active");
 
     node.addEventListener("click", () => {
+      if (!["pending", "passed"].includes(state.statuses[letter])) {
+        showFeedback("Esa letra ya está cerrada.", "info");
+        return;
+      }
       state.currentIndex = i;
       renderCurrentQuestion();
       renderRosco();
@@ -1424,6 +1442,14 @@ function checkAnswer(rawAnswer) {
   const current = state.questions[state.currentIndex];
   if (!current) return;
 
+  const letter = current.letter;
+  const letterStatus = state.statuses[letter];
+  if (!["pending", "passed"].includes(letterStatus)) {
+    showFeedback("Esa letra ya está cerrada. Continúa con otra pendiente.", "info");
+    moveToNextPlayableLetter();
+    return;
+  }
+
   const expected = current.answer;
   const given = rawAnswer;
 
@@ -1433,7 +1459,6 @@ function checkAnswer(rawAnswer) {
   }
 
   const isCorrect = answersMatch(expected, given);
-  const letter = current.letter;
 
   if (isCorrect) {
     state.statuses[letter] = "correct";
