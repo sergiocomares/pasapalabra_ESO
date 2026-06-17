@@ -486,6 +486,16 @@ const TERM_CLUES = {
     definition: "Concepto base de probabilidad, donde interviene la aleatoriedad.",
     content: "Probabilidad"
   },
+  expresion: {
+    prompt: "combinacion de numeros, letras y operaciones sin signo igual",
+    definition: "Representa relaciones matematicas y se simplifica operando terminos semejantes.",
+    content: "Algebra"
+  },
+  polinomio: {
+    prompt: "expresion algebraica formada por suma o resta de monomios",
+    definition: "Sus terminos tienen exponentes enteros no negativos y puede ordenarse por grado.",
+    content: "Algebra"
+  },
   algebra: {
     prompt: "rama de las matematicas que usa letras y simbolos para generalizar operaciones",
     definition: "Estudia expresiones, ecuaciones e inecuaciones con variables.",
@@ -1036,19 +1046,20 @@ function bindEvents() {
   els.btnHint?.addEventListener("click", useHint);
   document.addEventListener("keydown", (event) => {
     if (!els.gameScreen?.classList.contains("active") || state.finished) return;
+    const pressedKey = String(event.key || "").toLowerCase();
     const target = event.target;
     const isTypingField =
       target instanceof HTMLInputElement ||
       target instanceof HTMLTextAreaElement ||
       target instanceof HTMLSelectElement ||
       target?.isContentEditable;
-    if (isTypingField) return;
 
-    if (event.key === "p" || event.key === "P") {
+    if (pressedKey === "p") {
+      if (isTypingField) return;
       event.preventDefault();
       passLetter();
     }
-    if (event.key === "h" || event.key === "H") {
+    if (pressedKey === "h") {
       event.preventDefault();
       useHint();
     }
