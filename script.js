@@ -481,6 +481,11 @@ function buildLegacyQuestionCatalog() {
 const LEGACY_QUESTION_CATALOG = buildLegacyQuestionCatalog();
 
 const TERM_CLUES = {
+  azar: {
+    prompt: "situacion en la que el resultado no puede predecirse con certeza",
+    definition: "Concepto base de probabilidad, donde interviene la aleatoriedad.",
+    content: "Probabilidad"
+  },
   algebra: {
     prompt: "rama de las matematicas que usa letras y simbolos para generalizar operaciones",
     definition: "Estudia expresiones, ecuaciones e inecuaciones con variables.",
@@ -1031,6 +1036,14 @@ function bindEvents() {
   els.btnHint?.addEventListener("click", useHint);
   document.addEventListener("keydown", (event) => {
     if (!els.gameScreen?.classList.contains("active") || state.finished) return;
+    const target = event.target;
+    const isTypingField =
+      target instanceof HTMLInputElement ||
+      target instanceof HTMLTextAreaElement ||
+      target instanceof HTMLSelectElement ||
+      target?.isContentEditable;
+    if (isTypingField) return;
+
     if (event.key === "p" || event.key === "P") {
       event.preventDefault();
       passLetter();
