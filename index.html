@@ -31,12 +31,12 @@
         <div class="hero-banner" aria-hidden="true">
           <div class="hero-copy">
             <span class="hero-kicker">Aula interactiva</span>
-            <h3>Entrena cada letra del rosco con desafíos reales de Matemáticas</h3>
+            <h3>Rosco de Matemáticas para repasar, pensar y responder con ritmo</h3>
           </div>
           <div class="hero-math">
-            <span class="latex-chip">$x + 3 = 9$</span>
-            <span class="latex-chip">$Área = \frac{b \times h}{2}$</span>
-            <span class="latex-chip">$25\% = 0,25$</span>
+            <div class="hero-chip hero-chip-primary"><span class="hero-chip-label">Ritmo</span><span class="hero-chip-text">Juego ágil</span></div>
+            <div class="hero-chip"><span class="hero-chip-label">Repaso</span><span class="hero-chip-text">27 letras</span></div>
+            <div class="hero-chip"><span class="hero-chip-label">Formato</span><span class="hero-chip-text">27 letras</span></div>
           </div>
         </div>
 
@@ -84,7 +84,6 @@
         <div class="hud-item"><span>Aciertos</span><strong id="hudCorrect">0</strong></div>
         <div class="hud-item"><span>Fallos</span><strong id="hudWrong">0</strong></div>
         <div class="hud-item"><span>Pendientes</span><strong id="hudPending">27</strong></div>
-        <div class="hud-item"><span>Pistas</span><strong id="hudHints">5</strong></div>
       </div>
 
       <div class="xp-card card">
@@ -112,7 +111,6 @@
             <div class="controls-row">
               <button type="submit" id="btnAnswer" class="btn primary">Responder</button>
               <button type="button" id="btnPass" class="btn">Pasapalabra</button>
-              <button type="button" id="btnHint" class="btn accent">Pista</button>
             </div>
           </form>
 
@@ -144,8 +142,7 @@
           <li>Selecciona el nivel académico antes de jugar: 1º ESO, 2º ESO, 3º ESO o 4º ESO.</li>
           <li>Responde con la palabra matemática correcta para cada letra.</li>
           <li>En modo normal puedes pasar letras y volver más tarde.</li>
-          <li>Dispones de 5 pistas por partida.</li>
-          <li>Atajos de teclado: Enter responde, P pasa, H pide pista.</li>
+          <li>Atajos de teclado: Enter responde y P pasa.</li>
         </ul>
         <button id="btnCloseInstructions" class="btn primary">Volver</button>
       </div>

@@ -236,36 +236,141 @@ const QUESTION_BANK_4ESO_B = {
 };
 
 const QUESTION_BANK_1ESO = {
-  A: [...QUESTION_BANK_2ESO.A],
-  B: [...QUESTION_BANK_2ESO.B],
-  C: [...QUESTION_BANK_2ESO.C],
-  D: [...QUESTION_BANK_2ESO.D],
-  E: [...QUESTION_BANK_2ESO.E],
-  F: [...QUESTION_BANK_2ESO.F],
-  G: [...QUESTION_BANK_2ESO.G],
-  H: [...QUESTION_BANK_2ESO.H],
-  I: [...QUESTION_BANK_2ESO.I],
-  J: [...QUESTION_BANK_2ESO.J],
-  K: [...QUESTION_BANK_2ESO.K],
-  L: [...QUESTION_BANK_2ESO.L],
-  M: [...QUESTION_BANK_2ESO.M],
-  N: [...QUESTION_BANK_2ESO.N],
-  "Ñ": [...QUESTION_BANK_2ESO["Ñ"]],
-  O: [...QUESTION_BANK_2ESO.O],
-  P: [...QUESTION_BANK_2ESO.P],
-  Q: [QUESTION_BANK_2ESO.Q[0], QUESTION_BANK_2ESO.Q[1], QUESTION_BANK_2ESO.Q[2]],
-  R: [...QUESTION_BANK_2ESO.R],
-  S: [...QUESTION_BANK_2ESO.S],
-  T: [...QUESTION_BANK_2ESO.T],
-  U: [...QUESTION_BANK_2ESO.U],
-  V: [...QUESTION_BANK_2ESO.V],
-  W: [
-    QUESTION_BANK_2ESO.W[0],
-    QUESTION_BANK_2ESO.W[1]
+  A: [
+    { answer: "area", question: "Con la A: magnitud que mide la superficie de una figura plana." },
+    { answer: "angulo", question: "Con la A: abertura formada por dos semirrectas con un mismo origen." },
+    { answer: "azar", question: "Con la A: situacion en la que el resultado no puede predecirse con seguridad." }
   ],
-  X: [...QUESTION_BANK_2ESO.X],
-  Y: [...QUESTION_BANK_2ESO.Y],
-  Z: [...QUESTION_BANK_2ESO.Z]
+  B: [
+    { answer: "base", question: "Con la B: lado de referencia de una figura para calcular su area." },
+    { answer: "bisectriz", question: "Con la B: semirrecta que divide un angulo en dos partes iguales." },
+    { answer: "barra", question: "Con la B: tipo de grafico usado para representar datos." }
+  ],
+  C: [
+    { answer: "coordenadas", question: "Con la C: par de numeros que localiza un punto en el plano." },
+    { answer: "circunferencia", question: "Con la C: linea curva cerrada cuyos puntos estan a la misma distancia del centro." },
+    { answer: "cociente", question: "Con la C: resultado de una division." }
+  ],
+  D: [
+    { answer: "decimal", question: "Con la D: numero que representa partes de la unidad mediante una coma." },
+    { answer: "denominador", question: "Con la D: numero inferior de una fraccion que indica en cuantas partes se divide la unidad." },
+    { answer: "diagrama", question: "Con la D: representacion grafica de datos o relaciones." }
+  ],
+  E: [
+    { answer: "ecuacion", question: "Con la E: igualdad matematica con una incognita." },
+    { answer: "equivalente", question: "Con la E: que tiene el mismo valor aunque tenga distinta forma." },
+    { answer: "exponente", question: "Con la E: numero que indica cuantas veces se multiplica una base por si misma." }
+  ],
+  F: [
+    { answer: "fraccion", question: "Con la F: numero que expresa una parte de la unidad." },
+    { answer: "frecuencia", question: "Con la F: numero de veces que aparece un dato." },
+    { answer: "figura", question: "Con la F: forma geometrica formada por puntos, lineas o superficies." }
+  ],
+  G: [
+    { answer: "grafico", question: "Con la G: representacion visual de datos." },
+    { answer: "grado", question: "Con la G: unidad de medida de angulos." },
+    { answer: "geometria", question: "Con la G: rama de las matematicas que estudia formas, medidas y posiciones." }
+  ],
+  H: [
+    { answer: "hectarea", question: "Con la H: unidad de superficie equivalente a 10 000 metros cuadrados." },
+    { answer: "hexagono", question: "Con la H: poligono de seis lados." },
+    { answer: "horizontal", question: "Contiene la H: direccion de una linea paralela al suelo." }
+  ],
+  I: [
+    { answer: "incognita", question: "Con la I: valor desconocido que se representa normalmente con una letra." },
+    { answer: "igualdad", question: "Con la I: relacion que indica que dos expresiones tienen el mismo valor." },
+    { answer: "intervalo", question: "Con la I: conjunto de numeros comprendidos entre dos extremos." }
+  ],
+  J: [
+    { answer: "jerarquia", question: "Con la J: orden en que se realizan las operaciones en una expresion." },
+    { answer: "justificar", question: "Con la J: explicar matematicamente por que un resultado es correcto." },
+    { answer: "eje", question: "Contiene la J: recta de referencia en el plano cartesiano." }
+  ],
+  K: [
+    { answer: "kilometro", question: "Con la K: unidad de longitud equivalente a 1000 metros." },
+    { answer: "kilogramo", question: "Con la K: unidad de masa equivalente a 1000 gramos." },
+    { answer: "kilo", question: "Con la K: prefijo que indica mil unidades." }
+  ],
+  L: [
+    { answer: "longitud", question: "Con la L: magnitud que mide la distancia entre dos puntos." },
+    { answer: "lado", question: "Con la L: cada uno de los segmentos que forman un poligono." },
+    { answer: "literal", question: "Con la L: parte formada por letras en una expresion algebraica." }
+  ],
+  M: [
+    { answer: "media", question: "Con la M: medida que se obtiene sumando los datos y dividiendo entre su cantidad." },
+    { answer: "mediana", question: "Con la M: valor central de un conjunto de datos ordenados." },
+    { answer: "moda", question: "Con la M: dato que mas se repite en una distribucion." }
+  ],
+  N: [
+    { answer: "numero", question: "Con la N: objeto matematico que sirve para contar, medir u ordenar." },
+    { answer: "numerador", question: "Con la N: numero superior de una fraccion." },
+    { answer: "negativo", question: "Con la N: numero menor que cero." }
+  ],
+  "Ñ": [
+    { answer: "señal", question: "Contiene la Ñ: indicacion o marca que ayuda a interpretar una grafica." },
+    { answer: "tamaño", question: "Contiene la Ñ: medida o dimension de una figura u objeto." },
+    { answer: "año", question: "Contiene la Ñ: unidad de tiempo usada en problemas matematicos." }
+  ],
+  O: [
+    { answer: "operacion", question: "Con la O: accion matematica como sumar, restar, multiplicar o dividir." },
+    { answer: "ordenada", question: "Con la O: coordenada vertical de un punto en el plano." },
+    { answer: "opuesto", question: "Con la O: numero que sumado con otro da cero." }
+  ],
+  P: [
+    { answer: "porcentaje", question: "Con la P: forma de expresar una parte de cada cien." },
+    { answer: "proporcionalidad", question: "Con la P: relacion entre magnitudes que mantienen una misma razon." },
+    { answer: "perimetro", question: "Con la P: suma de las longitudes de los lados de una figura." }
+  ],
+  Q: [
+    { answer: "quebrado", question: "Contiene la Q: forma antigua de llamar a una fraccion." },
+    { answer: "equivalente", question: "Contiene la Q: que tiene el mismo valor aunque tenga distinta forma." },
+    { answer: "equilatero", question: "Contiene la Q: triangulo que tiene sus tres lados iguales." }
+  ],
+  R: [
+    { answer: "recta", question: "Con la R: linea infinita que no tiene curvatura." },
+    { answer: "razon", question: "Con la R: cociente entre dos cantidades comparables." },
+    { answer: "raiz", question: "Con la R: operacion que permite encontrar un numero que, multiplicado por si mismo, da otro." }
+  ],
+  S: [
+    { answer: "simetria", question: "Con la S: propiedad por la que una figura coincide consigo misma al reflejarse." },
+    { answer: "segmento", question: "Con la S: parte de una recta limitada por dos puntos." },
+    { answer: "sucesion", question: "Con la S: conjunto ordenado de numeros que siguen una regla." }
+  ],
+  T: [
+    { answer: "tabla", question: "Con la T: organizacion de datos en filas y columnas." },
+    { answer: "triangulo", question: "Con la T: poligono de tres lados." },
+    { answer: "termino", question: "Con la T: cada uno de los elementos de una sucesion o de una expresion." }
+  ],
+  U: [
+    { answer: "unidad", question: "Con la U: cantidad de referencia que se usa para medir." },
+    { answer: "unico", question: "Con la U: que tiene una sola solucion o posibilidad." },
+    { answer: "ultimo", question: "Con la U: termino final conocido en una sucesion o lista." }
+  ],
+  V: [
+    { answer: "variable", question: "Con la V: simbolo que puede tomar distintos valores." },
+    { answer: "vertice", question: "Con la V: punto donde se unen dos lados o aristas." },
+    { answer: "volumen", question: "Con la V: medida del espacio que ocupa un cuerpo." }
+  ],
+  W: [
+    { answer: "web", question: "Contiene la W: pagina digital donde pueden aparecer tablas, graficos o actividades matematicas." },
+    { answer: "wiki", question: "Contiene la W: sitio colaborativo donde se puede consultar informacion." },
+    { answer: "software", question: "Contiene la W: conjunto de programas que permite usar herramientas matematicas digitales." }
+  ],
+  X: [
+    { answer: "exponente", question: "Contiene la X: numero que indica cuantas veces se multiplica una base por si misma." },
+    { answer: "expresion", question: "Contiene la X: combinacion de numeros, letras y operaciones." },
+    { answer: "eje x", question: "Contiene la X: eje horizontal del plano cartesiano." }
+  ],
+  Y: [
+    { answer: "eje y", question: "Contiene la Y: eje vertical del plano cartesiano." },
+    { answer: "mayor", question: "Contiene la Y: numero que tiene mas valor que otro." },
+    { answer: "leyenda", question: "Contiene la Y: explicacion que ayuda a interpretar un grafico." }
+  ],
+  Z: [
+    { answer: "azar", question: "Contiene la Z: situacion en la que no se puede saber con seguridad el resultado." },
+    { answer: "razon", question: "Contiene la Z: cociente entre dos cantidades comparables." },
+    { answer: "raiz", question: "Contiene la Z: operacion inversa de elevar al cuadrado." }
+  ]
 };
 
 const QUESTION_BANK_3ESO = {
@@ -370,7 +475,11 @@ const PASAPALABRA_MATEMATICAS = {
     "V": ["volumen", "variable", "vertice"],
     "W": ["web", "wiki", "software"],
     "X": ["expresion", "exponente", "eje_x"],
-    "Y": ["eje_y", "coordenada_y", "valor_y"],
+    "Y": [
+      { answer: "eje_y", question: "Con la Y: eje vertical del plano cartesiano." },
+      { answer: "coordenada_y", question: "Con la Y: valor vertical de un punto en el plano cartesiano." },
+      { answer: "mayor", question: "Contiene la Y: numero que tiene mas valor que otro." }
+    ],
     "Z": ["azar", "razon", "trapezoide"]
   },
   "3ESO": {
@@ -379,14 +488,18 @@ const PASAPALABRA_MATEMATICAS = {
     "C": ["coordenadas", "cuadratica", "cociente"],
     "D": ["desigualdad", "distribucion", "decimal"],
     "E": ["ecuacion", "expresion", "exponente"],
-    "F": ["funcion", "frecuencia", "fraccion"],
+    "F": ["funcion", { answer: "factorizacion", question: "Con la F: proceso de escribir una expresion algebraica como producto de factores." }, "frecuencia"],
     "G": ["grafica", "geometria", "grado"],
-    "H": ["histograma", "hipotenusa", "hectarea"],
+    "H": ["histograma", "hipotenusa", { answer: "homologos", question: "Con la H: elementos que ocupan la misma posicion en figuras semejantes." }],
     "I": ["inecuacion", "intervalo", "incognita"],
     "J": ["justificacion", "jerarquia", "justificar"],
     "K": ["kilometro", "kilogramo", "kilo"],
     "L": ["lineal", "literal", "longitud"],
-    "M": ["media", "moda", "mediana"],
+    "M": [
+      { answer: "monomio", question: "Con la M: expresion algebraica formada por un solo termino." },
+      "media",
+      "mediana"
+    ],
     "N": ["notacion_cientifica", "numero", "negativo"],
     "Ñ": ["senal", "tamano_muestral", "ano"],
     "O": ["ordenada", "opuesto", "operacion"],
@@ -395,34 +508,46 @@ const PASAPALABRA_MATEMATICAS = {
     "R": ["raiz", "razon", "recta"],
     "S": ["sistema", "sucesion", "simetria"],
     "T": ["tabla", "teorema", "triangulo"],
-    "U": ["uniforme", "unidad", "ultimo"],
+    "U": [
+      { answer: "union", question: "Con la U: conjunto formado por los elementos que pertenecen a uno u otro conjunto." },
+      "unidad",
+      "ultimo"
+    ],
     "V": ["variable", "vertice", "volumen"],
     "W": ["web", "wiki", "software"],
     "X": ["exponente", "expresion", "eje_x"],
-    "Y": ["eje_y", "coordenada_y", "valor_y"],
+    "Y": [
+      { answer: "eje_y", question: "Con la Y: eje vertical del plano cartesiano." },
+      { answer: "coordenada_y", question: "Contiene la Y: valor vertical de un punto en el plano cartesiano." },
+      { answer: "variable_y", question: "Contiene la Y: variable que suele representar el valor de salida de una funcion." }
+    ],
     "Z": ["azar", "razon", "trapezoide"]
   },
   "4ESO": {
     "A": ["asintota", "argumento", "angulo"],
-    "B": ["binomio", "biyeccion", "base"],
+    "B": ["binomio", { answer: "bicuadrada", question: "Con la B: ecuacion en la que aparecen potencias pares de la incognita, como x^4 y x^2." }, "base"],
     "C": ["cociente", "cuadratica", "coordenadas"],
     "D": ["dominio", "distancia", "discriminante"],
     "E": ["exponencial", "ecuacion", "exponente"],
     "F": ["factorizacion", "funcion", "fraccion"],
     "G": ["geometria_analitica", "grafica", "grado"],
     "H": ["hiperbola", "hipotenusa", "histograma"],
-    "I": ["inecuacion", "intervalo", "incognita"],
+    "I": ["inecuacion", "intervalo", { answer: "irracional", question: "Con la I: numero que no puede expresarse como fraccion de dos enteros." }],
     "J": ["justificacion", "jerarquia", "justificar"],
     "K": ["kilovatio", "kilometro", "kilo"],
     "L": ["logaritmo", "limite", "lineal"],
-    "M": ["matriz", "media", "modulo"],
+    "M": [
+      { answer: "modulo", question: "Con la M: valor absoluto de un numero o longitud de un vector." },
+      { answer: "monomio", question: "Con la M: expresion algebraica formada por un solo termino." },
+      "media"
+    ],
     "N": ["notacion_cientifica", "numero_real", "negativo"],
     "Ñ": ["senal", "tamano_muestral", "ano"],
     "O": ["ordenada", "operacion", "opuesto"],
     "P": ["polinomio", "parabola", "probabilidad"],
     "Q": ["quebrado", "equivalente", "equilatero"],
     "R": ["radical", "razon", "raiz"],
-    "S": ["sucesion", "sistema", "simetria"],
+    "S": ["sucesion", "sistema", { answer: "seno", question: "Con la S: razon trigonometrica que relaciona el cateto opuesto con la hipotenusa." }],
     "T": ["trigonometria", "tangente", "teorema"],
     "U": ["unidad", "uniforme", "ultimo"],
     "V": ["vector", "variable", "vertice"],
@@ -635,8 +760,26 @@ function findLegacyQuestionForLetter(letter, answer) {
 }
 
 function buildQuestionFromTerm(letter, rawTerm) {
-  const answer = normalizeListadoWord(rawTerm);
+  const termSpec = rawTerm && typeof rawTerm === "object" ? rawTerm : null;
+  const answer = normalizeListadoWord(termSpec ? termSpec.answer : rawTerm);
   const legacyQuestion = findLegacyQuestionForLetter(letter, answer);
+  const explicitQuestion = termSpec?.question ? String(termSpec.question) : "";
+
+  if (explicitQuestion) {
+    return {
+      ...(legacyQuestion || {}),
+      answer,
+      question: explicitQuestion,
+      concept: termSpec?.concept || legacyQuestion?.concept || termToConcept(rawTerm),
+      definition: termSpec?.definition || legacyQuestion?.definition || `Concepto clave del vocabulario matematico: ${answer}.`,
+      example: termSpec?.example || legacyQuestion?.example || `Ejemplo de uso: ${answer}.`,
+      application: termSpec?.application || legacyQuestion?.application || "Aplicacion en ejercicios y resolucion de problemas.",
+      procedure: termSpec?.procedure || legacyQuestion?.procedure || "Relaciona el termino con su definicion y contexto matematico.",
+      mistakes: termSpec?.mistakes || legacyQuestion?.mistakes || "No confundir el termino con otros conceptos similares.",
+      hint: termSpec?.hint || legacyQuestion?.hint || `Empieza con ${letter}.`,
+      content: termSpec?.content || legacyQuestion?.content || "Vocabulario"
+    };
+  }
 
   if (legacyQuestion) {
     return {
@@ -676,7 +819,7 @@ function buildQuestionBanksFromList(listado) {
   const banks = {};
 
   Object.entries(levelMap).forEach(([sourceLevel, gameLevel]) => {
-    const source = listado[sourceLevel] || {};
+    const source = sourceLevel === "1ESO" ? QUESTION_BANK_1ESO : (listado[sourceLevel] || {});
     const bank = {};
     LETTERS.forEach((letter) => {
       const terms = Array.isArray(source[letter]) ? source[letter] : [];
@@ -698,8 +841,6 @@ const state = {
   timerId: null,
   questions: [],
   statuses: {},
-  usedHints: 0,
-  maxHints: 5,
   currentIndex: 0,
   startedAt: 0,
   correct: 0,
@@ -757,32 +898,16 @@ function saveMusicMutePreference() {
   localStorage.setItem(MUSIC_MUTE_PREFERENCE_KEY, String(isStartMusicMuted));
 }
 
-function saveStats() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(globalStats));
-}
-
-const els = {
-  startScreen: document.getElementById("startScreen"),
-  gameScreen: document.getElementById("gameScreen"),
-  instructionsScreen: document.getElementById("instructionsScreen"),
-  statsScreen: document.getElementById("statsScreen"),
-  finalScreen: document.getElementById("finalScreen"),
-  bestScore: document.getElementById("bestScore"),
-  gamesPlayed: document.getElementById("gamesPlayed"),
-  totalCorrect: document.getElementById("totalCorrect"),
-  levelSelect: document.getElementById("levelSelect"),
   timeSelect: document.getElementById("timeSelect"),
   btnToggleMusic: document.getElementById("btnToggleMusic"),
   btnToggleLogos: document.getElementById("btnToggleLogos"),
   startMusic: document.getElementById("startMusic"),
   sfxCorrect: document.getElementById("sfxCorrect"),
   sfxWrong: document.getElementById("sfxWrong"),
-  rosco: document.getElementById("rosco"),
   hudTime: document.getElementById("hudTime"),
   hudCorrect: document.getElementById("hudCorrect"),
   hudWrong: document.getElementById("hudWrong"),
   hudPending: document.getElementById("hudPending"),
-  hudHints: document.getElementById("hudHints"),
   modeTitle: document.getElementById("modeTitle"),
   letterPrompt: document.getElementById("letterPrompt"),
   questionText: document.getElementById("questionText"),
@@ -790,7 +915,6 @@ const els = {
   answerInput: document.getElementById("answerInput"),
   btnAnswer: document.getElementById("btnAnswer"),
   btnPass: document.getElementById("btnPass"),
-  btnHint: document.getElementById("btnHint"),
   feedback: document.getElementById("feedback"),
   explanationCard: document.getElementById("explanationCard"),
   expConcept: document.getElementById("expConcept"),
@@ -928,7 +1052,6 @@ function startGame() {
   state.academicLevel = els.levelSelect.value;
   state.timerSetting = Number(els.timeSelect.value);
   state.timerLeft = state.timerSetting;
-  state.usedHints = 0;
   state.questions = buildRoundQuestions();
   state.statuses = Object.fromEntries(LETTERS.map((l) => [l, "pending"]));
   state.currentIndex = 0;
@@ -1043,7 +1166,6 @@ function bindEvents() {
     checkAnswer(els.answerInput.value);
   });
   els.btnPass?.addEventListener("click", passLetter);
-  els.btnHint?.addEventListener("click", useHint);
   document.addEventListener("keydown", (event) => {
     if (!els.gameScreen?.classList.contains("active") || state.finished) return;
     const pressedKey = String(event.key || "").toLowerCase();
@@ -1058,10 +1180,6 @@ function bindEvents() {
       if (isTypingField) return;
       event.preventDefault();
       passLetter();
-    }
-    if (pressedKey === "h") {
-      event.preventDefault();
-      useHint();
     }
   });
 }
@@ -1359,9 +1477,7 @@ function setupModeControls() {
   els.answerInput.disabled = false;
   els.btnAnswer.classList.remove("hidden");
   els.btnPass.classList.remove("hidden");
-  els.btnHint.classList.remove("hidden");
   els.btnPass.disabled = false;
-  state.maxHints = 5;
 }
 
 function buildRoundQuestions() {
@@ -1548,41 +1664,12 @@ function moveToNextPlayableLetter() {
   finishGame("No quedan letras por resolver.");
 }
 
-function useHint() {
-  if (state.finished) return;
-  if (state.usedHints >= state.maxHints) {
-    showFeedback("No quedan pistas disponibles.", "bad");
-    return;
-  }
-  const q = state.questions[state.currentIndex];
-  state.usedHints += 1;
-  const first = q.answer.charAt(0).toUpperCase();
-  const length = q.answer.replace(/\s/g, "").length;
-  showFeedback(`Pista: empieza por ${first}, tiene ${length} letras y ayuda: ${q.hint}`, "info");
-  updateHUD();
-}
-
-function updateHUD() {
-  const pending = LETTERS.filter((l) => ["pending", "passed"].includes(state.statuses[l])).length;
-  els.hudTime.textContent = state.timerLeft > 0 ? `${state.timerLeft}s` : (state.timerSetting === 0 ? "Sin límite" : "0s");
-  els.hudCorrect.textContent = state.correct;
-  els.hudWrong.textContent = state.wrong;
-  els.hudPending.textContent = pending;
-  els.hudHints.textContent = Math.max(0, state.maxHints - state.usedHints);
-}
-
-function startTimer() {
-  stopTimer();
-  state.timerId = setInterval(() => {
-    state.timerLeft -= 1;
-    updateHUD();
     if (state.timerLeft <= 0) {
       stopTimer();
       finishGame("Se ha agotado el tiempo.");
     }
   }, 1000);
 }
-
 function stopTimer() {
   if (state.timerId) clearInterval(state.timerId);
   state.timerId = null;
