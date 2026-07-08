@@ -474,12 +474,8 @@ const PASAPALABRA_MATEMATICAS = {
     "U": ["unidad", "uniforme", "ultimo"],
     "V": ["volumen", "variable", "vertice"],
     "W": ["web", "wiki", "software"],
-    "X": ["expresion", "exponente", "eje_x"],
-    "Y": [
-      { answer: "eje_y", question: "Con la Y: eje vertical del plano cartesiano." },
-      { answer: "coordenada_y", question: "Con la Y: valor vertical de un punto en el plano cartesiano." },
-      { answer: "mayor", question: "Contiene la Y: numero que tiene mas valor que otro." }
-    ],
+    "X": ["expresion", "exponente", "maximo"],
+    "Y": ["mayor", "adyacente", "inyectiva"],
     "Z": ["azar", "razon", "trapezoide"]
   },
   "3ESO": {
@@ -849,7 +845,8 @@ const state = {
   passed: 0,
   finished: false,
   contentRound: {},
-  totalXPThisGame: 0
+  totalXPThisGame: 0,
+  premioPlayed: false
 };
 
 function getDefaultStats() {
@@ -914,6 +911,7 @@ const els = {
   startMusic: document.getElementById("startMusic"),
   sfxCorrect: document.getElementById("sfxCorrect"),
   sfxWrong: document.getElementById("sfxWrong"),
+  sfxPremio: document.getElementById("sfxPremio"),
 
   hudTime: document.getElementById("hudTime"),
   hudCorrect: document.getElementById("hudCorrect"),
@@ -1070,6 +1068,7 @@ function startGame() {
   state.finished = false;
   state.contentRound = {};
   state.totalXPThisGame = 0;
+  state.premioPlayed = false;
   state.startedAt = Date.now();
 
   els.modeTitle.textContent = modeLabel();
@@ -1198,6 +1197,18 @@ function playResultSound(type) {
 
   audio.currentTime = 0;
   const playPromise = audio.play();
+  if (playPromise && typeof playPromise.catch === "function") {
+    playPromise.catch(() => {
+      // Evita errores visibles si el navegador bloquea audio automático.
+    });
+  }
+}
+
+function playPremioSound() {
+  if (!els.sfxPremio) return;
+
+  els.sfxPremio.currentTime = 0;
+  const playPromise = els.sfxPremio.play();
   if (playPromise && typeof playPromise.catch === "function") {
     playPromise.catch(() => {
       // Evita errores visibles si el navegador bloquea audio automático.
@@ -1561,8 +1572,16 @@ function answerForms(text) {
   return forms;
 }
 
+const ANSWER_ALIASES = {
+  "tamano muestral": ["tamano"]
+};
+
 function answersMatch(expected, given) {
   const expectedForms = answerForms(expected);
+  const expectedKey = normalizeText(expected);
+  (ANSWER_ALIASES[expectedKey] || []).forEach((alias) => {
+    answerForms(alias).forEach((form) => expectedForms.add(form));
+  });
   const givenForms = answerForms(given);
   for (const form of expectedForms) {
     if (givenForms.has(form)) return true;
@@ -1732,6 +1751,12 @@ function finishGame(reason) {
   const note = Math.max(0, Math.min(10, Number(((state.correct / LETTERS.length) * 10).toFixed(2))));
   const accuracy = LETTERS.length ? (state.correct / LETTERS.length) * 100 : 0;
   const levelName = getPerformanceLevel(accuracy);
+  const completedPerfectRosco = state.correct === LETTERS.length;
+
+  if (completedPerfectRosco && !state.premioPlayed) {
+    playPremioSound();
+    state.premioPlayed = true;
+  }
 
   globalStats.gamesPlayed += 1;
   globalStats.totalCorrect += state.correct;
@@ -1765,9 +1790,12 @@ function finishGame(reason) {
     <p><strong>Letras pasadas:</strong> ${state.passed}</p>
     <p><strong>Porcentaje de aciertos:</strong> ${accuracy.toFixed(1)}%</p>
     <p><strong>Nivel alcanzado:</strong> ${levelName}</p>
+    ${completedPerfectRosco ? "<p><strong>Logro especial:</strong> Rosco perfecto</p>" : ""}
   `;
 
-  els.finalReport.textContent = `Informe personalizado: Dominas mejor ${strengths || "varios bloques"}, pero debes reforzar ${weaknesses || "las letras que has pasado o fallado"}.`;
+  els.finalReport.textContent = completedPerfectRosco
+    ? `Informe personalizado: Rosco perfecto. Excelente dominio del contenido.`
+    : `Informe personalizado: Dominas mejor ${strengths || "varios bloques"}, pero debes reforzar ${weaknesses || "las letras que has pasado o fallado"}.`;
   els.finalRecommendations.textContent = "Recomendaciones: repasa 15 minutos diarios ecuaciones, practica problemas de proporcionalidad y analiza una gráfica real al día para mejorar la interpretación de datos.";
 
   updateStartStats();
