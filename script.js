@@ -9,7 +9,6 @@ const MEDALS = [
 ];
 
 const STORAGE_KEY = "pasapalabra2eso_stats_v1";
-const LOGO_PREFERENCE_KEY = "pasapalabra_hide_institution_logos_v1";
 const MUSIC_MUTE_PREFERENCE_KEY = "pasapalabra_start_music_muted_v1";
 
 const QUESTION_BANK_2ESO = {
@@ -416,6 +415,7 @@ const LEVEL_LABELS = {
   "1ESO": "1º ESO",
   "2ESO": "2º ESO",
   "3ESO": "3º ESO",
+  "4ESO": "4º ESO",
   "4ESO_B": "4º ESO"
 };
 
@@ -452,7 +452,7 @@ const PASAPALABRA_MATEMATICAS = {
   "2ESO": {
     "A": ["apotema", "area", "altura"],
     "B": ["base", "bisectriz", "binomio"],
-    "C": ["circunferencia", "coordenadas", "cuerpo"],
+    "C": ["circunferencia", "coordenadas", "cociente"],
     "D": ["desigualdad", "decimal", "diagrama"],
     "E": ["ecuacion", "expresion", "equivalente"],
     "F": ["funcion", "fraccion", "frecuencia"],
@@ -832,6 +832,7 @@ function buildQuestionBanksFromList(listado) {
 }
 
 const QUESTION_BANKS = buildQuestionBanksFromList(PASAPALABRA_MATEMATICAS);
+QUESTION_BANKS["4ESO"] = QUESTION_BANKS["4ESO_B"];
 
 const state = {
   mode: "normal",
@@ -865,8 +866,11 @@ function getDefaultStats() {
   };
 }
 
+function saveStats() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(globalStats));
+}
+
 let globalStats = loadStats();
-let hideInstitutionLogos = loadLogoPreference();
 let isStartMusicMuted = loadMusicMutePreference();
 
 function loadStats() {
@@ -878,10 +882,6 @@ function loadStats() {
   }
 }
 
-function loadLogoPreference() {
-  return localStorage.getItem(LOGO_PREFERENCE_KEY) === "true";
-}
-
 function loadMusicMutePreference() {
   const savedPreference = localStorage.getItem(MUSIC_MUTE_PREFERENCE_KEY);
   if (savedPreference === null) {
@@ -890,25 +890,38 @@ function loadMusicMutePreference() {
   return savedPreference === "true";
 }
 
-function saveLogoPreference() {
-  localStorage.setItem(LOGO_PREFERENCE_KEY, String(hideInstitutionLogos));
-}
-
 function saveMusicMutePreference() {
   localStorage.setItem(MUSIC_MUTE_PREFERENCE_KEY, String(isStartMusicMuted));
 }
 
+const els = {
+  appMain: document.getElementById("appMain"),
+  startScreen: document.getElementById("startScreen"),
+  gameScreen: document.getElementById("gameScreen"),
+  instructionsScreen: document.getElementById("instructionsScreen"),
+  statsScreen: document.getElementById("statsScreen"),
+  finalScreen: document.getElementById("finalScreen"),
+
+  bestScore: document.getElementById("bestScore"),
+  gamesPlayed: document.getElementById("gamesPlayed"),
+  totalCorrect: document.getElementById("totalCorrect"),
+
+  levelSelect: document.getElementById("levelSelect"),
   timeSelect: document.getElementById("timeSelect"),
+
   btnToggleMusic: document.getElementById("btnToggleMusic"),
-  btnToggleLogos: document.getElementById("btnToggleLogos"),
+
   startMusic: document.getElementById("startMusic"),
   sfxCorrect: document.getElementById("sfxCorrect"),
   sfxWrong: document.getElementById("sfxWrong"),
+
   hudTime: document.getElementById("hudTime"),
   hudCorrect: document.getElementById("hudCorrect"),
   hudWrong: document.getElementById("hudWrong"),
   hudPending: document.getElementById("hudPending"),
+
   modeTitle: document.getElementById("modeTitle"),
+  rosco: document.getElementById("rosco"),
   letterPrompt: document.getElementById("letterPrompt"),
   questionText: document.getElementById("questionText"),
   answerForm: document.getElementById("answerForm"),
@@ -916,6 +929,7 @@ function saveMusicMutePreference() {
   btnAnswer: document.getElementById("btnAnswer"),
   btnPass: document.getElementById("btnPass"),
   feedback: document.getElementById("feedback"),
+
   explanationCard: document.getElementById("explanationCard"),
   expConcept: document.getElementById("expConcept"),
   expDefinition: document.getElementById("expDefinition"),
@@ -923,17 +937,21 @@ function saveMusicMutePreference() {
   expApplication: document.getElementById("expApplication"),
   expProcedure: document.getElementById("expProcedure"),
   expMistakes: document.getElementById("expMistakes"),
+
   finalStats: document.getElementById("finalStats"),
   finalReport: document.getElementById("finalReport"),
   finalRecommendations: document.getElementById("finalRecommendations"),
+
   playerLevel: document.getElementById("playerLevel"),
   playerXP: document.getElementById("playerXP"),
   xpBar: document.getElementById("xpBar"),
+
   statGames: document.getElementById("statGames"),
   statBest: document.getElementById("statBest"),
   statBestTime: document.getElementById("statBestTime"),
   statXP: document.getElementById("statXP"),
   statLevel: document.getElementById("statLevel"),
+
   medalsBox: document.getElementById("medalsBox"),
   lettersChart: document.getElementById("lettersChart"),
   contentChart: document.getElementById("contentChart")
@@ -949,8 +967,7 @@ const buttons = {
   finishGame: document.getElementById("btnFinishGame"),
   backHome: document.getElementById("btnBackHome"),
   playAgain: document.getElementById("btnPlayAgain"),
-  accessibility: document.getElementById("btnAccessibility"),
-  bigText: document.getElementById("btnBigText")
+  accessibility: document.getElementById("btnAccessibility")
 };
 
 function validateQuestionBank() {
@@ -965,7 +982,6 @@ function validateQuestionBank() {
 
 function init() {
   validateQuestionBank();
-  applyLogoVisibility();
   applyStartMusicPreference();
   bindEvents();
   renderStaticLatex();
@@ -989,14 +1005,6 @@ function startCabeceraMusic() {
       window.addEventListener("touchstart", retryStartMusic);
       window.addEventListener("keydown", retryStartMusic);
     });
-  }
-}
-
-function applyLogoVisibility() {
-  document.body.classList.toggle("hide-institution-logos", hideInstitutionLogos);
-  if (els.btnToggleLogos) {
-    els.btnToggleLogos.textContent = hideInstitutionLogos ? "Mostrar logos" : "Ocultar logos";
-    els.btnToggleLogos.setAttribute("aria-pressed", String(hideInstitutionLogos));
   }
 }
 
@@ -1049,7 +1057,8 @@ function showScreen(screenName) {
 }
 
 function startGame() {
-  state.academicLevel = els.levelSelect.value;
+  // Juego fijado al banco de contenidos principal.
+  state.academicLevel = "2ESO";
   state.timerSetting = Number(els.timeSelect.value);
   state.timerLeft = state.timerSetting;
   state.questions = buildRoundQuestions();
@@ -1102,12 +1111,6 @@ function toggleStartMusic() {
   }
 }
 
-function toggleInstitutionLogos() {
-  hideInstitutionLogos = !hideInstitutionLogos;
-  saveLogoPreference();
-  applyLogoVisibility();
-}
-
 function toggleAccessibilityMode() {
   document.body.classList.toggle("high-contrast");
   if (els.btnAccessibility) {
@@ -1117,27 +1120,15 @@ function toggleAccessibilityMode() {
   }
 }
 
-function toggleLargeText() {
-  document.body.classList.toggle("big-text");
-  if (els.btnBigText) {
-    const enabled = document.body.classList.contains("big-text");
-    els.btnBigText.textContent = enabled ? "Fuente normal" : "Fuente grande";
-    els.btnBigText.setAttribute("aria-pressed", String(enabled));
-  }
-}
-
 function resetProgress() {
   if (!window.confirm("Se borrarán las estadísticas guardadas. ¿Quieres continuar?")) {
     return;
   }
 
   localStorage.removeItem(STORAGE_KEY);
-  localStorage.removeItem(LOGO_PREFERENCE_KEY);
   localStorage.removeItem(MUSIC_MUTE_PREFERENCE_KEY);
   globalStats = getDefaultStats();
-  hideInstitutionLogos = false;
   isStartMusicMuted = false;
-  applyLogoVisibility();
   applyStartMusicPreference();
   updateStartStats();
   updateXPUI();
@@ -1157,10 +1148,8 @@ function bindEvents() {
   buttons.backHome?.addEventListener("click", () => showScreen("start"));
   buttons.playAgain?.addEventListener("click", startGame);
   buttons.accessibility?.addEventListener("click", toggleAccessibilityMode);
-  buttons.bigText?.addEventListener("click", toggleLargeText);
 
   els.btnToggleMusic?.addEventListener("click", toggleStartMusic);
-  els.btnToggleLogos?.addEventListener("click", toggleInstitutionLogos);
   els.answerForm?.addEventListener("submit", (event) => {
     event.preventDefault();
     checkAnswer(els.answerInput.value);
@@ -1469,8 +1458,7 @@ function getAcademicLevelLabel(level) {
 }
 
 function modeLabel() {
-  const levelText = getAcademicLevelLabel(state.academicLevel);
-  return `Modo Normal · ${levelText}`;
+  return "Pregunta actual";
 }
 
 function setupModeControls() {
@@ -1482,9 +1470,14 @@ function setupModeControls() {
 
 function buildRoundQuestions() {
   const activeBank = QUESTION_BANKS[state.academicLevel] || QUESTION_BANKS["2ESO"];
+
   return LETTERS.map((letter) => {
     const pool = activeBank[letter] || [];
+    if (!pool.length) {
+      return buildQuestionFromTerm(letter, letter.toLowerCase());
+    }
     const randomIndex = Math.floor(Math.random() * pool.length);
+
     return { ...pool[randomIndex], letter };
   });
 }
@@ -1509,7 +1502,7 @@ function renderRosco() {
 
     const node = document.createElement("button");
     node.type = "button";
-    node.className = `letter-node ${state.statuses[letter] || "pending"}`;
+    node.className = `rosco-letter ${state.statuses[letter] || "pending"}`;
     node.style.left = `calc(${x}% - 22px)`;
     node.style.top = `calc(${y}% - 22px)`;
     node.textContent = letter;
@@ -1664,12 +1657,25 @@ function moveToNextPlayableLetter() {
   finishGame("No quedan letras por resolver.");
 }
 
+function startTimer() {
+  stopTimer();
+
+  if (state.timerSetting <= 0) {
+    updateHUD();
+    return;
+  }
+
+  state.timerId = setInterval(() => {
+    state.timerLeft -= 1;
+    updateHUD();
+
     if (state.timerLeft <= 0) {
       stopTimer();
       finishGame("Se ha agotado el tiempo.");
     }
   }, 1000);
 }
+
 function stopTimer() {
   if (state.timerId) clearInterval(state.timerId);
   state.timerId = null;
@@ -1690,6 +1696,20 @@ function flashRoscoLogo() {
 function showFeedback(text, kind) {
   els.feedback.textContent = restoreAccents(text);
   els.feedback.className = `feedback show ${kind}`;
+}
+
+function updateHUD() {
+  const pendingCount = LETTERS.filter((l) => ["pending", "passed"].includes(state.statuses[l])).length;
+
+  els.hudCorrect.textContent = String(state.correct);
+  els.hudWrong.textContent = String(state.wrong);
+  els.hudPending.textContent = String(pendingCount);
+
+  if (state.timerSetting > 0) {
+    els.hudTime.textContent = `${Math.max(0, state.timerLeft)}s`;
+  } else {
+    els.hudTime.textContent = "∞";
+  }
 }
 
 function showExplanation(q) {
@@ -1737,7 +1757,7 @@ function finishGame(reason) {
 
   els.finalStats.innerHTML = `
     <p><strong>Resultado:</strong> ${reason}</p>
-    <p><strong>Nivel académico:</strong> ${getAcademicLevelLabel(state.academicLevel)}</p>
+    <p><strong>Juego:</strong> Rosco matemático</p>
     <p><strong>Nota sobre 10:</strong> ${note}</p>
     <p><strong>Tiempo empleado:</strong> ${elapsed} segundos</p>
     <p><strong>Aciertos:</strong> ${state.correct}</p>
